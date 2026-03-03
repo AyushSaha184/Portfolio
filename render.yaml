@@ -1,0 +1,10 @@
+services:
+  - type: static
+    name: ayush-saha-portfolio
+    env: static
+    buildCommand: "" # No build step needed for static HTML
+    publishPath: "." # The root directory contains index.html
+    routes:
+      - type: rewrite
+        source: /.*
+        destination: /index.html
