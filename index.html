@@ -5,56 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ayush Saha | AI Engineer</title>
-    <!-- Modern Typography: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- 
-    =========================================
-    EDIT GUIDE
-    =========================================
-    1. Name & Logo: Hero section (line 89) and Navbar logo (line 54).
-    2. Intro Paragraph: Hero section (line 92).
-    3. Profile Image: Hero section (line 103) - replace src with your photo.
-    4. Nav Links: Navbar section (lines 58-64).
-    5. Social Links: Navbar social icons (lines 69-71).
-    6. Logos: Logo strip section (lines 114-123).
-    =========================================
-    -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
 
-    <!-- Header / Navbar -->
     <header class="navbar" id="navbar">
         <div class="container nav-content">
-            <!-- EDIT HERE: Your Logo/Name -->
-            <a href="#" class="logo">Portfolio<span>.</span></a>
+            <a href="#home" class="brand">Port<span>folio</span></a>
 
             <nav class="nav-links" id="nav-links">
-                <!-- EDIT HERE: Navigation Links -->
                 <a href="#home" class="nav-item">Home</a>
                 <a href="#skills" class="nav-item">Skills</a>
-                <a href="#recent-work" class="nav-item">Recent Projects</a>
-                <a href="#contact" class="nav-item btn-contact">Get In Touch</a>
+                <a href="#recent-work" class="nav-item">Projects</a>
+                <a href="https://www.overleaf.com/download/project/69823d353e808b1f933673cc/build/19d3df79ceb-9694d0903d298c30/output/output.pdf?compileGroup=standard&clsiserverid=clsi-pre-emp-c3d-c-f-fqks&enable_pdf_caching=true&popupDownload=true&editorId=16260521-4f63-4dc7-8b04-812a40f3ffc7" class="nav-item" target="_blank"
+                    rel="noopener noreferrer">Resume</a>
+                <a href="#contact" class="nav-item">Contact Me</a>
             </nav>
 
-            <div class="nav-right">
-                <div class="social-icons">
-                    <!-- EDIT HERE: Social Links -->
-                    <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank"><i
-                            class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/AyushSaha184" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://x.com/AyushSaha184" target="_blank"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://www.instagram.com/ayush_saha_184" target="_blank"><i
-                            class="fab fa-instagram"></i></a>
+            <div class="nav-actions">
+                <div class="nav-socials" aria-label="Social links">
+                    <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank" rel="noopener noreferrer"
+                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/AyushSaha184" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"><i
+                            class="fab fa-x-twitter"></i></a>
+                    <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
                 </div>
-
-                <!-- Hamburger Menu for Mobile -->
-                <button class="hamburger" id="hamburger">
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -64,40 +51,26 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero" id="home">
+            <div class="hero-glow" aria-hidden="true"></div>
             <div class="container hero-container">
-                <div class="hero-text-content">
-                    <!-- EDIT HERE: Your Name -->
-                    <h1 class="hero-title">Ayush Saha</h1>
-
-                    <!-- EDIT HERE: Small Intro -->
-                    <p class="hero-intro">
-                        Fourth-year Computer Science student at Siliguri Institute of Technology, West Bengal.
-                        Aspiring GenAI Engineer and specializing in RAG and Agentic AI Projects.
-                        Strong focus on performance and building reliable, production-ready services.
-                    </p>
-
-                    <!-- EDIT HERE: CTA Button Text -->
-                    <a href="#contact" class="cta-button">Let’s get started</a>
-                </div>
-
-                <div class="hero-image-content">
-                    <div class="profile-image-container">
-                        <!-- EDIT HERE: Profile Image / Use circular photo -->
-                        <img src="profile_placeholder_1772569998449.png" alt="Profile Image" class="profile-img">
-                    </div>
+                <h1 class="hero-title animate-in">
+                    Building the next generation of AI-driven products
+                </h1>
+                <p class="hero-intro animate-in">
+                    Fourth-year Computer Science student at Siliguri Institute of Technology, West Bengal. Aspiring GenAI Engineer and specializing in RAG and Agentic AI Projects. Strong focus on performance and building reliable, production-ready services. 
+                </p>
+                <div class="hero-cta animate-in">
+                    <a href="#recent-work" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section class="skills-section" id="skills">
-            <div class="container">
-                <h2 class="section-title">Technical Skills<span>.</span></h2>
+        <section class="skills-section reveal" id="skills">
+            <div class="container section-shell">
+                <h2 class="section-title">Technical Skills</h2>
                 <div class="skills-grid">
-                    <!-- EDIT HERE: Skills Categories -->
-                    <div class="skill-category">
+                    <article class="skill-category reveal">
                         <div class="category-header">
                             <i class="fas fa-code"></i>
                             <h3>Languages</h3>
@@ -106,9 +79,9 @@
                             <li>Java</li>
                             <li>Python</li>
                         </ul>
-                    </div>
+                    </article>
 
-                    <div class="skill-category">
+                    <article class="skill-category reveal">
                         <div class="category-header">
                             <i class="fas fa-database"></i>
                             <h3>Databases</h3>
@@ -119,9 +92,9 @@
                             <li>FAISS</li>
                             <li>SQLite</li>
                         </ul>
-                    </div>
+                    </article>
 
-                    <div class="skill-category">
+                    <article class="skill-category reveal">
                         <div class="category-header">
                             <i class="fas fa-layer-group"></i>
                             <h3>Libraries</h3>
@@ -129,17 +102,17 @@
                         <ul class="skill-list">
                             <li>Pandas</li>
                             <li>NumPy</li>
-                            <li>Matplotlib & Seaborn</li>
-                            <li>LangChain & LangGraph</li>
+                            <li>Matplotlib &amp; Seaborn</li>
+                            <li>LangChain &amp; LangGraph</li>
                             <li>Scikit-Learn</li>
                             <li>PyTorch</li>
                         </ul>
-                    </div>
+                    </article>
 
-                    <div class="skill-category">
+                    <article class="skill-category reveal">
                         <div class="category-header">
                             <i class="fas fa-robot"></i>
-                            <h3>LLM/GenAI</h3>
+                            <h3>LLM / GenAI</h3>
                         </div>
                         <ul class="skill-list">
                             <li>Retrieval Augmented Generation</li>
@@ -148,9 +121,9 @@
                             <li>Transformers</li>
                             <li>Open Source LLMs</li>
                         </ul>
-                    </div>
+                    </article>
 
-                    <div class="skill-category">
+                    <article class="skill-category reveal">
                         <div class="category-header">
                             <i class="fas fa-server"></i>
                             <h3>Frameworks</h3>
@@ -158,110 +131,86 @@
                         <ul class="skill-list">
                             <li>FastAPI</li>
                         </ul>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section class="projects-section" id="recent-work">
-            <div class="container">
-                <h2 class="section-title">Projects<span>.</span></h2>
+        <section class="projects-section reveal" id="recent-work">
+            <div class="container section-shell">
+                <h2 class="section-title">Featured Projects</h2>
                 <div class="projects-grid">
-                    <!-- EDIT HERE: Project Cards -->
-                    <article class="project-card">
-                        <div class="project-info">
-                            <div class="project-header">
-                                <span class="project-tag">R.A.G </span>
-                                <div class="project-links">
-                                    <a href="https://intelli-docs-five.vercel.app" target="_blank"><i
-                                            class="fas fa-play"></i></a>
-                                    <a href="https://github.com/AyushSaha184/IntelliDocs" target="_blank"><i
-                                            class="fab fa-github"></i></a>
-                                </div>
+                    <article class="project-card reveal">
+                        <div class="project-header">
+                            <span class="project-tag">R.A.G</span>
+                            <div class="project-links">
+                                <a href="https://intelli-docs-five.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open IntelliDocs live demo"><i class="fas fa-play"></i></a>
+                                <a href="https://github.com/AyushSaha184/IntelliDocs" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open IntelliDocs GitHub repository"><i class="fab fa-github"></i></a>
                             </div>
-                            <h3>IntelliDocs</h3>
-                            <p>IntelliDocs is an AI-powered enterprise-scale Retrieval-Augmented Generation (RAG) system
-                                that turns local document repositories into interactive knowledge bases. It features a
-                                Multi-Agent Orchestration Pipeline that routes every query through a Planner → Router →
-                                Retriever → Synthesizer → Validator chain, a Hybrid Search Pipeline combining dense
-                                vector search, BM25 sparse retrieval, and Reciprocal Rank Fusion — with optional NVIDIA
-                                neural reranking — and a Human-in-the-Loop Review System that automatically escalates
-                                low-confidence or sensitive answers for human correction.</p>
                         </div>
+                        <h3>IntelliDocs</h3>
+                        <p>
+                            Enterprise-scale Retrieval-Augmented Generation platform with multi-agent orchestration,
+                            hybrid retrieval (dense + BM25 + RRF), optional reranking, and human-in-the-loop review
+                            for low-confidence outputs.
+                        </p>
                     </article>
 
-                    <article class="project-card">
-                        <div class="project-info">
-                            <div class="project-header">
-                                <span class="project-tag">Agentic AI</span>
-                                <div class="project-links">
-                                    <a href="https://medi-flow-pied.vercel.app" target="_blank"><i class="fas fa-play"></i></a>
-                                    <a href="https://github.com/AyushSaha184/MediFlow" target="_blank"><i
-                                            class="fab fa-github"></i></a>
-                                </div>
+                    <article class="project-card reveal">
+                        <div class="project-header">
+                            <span class="project-tag">Agentic AI</span>
+                            <div class="project-links">
+                                <a href="https://medi-flow-pied.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open MediFlow live demo"><i class="fas fa-play"></i></a>
+                                <a href="https://github.com/AyushSaha184/MediFlow" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open MediFlow GitHub repository"><i class="fab fa-github"></i></a>
                             </div>
-                            <h3>MediFlow</h3>
-                            <p>MediFlow enables healthcare organizations to upload a mixed batch of patient medical records — PDFs, DICOMs, scanned images, and XLSX lab reports — and receive a fully structured `FinalDiagnosticReport` with clinician-facing briefs, patient-friendly explanations, and a traceable evidence table linking every clinical claim back to the source chunk that supports it.</p>
                         </div>
+                        <h3>MediFlow</h3>
+                        <p>
+                            Medical-intelligence pipeline that transforms mixed records (PDF, DICOM, scans, XLSX)
+                            into structured diagnostic reports with traceable evidence mapping for clinician trust.
+                        </p>
                     </article>
 
-                    <article class="project-card">
-                        <div class="project-info">
-                            <div class="project-header">
-                                <span class="project-tag">Agentic AI</span>
-                                <div class="project-links">
-                                    <a href="#" target="_blank"><i class="fas fa-play"></i></a>
-                                    <a href="https://github.com/AyushSaha184/TestaGen" target="_blank"><i
-                                            class="fab fa-github"></i></a>
-                                </div>
+                    <article class="project-card reveal">
+                        <div class="project-header">
+                            <span class="project-tag">Agentic AI</span>
+                            <div class="project-links">
+                                <a href="#" aria-label="Project demo unavailable"><i class="fas fa-play"></i></a>
+                                <a href="https://github.com/AyushSaha184/TestaGen" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open TestaGen GitHub repository"><i class="fab fa-github"></i></a>
                             </div>
-                            <h3>TestaGen</h3>
-                            <p>Under construction</p>
                         </div>
+                        <h3>TestaGen</h3>
+                        <p>
+                            AI-powered test generation system in progress, focused on robust validation,
+                            rerun workflows, and practical dev productivity gains.
+                        </p>
                     </article>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <a href="#" class="logo">Ayush Saha<span>.</span></a>
-                <p>Building RAGs and Multi-model AI Agents.
-                </p>
-                <div class="footer-socials">
-                    <!-- EDIT HERE: Footer Social Links -->
-                    <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank"><i
-                            class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/AyushSaha184" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://x.com/AyushSaha184" target="_blank"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://www.instagram.com/ayush_saha_184" target="_blank"><i
-                            class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <!-- EDIT HERE: Footer Links -->
-                <a href="#home">Home</a>
-                <a href="#skills">Skills</a>
-                <a href="#recent-work">Recent Projects</a>
-                <a href="#contact">Get In Touch</a>
-            </div>
-
-            <div class="footer-contact" id="contact">
-                <h3>Contact</h3>
-                <!-- EDIT HERE: Contact Info -->
-                <p><i class="fas fa-envelope"></i> ayushsaha1884@gmail.com</p>
-                <a href="mailto:ayushsaha1884@gmail.com" class="footer-cta">Get in touch!</a>
+    <footer class="footer" id="contact">
+        <div class="container footer-content reveal">
+            <a href="#home" class="brand">Ayush<span> Saha</span></a>
+            <p>Building RAG systems and multi-agent products with production rigor.</p>
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank" rel="noopener noreferrer"
+                    aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"><i
+                        class="fab fa-x-twitter"></i></a>
+                <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
         <div class="container footer-bottom">
             <p>&copy; <span id="current-year"></span> Ayush Saha. All rights reserved.</p>
-            <p>Designed in free time.</p>
         </div>
     </footer>
 
