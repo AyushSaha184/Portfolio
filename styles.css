@@ -36,6 +36,10 @@ body {
     overflow-x: hidden;
 }
 
+.text-accent {
+    color: #ffb15b;
+}
+
 /* ── Grid Background with Fading Mask ── */
 body::before {
     background-image: linear-gradient(rgba(131, 176, 255, 0.08) 1px, transparent 1px),

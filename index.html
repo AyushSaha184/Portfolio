@@ -11,37 +11,55 @@
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.16/dist/lenis.css">
+    <script src="tailwind.config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="global.css">
 </head>
 
-<body>
+<body class="font-sans text-ink antialiased overflow-x-hidden">
     <canvas id="starfield" aria-hidden="true"></canvas>
     <div class="noise" aria-hidden="true"></div>
 
     <header class="navbar" id="navbar">
-        <div class="container nav-content">
-            <a href="#home" class="brand">Port<span>folio</span></a>
+        <div class="mx-auto grid min-h-[82px] w-full max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-6 max-[980px]:flex max-[980px]:min-h-[78px] max-[980px]:justify-between">
+            <a href="#home"
+                class="justify-self-start font-mono text-[1.42rem] font-semibold uppercase tracking-[0.08em] text-ink no-underline">Port<span
+                    class="text-ember">folio</span></a>
 
-            <nav class="nav-links" id="nav-links">
-                <a href="#home" class="nav-item">Home</a>
-                <a href="#skills" class="nav-item">Skills</a>
-                <a href="#recent-work" class="nav-item">Projects</a>
-                <a href="https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf"
-                    class="nav-item" target="_blank" rel="noopener noreferrer">Resume</a>
-                <a href="#contact" class="nav-item">Contact Me</a>
+            <nav class="nav-links justify-self-center max-[980px]:fixed max-[980px]:left-0 max-[980px]:top-[77px] max-[980px]:z-30 max-[980px]:w-full max-[980px]:-translate-y-[130%] max-[980px]:flex-col max-[980px]:gap-5 max-[980px]:border-b max-[980px]:border-white/10 max-[980px]:bg-[#080b0dfa] max-[980px]:p-6"
+                id="nav-links">
+                <a href="#home"
+                    class="nav-item relative text-[0.82rem] font-bold uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-ink">Home</a>
+                <a href="#skills"
+                    class="nav-item relative text-[0.82rem] font-bold uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-ink">Skills</a>
+                <a href="#recent-work"
+                    class="nav-item relative text-[0.82rem] font-bold uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-ink">Projects</a>
+                <a href="#resume"
+                    class="nav-item relative text-[0.82rem] font-bold uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-ink">Resume</a>
+                <a href="#contact"
+                    class="nav-item relative text-[0.82rem] font-bold uppercase tracking-[0.16em] text-ink-dim transition-colors duration-200 hover:text-ink">Contact Me</a>
             </nav>
 
-            <div class="nav-actions">
-                <div class="nav-socials" aria-label="Social links">
+            <div class="justify-self-end flex items-center gap-3">
+                <div class="nav-socials flex gap-2 max-[980px]:hidden" aria-label="Social links">
                     <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank" rel="noopener noreferrer"
-                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        aria-label="LinkedIn"
+                        class="inline-flex h-[33px] w-[33px] items-center justify-center rounded-xl border border-[#82abff57] bg-[#0c1727c2] text-[0.86rem] text-[#d7e7ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedffb3] hover:bg-[#46d7ff2e] hover:text-[#f4fdff] hover:shadow-[0_0_0_2px_rgba(70,215,255,0.16)]"><i
+                            class="fab fa-linkedin-in"></i></a>
                     <a href="https://github.com/AyushSaha184" target="_blank" rel="noopener noreferrer"
-                        aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"><i
+                        aria-label="GitHub"
+                        class="inline-flex h-[33px] w-[33px] items-center justify-center rounded-xl border border-[#82abff57] bg-[#0c1727c2] text-[0.86rem] text-[#d7e7ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedffb3] hover:bg-[#46d7ff2e] hover:text-[#f4fdff] hover:shadow-[0_0_0_2px_rgba(70,215,255,0.16)]"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"
+                        class="inline-flex h-[33px] w-[33px] items-center justify-center rounded-xl border border-[#82abff57] bg-[#0c1727c2] text-[0.86rem] text-[#d7e7ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedffb3] hover:bg-[#46d7ff2e] hover:text-[#f4fdff] hover:shadow-[0_0_0_2px_rgba(70,215,255,0.16)]"><i
                             class="fab fa-x-twitter"></i></a>
-                    <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"
+                        class="inline-flex h-[33px] w-[33px] items-center justify-center rounded-xl border border-[#82abff57] bg-[#0c1727c2] text-[0.86rem] text-[#d7e7ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedffb3] hover:bg-[#46d7ff2e] hover:text-[#f4fdff] hover:shadow-[0_0_0_2px_rgba(70,215,255,0.16)]"><i
+                            class="fas fa-envelope"></i></a>
                 </div>
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <button class="hamburger hidden cursor-pointer border-0 bg-transparent max-[980px]:inline-block" id="hamburger"
+                    aria-label="Toggle menu" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -51,146 +69,203 @@
     </header>
 
     <main>
-        <section class="hero" id="home">
+        <section class="hero relative min-h-screen overflow-hidden px-0 pb-28 pt-44 max-[680px]:min-h-[88vh] max-[680px]:pb-20 max-[680px]:pt-32"
+            id="home">
             <div class="hero-glow" aria-hidden="true"></div>
-            <div class="container hero-container">
-                <h1 class="hero-title animate-in">
+            <div class="mx-auto flex w-full max-w-6xl flex-col items-center px-6 text-center">
+                <h1
+                    class="animate-in max-w-[940px] text-balance font-mono text-[clamp(2rem,7.8vw,4.8rem)] font-semibold leading-[1.04] tracking-[0.015em] text-ink drop-shadow-[0_0_28px_rgba(92,188,255,0.2)]">
                     Building the next generation of AI-driven products
                 </h1>
-                <p class="hero-intro animate-in">
+                <p class="animate-in mt-7 max-w-[780px] text-pretty text-[clamp(1rem,1.52vw,1.16rem)] text-ink-dim max-[680px]:text-[0.98rem]">
                     Fourth-year Computer Science student at Siliguri Institute of Technology, West Bengal. Aspiring
                     GenAI Engineer and specializing in RAG and Agentic AI Projects. Strong focus on performance and
                     building reliable, production-ready services.
                 </p>
-                <div class="hero-cta animate-in">
-                    <a href="#recent-work" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
+                <div class="hero-cta animate-in mt-9 flex items-center gap-3 max-[680px]:w-full max-[680px]:max-w-[260px] max-[680px]:flex-col max-[680px]:items-stretch">
+                    <a href="#recent-work"
+                        class="btn-primary group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.94rem] font-bold tracking-[0.03em] text-[#1c1308] no-underline transition-all duration-300 max-[680px]:justify-center">View
+                        Projects <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i></a>
                 </div>
             </div>
         </section>
 
-        <section class="skills-section reveal" id="skills">
-            <div class="container section-shell">
-                <h2 class="section-title">Technical Skills</h2>
-                <div class="skills-grid bento-stagger">
-                    <article class="skill-category reveal float-medium">
-                        <div class="category-header">
-                            <i class="fas fa-code"></i>
-                            <h3>Languages</h3>
+        <section class="reveal px-0 pb-32 pt-20" id="resume">
+            <div class="mx-auto w-full max-w-6xl px-6">
+                <div
+                    class="section-shell overflow-hidden rounded-[28px] border border-[#82abff3d] bg-bg-panel p-7 shadow-[inset_0_0_0_1px_rgba(188,221,255,0.06),0_24px_56px_rgba(1,7,17,0.34)] max-[680px]:p-5">
+                    <div class="relative z-[1] mb-5 flex items-center gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="h-3 w-3 rounded-full bg-[#ff5f57] shadow-[0_0_0_1px_rgba(0,0,0,0.18)]"></span>
+                            <span class="h-3 w-3 rounded-full bg-[#ffbd2e] shadow-[0_0_0_1px_rgba(0,0,0,0.18)]"></span>
+                            <span class="h-3 w-3 rounded-full bg-[#28c840] shadow-[0_0_0_1px_rgba(0,0,0,0.18)]"></span>
+                            <h2 class="ml-2 font-mono text-lg uppercase tracking-[0.14em] text-[#d6e6ff]">Resume</h2>
                         </div>
-                        <ul class="skill-list">
-                            <li>Java</li>
-                            <li>Python</li>
+                        <a
+                            id="resume-download"
+                            data-base-href="https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf"
+                            href="https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf"
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="ml-auto inline-flex items-center gap-2 rounded-full border border-[#ffc37a99] bg-[linear-gradient(110deg,#ff9f43,#ffc46f)] px-4 py-2 text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#1c1308] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(255,159,67,0.35)]">
+                            <i class="fas fa-download"></i>
+                            Download PDF
+                        </a>
+                    </div>
+                    <div
+                        class="relative z-[1] overflow-hidden rounded-2xl border border-[#82abff4d] bg-[#0a1528d9] p-2 shadow-[inset_0_0_0_1px_rgba(188,221,255,0.08)]">
+                        <iframe
+                            id="resume-frame"
+                            data-base-src="https://docs.google.com/gview?embedded=true&url=https%3A%2F%2Fgithub.com%2FAyushSaha184%2FResume%2Freleases%2Fdownload%2Flatestt%2FResume.pdf"
+                            src="about:blank"
+                            class="h-[1400px] w-full rounded-xl border-0 bg-[#08101f] max-[1200px]:h-[1200px] max-[980px]:h-[980px] max-[680px]:h-[760px]"
+                            title="Ayush Saha Resume"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal px-0 pb-32 pt-20" id="skills">
+            <div
+                class="section-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] border border-[#82abff3d] bg-bg-panel p-9 shadow-[inset_0_0_0_1px_rgba(188,221,255,0.06),0_28px_62px_rgba(1,7,17,0.38)] max-[680px]:p-5">
+                <h2 class="relative z-[1] mb-7 font-mono text-[clamp(2rem,4.8vw,3.4rem)] font-semibold uppercase tracking-[0.06em]">Technical <span class="text-ember">Skills</span></h2>
+                <div class="bento-stagger grid grid-cols-12 gap-4">
+                    <article
+                        class="skill-category reveal animate-float-medium col-span-4 rounded-[18px] border border-[#82abff33] bg-[linear-gradient(145deg,rgba(14,24,41,0.9),rgba(11,18,33,0.76))] p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#8dedff8f] hover:bg-[linear-gradient(145deg,rgba(16,28,48,0.95),rgba(13,21,38,0.86))] hover:shadow-[0_14px_28px_rgba(4,10,24,0.46)] max-[980px]:col-span-6 max-[680px]:col-span-12">
+                        <div class="mb-3 flex items-center gap-3">
+                            <i class="fas fa-code text-ember"></i>
+                            <h3 class="text-[1.08rem] text-[#f2f6ff]">Languages</h3>
+                        </div>
+                        <ul class="list-none">
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Java</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Python</li>
                         </ul>
                     </article>
 
-                    <article class="skill-category reveal float-slow">
-                        <div class="category-header">
-                            <i class="fas fa-database"></i>
-                            <h3>Databases</h3>
+                    <article
+                        class="skill-category reveal animate-float-slow col-span-4 rounded-[18px] border border-[#82abff33] bg-[linear-gradient(145deg,rgba(14,24,41,0.9),rgba(11,18,33,0.76))] p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#8dedff8f] hover:bg-[linear-gradient(145deg,rgba(16,28,48,0.95),rgba(13,21,38,0.86))] hover:shadow-[0_14px_28px_rgba(4,10,24,0.46)] max-[980px]:col-span-6 max-[680px]:col-span-12">
+                        <div class="mb-3 flex items-center gap-3">
+                            <i class="fas fa-database text-ember"></i>
+                            <h3 class="text-[1.08rem] text-[#f2f6ff]">Databases</h3>
                         </div>
-                        <ul class="skill-list">
-                            <li>MySQL</li>
-                            <li>PostgreSQL</li>
-                            <li>FAISS</li>
-                            <li>SQLite</li>
+                        <ul class="list-none">
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">MySQL</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">PostgreSQL</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">FAISS</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">SQLite</li>
                         </ul>
                     </article>
 
-                    <article class="skill-category reveal float-fast">
-                        <div class="category-header">
-                            <i class="fas fa-layer-group"></i>
-                            <h3>Libraries</h3>
+                    <article
+                        class="skill-category reveal animate-float-fast col-span-4 rounded-[18px] border border-[#82abff33] bg-[linear-gradient(145deg,rgba(14,24,41,0.9),rgba(11,18,33,0.76))] p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#8dedff8f] hover:bg-[linear-gradient(145deg,rgba(16,28,48,0.95),rgba(13,21,38,0.86))] hover:shadow-[0_14px_28px_rgba(4,10,24,0.46)] max-[980px]:col-span-6 max-[680px]:col-span-12">
+                        <div class="mb-3 flex items-center gap-3">
+                            <i class="fas fa-layer-group text-ember"></i>
+                            <h3 class="text-[1.08rem] text-[#f2f6ff]">Libraries</h3>
                         </div>
-                        <ul class="skill-list">
-                            <li>Pandas</li>
-                            <li>NumPy</li>
-                            <li>Matplotlib &amp; Seaborn</li>
-                            <li>LangChain &amp; LangGraph</li>
-                            <li>Scikit-Learn</li>
-                            <li>PyTorch</li>
+                        <ul class="list-none">
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Pandas</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">NumPy</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Matplotlib &amp; Seaborn</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">LangChain &amp; LangGraph</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Scikit-Learn</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">PyTorch</li>
                         </ul>
                     </article>
 
-                    <article class="skill-category reveal float-slow">
-                        <div class="category-header">
-                            <i class="fas fa-robot"></i>
-                            <h3>LLM / GenAI</h3>
+                    <article
+                        class="skill-category reveal animate-float-slow col-span-4 rounded-[18px] border border-[#82abff33] bg-[linear-gradient(145deg,rgba(14,24,41,0.9),rgba(11,18,33,0.76))] p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#8dedff8f] hover:bg-[linear-gradient(145deg,rgba(16,28,48,0.95),rgba(13,21,38,0.86))] hover:shadow-[0_14px_28px_rgba(4,10,24,0.46)] max-[980px]:col-span-6 max-[680px]:col-span-12">
+                        <div class="mb-3 flex items-center gap-3">
+                            <i class="fas fa-robot text-ember"></i>
+                            <h3 class="text-[1.08rem] text-[#f2f6ff]">LLM / GenAI</h3>
                         </div>
-                        <ul class="skill-list">
-                            <li>Retrieval Augmented Generation</li>
-                            <li>AI Agents</li>
-                            <li>Natural Language Processing</li>
-                            <li>Transformers</li>
-                            <li>Open Source LLMs</li>
+                        <ul class="list-none">
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Retrieval Augmented Generation</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">AI Agents</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Natural Language Processing</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Transformers</li>
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">Open Source LLMs</li>
                         </ul>
                     </article>
 
-                    <article class="skill-category reveal float-medium">
-                        <div class="category-header">
-                            <i class="fas fa-server"></i>
-                            <h3>Frameworks</h3>
+                    <article
+                        class="skill-category reveal animate-float-medium col-span-4 rounded-[18px] border border-[#82abff33] bg-[linear-gradient(145deg,rgba(14,24,41,0.9),rgba(11,18,33,0.76))] p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#8dedff8f] hover:bg-[linear-gradient(145deg,rgba(16,28,48,0.95),rgba(13,21,38,0.86))] hover:shadow-[0_14px_28px_rgba(4,10,24,0.46)] max-[980px]:col-span-6 max-[680px]:col-span-12">
+                        <div class="mb-3 flex items-center gap-3">
+                            <i class="fas fa-server text-ember"></i>
+                            <h3 class="text-[1.08rem] text-[#f2f6ff]">Frameworks</h3>
                         </div>
-                        <ul class="skill-list">
-                            <li>FastAPI</li>
+                        <ul class="list-none">
+                            <li class="relative my-1.5 pl-4 text-[0.95rem] text-[#cfdbef] before:absolute before:left-0 before:text-violet-soft before:content-['>']">FastAPI</li>
                         </ul>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="projects-section reveal" id="recent-work">
-            <div class="container section-shell">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="projects-grid bento-stagger">
-                    <article class="project-card reveal">
-                        <div class="project-header">
-                            <span class="project-tag">R.A.G</span>
-                            <div class="project-links">
+        <section class="reveal px-0 pb-36 pt-20" id="recent-work">
+            <div
+                class="section-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] border border-[#82abff3d] bg-bg-panel p-9 shadow-[inset_0_0_0_1px_rgba(188,221,255,0.06),0_28px_62px_rgba(1,7,17,0.38)] max-[680px]:p-5">
+            <h2 class="relative z-[1] mb-7 font-mono text-[clamp(2rem,4.8vw,3.4rem)] font-semibold uppercase tracking-[0.06em]">Featured <span class="text-ember">Projects</span></h2>
+                <div class="bento-stagger grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+                    <article
+                        class="project-card reveal min-h-[230px] overflow-hidden rounded-[18px] border border-[#82abff3d] bg-[linear-gradient(145deg,rgba(16,27,45,0.86),rgba(9,16,30,0.92))] p-5 transition-all duration-300 hover:scale-[1.01] hover:border-[#8dedff6b] hover:shadow-[0_20px_44px_rgba(2,7,18,0.66)]">
+                        <div class="project-header flex items-center justify-between">
+                            <span class="project-tag text-[0.8rem] font-bold uppercase tracking-[0.09em] text-[#ffd08c]">R.A.G</span>
+                            <div class="project-links flex gap-2">
                                 <a href="https://intelli-docs-five.vercel.app" target="_blank" rel="noopener noreferrer"
-                                    aria-label="Open IntelliDocs live demo"><i class="fas fa-play"></i></a>
+                                    aria-label="Open IntelliDocs live demo"
+                                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border border-[#82abff4d] bg-[#0c1626c7] text-[0.92rem] text-[#d9e9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff9e] hover:bg-[#46d7ff24]"><i
+                                        class="fas fa-play"></i></a>
                                 <a href="https://github.com/AyushSaha184/IntelliDocs" target="_blank"
-                                    rel="noopener noreferrer" aria-label="Open IntelliDocs GitHub repository"><i
+                                    rel="noopener noreferrer" aria-label="Open IntelliDocs GitHub repository"
+                                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border border-[#82abff4d] bg-[#0c1626c7] text-[0.92rem] text-[#d9e9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff9e] hover:bg-[#46d7ff24]"><i
                                         class="fab fa-github"></i></a>
                             </div>
                         </div>
-                        <h3>IntelliDocs</h3>
-                        <p>
+                        <h3 class="mt-4 text-[1.3rem]">IntelliDocs</h3>
+                        <p class="mt-2 text-[0.95rem] text-ink-dim">
                             Enterprise-scale Retrieval-Augmented Generation platform with multi-agent orchestration,
                             hybrid retrieval (dense + BM25 + RRF), optional reranking, and human-in-the-loop review
                             for low-confidence outputs.
                         </p>
                     </article>
 
-                    <article class="project-card reveal">
-                        <div class="project-header">
-                            <span class="project-tag">MCP Server</span>
-                            <div class="project-links">
-                                   <a href="#" class="project-link-disabled" aria-disabled="true"
-                                       aria-label="Eval MCP live demo coming soon"><i class="fas fa-hourglass-half"></i></a>
+                    <article
+                        class="project-card reveal min-h-[230px] overflow-hidden rounded-[18px] border border-[#82abff3d] bg-[linear-gradient(145deg,rgba(16,27,45,0.86),rgba(9,16,30,0.92))] p-5 transition-all duration-300 hover:scale-[1.01] hover:border-[#8dedff6b] hover:shadow-[0_20px_44px_rgba(2,7,18,0.66)]">
+                        <div class="project-header flex items-center justify-between">
+                            <span class="project-tag text-[0.8rem] font-bold uppercase tracking-[0.09em] text-[#ffd08c]">MCP Server</span>
+                            <div class="project-links flex gap-2">
+                                <a href="#" class="project-link-disabled" aria-disabled="true"
+                                    aria-label="Eval MCP live demo coming soon"><i class="fas fa-hourglass-half"></i></a>
                                 <a href="https://github.com/AyushSaha184/Eval_MCP" target="_blank"
-                                    rel="noopener noreferrer" aria-label="Open Eval MCP GitHub repository"><i
+                                    rel="noopener noreferrer" aria-label="Open Eval MCP GitHub repository"
+                                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border border-[#82abff4d] bg-[#0c1626c7] text-[0.92rem] text-[#d9e9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff9e] hover:bg-[#46d7ff24]"><i
                                         class="fab fa-github"></i></a>
                             </div>
                         </div>
-                        <h3>Eval MCP</h3>
-                        <p>
+                        <h3 class="mt-4 text-[1.3rem]">Eval MCP</h3>
+                        <p class="mt-2 text-[0.95rem] text-ink-dim">
                             Installable MCP server for prompt and RAG evaluation workflows, designed for Claude and
                             Cursor with API-backed execution, project-scoped keys, and production-friendly CLI setup.
                         </p>
                     </article>
 
-                    <article class="project-card reveal">
-                        <div class="project-header">
-                            <span class="project-tag">Agentic AI</span>
-                            <div class="project-links">
-                                <a href="#" aria-label="Project demo unavailable"><i class="fas fa-play"></i></a>
+                    <article
+                        class="project-card reveal min-h-[230px] overflow-hidden rounded-[18px] border border-[#82abff3d] bg-[linear-gradient(145deg,rgba(16,27,45,0.86),rgba(9,16,30,0.92))] p-5 transition-all duration-300 hover:scale-[1.01] hover:border-[#8dedff6b] hover:shadow-[0_20px_44px_rgba(2,7,18,0.66)]">
+                        <div class="project-header flex items-center justify-between">
+                            <span class="project-tag text-[0.8rem] font-bold uppercase tracking-[0.09em] text-[#ffd08c]">Agentic AI</span>
+                            <div class="project-links flex gap-2">
+                                <a href="#" class="project-link-disabled" aria-disabled="true"
+                                    aria-label="Project demo unavailable"><i
+                                        class="fas fa-play"></i></a>
                                 <a href="https://github.com/AyushSaha184/TestaGen" target="_blank"
-                                    rel="noopener noreferrer" aria-label="Open TestaGen GitHub repository"><i
+                                    rel="noopener noreferrer" aria-label="Open TestaGen GitHub repository"
+                                    class="inline-flex h-[30px] w-[30px] items-center justify-center rounded-[10px] border border-[#82abff4d] bg-[#0c1626c7] text-[0.92rem] text-[#d9e9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff9e] hover:bg-[#46d7ff24]"><i
                                         class="fab fa-github"></i></a>
                             </div>
                         </div>
-                        <h3>TestaGen</h3>
-                        <p>
+                        <h3 class="mt-4 text-[1.3rem]">TestaGen</h3>
+                        <p class="mt-2 text-[0.95rem] text-ink-dim">
                             AI-powered test generation system in progress, focused on robust validation,
                             rerun workflows, and practical dev productivity gains.
                         </p>
@@ -200,25 +275,37 @@
         </section>
     </main>
 
-    <footer class="footer" id="contact">
-        <div class="container footer-content reveal">
-            <a href="#home" class="brand">Ayush<span> Saha</span></a>
-            <p>Building RAG systems and multi-agent products with production rigor.</p>
-            <div class="footer-socials">
+    <footer class="mt-20 px-0 pb-7 pt-14" id="contact">
+        <div class="reveal mx-auto grid w-full max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-6 max-[980px]:grid-cols-1 max-[980px]:text-center">
+            <a href="#home"
+                class="font-mono text-[1.42rem] font-semibold uppercase tracking-[0.08em] text-ink no-underline">Ayush<span
+                    class="text-ember"> Saha</span></a>
+            <p class="mx-auto max-w-[460px] text-center text-ink-dim">Building RAG systems and multi-agent products with
+                production rigor.</p>
+            <div class="flex gap-2 max-[980px]:justify-center">
                 <a href="https://www.linkedin.com/in/AyushSaha184" target="_blank" rel="noopener noreferrer"
-                    aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    aria-label="LinkedIn"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[11px] border border-[#82abff4d] bg-[#0c1626c2] text-[#dae9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff99] hover:bg-[#46d7ff21]"><i
+                        class="fab fa-linkedin-in"></i></a>
                 <a href="https://github.com/AyushSaha184" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"><i
+                    aria-label="GitHub"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[11px] border border-[#82abff4d] bg-[#0c1626c2] text-[#dae9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff99] hover:bg-[#46d7ff21]"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://x.com/AyushSaha184" target="_blank" rel="noopener noreferrer" aria-label="X"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[11px] border border-[#82abff4d] bg-[#0c1626c2] text-[#dae9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff99] hover:bg-[#46d7ff21]"><i
                         class="fab fa-x-twitter"></i></a>
-                <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="mailto:ayushsaha1884@gmail.com" aria-label="Email"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-[11px] border border-[#82abff4d] bg-[#0c1626c2] text-[#dae9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff99] hover:bg-[#46d7ff21]"><i
+                        class="fas fa-envelope"></i></a>
             </div>
         </div>
-        <div class="container footer-bottom">
+        <div
+            class="mx-auto mt-4 flex w-full max-w-6xl justify-between border-t border-[#82abff3d] px-6 pb-4 pt-4 text-[0.89rem] text-[#ccdcf6bd] max-[980px]:flex-col max-[980px]:items-center max-[980px]:gap-2">
             <p>&copy; <span id="current-year"></span> Ayush Saha. All rights reserved.</p>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
 

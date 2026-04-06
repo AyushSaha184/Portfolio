@@ -18,15 +18,65 @@ if (hamburger && navLinks) {
 }
 
 const navbar = document.querySelector("#navbar");
+const heroGlow = document.querySelector(".hero-glow");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let latestScrollY = 0;
+let lenisRafId = 0;
+
+const updateHeroGlowParallax = () => {
+    if (!heroGlow) {
+        return;
+    }
+
+    const yOffset = Math.min(90, latestScrollY * 0.14);
+    heroGlow.style.setProperty("--hero-glow-offset-y", `${yOffset}px`);
+};
+
 const applyScrollState = () => {
     if (!navbar) {
         return;
     }
-    navbar.classList.toggle("is-scrolled", window.scrollY > 16);
+
+    const scrollTop = latestScrollY || window.scrollY;
+    navbar.classList.toggle("is-scrolled", scrollTop > 16);
 };
 
 applyScrollState();
-window.addEventListener("scroll", applyScrollState, { passive: true });
+updateHeroGlowParallax();
+
+const lenis = !prefersReducedMotion && window.Lenis
+    ? new window.Lenis({
+        duration: 1.2,
+        smoothWheel: true,
+        smoothTouch: false
+    })
+    : null;
+
+if (lenis) {
+    lenis.on("scroll", ({ scroll }) => {
+        latestScrollY = scroll;
+        applyScrollState();
+        updateHeroGlowParallax();
+    });
+
+    const runLenisRaf = (time) => {
+        lenis.raf(time);
+        lenisRafId = window.requestAnimationFrame(runLenisRaf);
+    };
+
+    lenisRafId = window.requestAnimationFrame(runLenisRaf);
+} else {
+    window.addEventListener(
+        "scroll",
+        () => {
+            latestScrollY = window.scrollY;
+            applyScrollState();
+            updateHeroGlowParallax();
+        },
+        { passive: true }
+    );
+}
 
 /* ═══════════════════════════════════════════
    BENTO BOX REVEAL — scroll-triggered
@@ -97,12 +147,27 @@ disabledProjectLinks.forEach((link) => {
     });
 });
 
+const cacheBustToken = Date.now();
+
+const resumeFrame = document.querySelector("#resume-frame");
+if (resumeFrame && resumeFrame.dataset.baseSrc) {
+    const baseSrc = resumeFrame.dataset.baseSrc;
+    const separator = baseSrc.includes("?") ? "&" : "?";
+    resumeFrame.src = `${baseSrc}${separator}cb=${cacheBustToken}`;
+}
+
+const resumeDownload = document.querySelector("#resume-download");
+if (resumeDownload && resumeDownload.dataset.baseHref) {
+    const baseHref = resumeDownload.dataset.baseHref;
+    const separator = baseHref.includes("?") ? "&" : "?";
+    resumeDownload.href = `${baseHref}${separator}cb=${cacheBustToken}`;
+}
+
 /* ═══════════════════════════════════════════
    PROJECT CARD TILT
    Pointer-driven 3D tilt + subtle inner parallax
    ═══════════════════════════════════════════ */
 const supportsHoverPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (supportsHoverPointer && !prefersReducedMotion) {
     const projectCards = document.querySelectorAll(".project-card");
@@ -229,6 +294,14 @@ if (canvas && context) {
 }
 
 window.addEventListener("beforeunload", () => {
+    if (lenisRafId) {
+        window.cancelAnimationFrame(lenisRafId);
+    }
+
+    if (lenis) {
+        lenis.destroy();
+    }
+
     if (rafId) {
         window.cancelAnimationFrame(rafId);
     }
