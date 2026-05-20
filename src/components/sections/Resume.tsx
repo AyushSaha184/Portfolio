@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { revealVariants } from "@/lib/animations";
+import Icon from "@/components/ui/Icon";
 
 const RESUME_PDF_URL =
   "https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf";
@@ -10,24 +11,40 @@ const RESUME_PDF_URL =
 export default function Resume() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const downloadRef = useRef<HTMLAnchorElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const cb = Date.now();
+    const section = sectionRef.current;
+    if (!section) return;
 
-    if (iframeRef.current) {
-      const baseSrc = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(
-        RESUME_PDF_URL
-      )}`;
-      iframeRef.current.src = `${baseSrc}&cb=${cb}`;
-    }
+    // Only fire the Google Docs request when the section is close to the viewport.
+    // This prevents a heavy external resource (~2 MB) from loading on page mount.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        observer.disconnect(); // one-shot
 
-    if (downloadRef.current) {
-      downloadRef.current.href = `${RESUME_PDF_URL}?cb=${cb}`;
-    }
+        const cb = Date.now();
+        if (iframeRef.current) {
+          const baseSrc = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(
+            RESUME_PDF_URL
+          )}`;
+          iframeRef.current.src = `${baseSrc}&cb=${cb}`;
+        }
+        if (downloadRef.current) {
+          downloadRef.current.href = `${RESUME_PDF_URL}?cb=${cb}`;
+        }
+      },
+      { rootMargin: "300px" } // pre-load 300px before it enters view
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <motion.section
+      ref={sectionRef}
       className="px-0 pb-32 pt-20"
       id="resume"
       variants={revealVariants}
@@ -56,7 +73,7 @@ export default function Resume() {
               rel="noopener noreferrer"
               className="ml-auto inline-flex items-center gap-2 rounded-full border border-[#ffc37a99] bg-[linear-gradient(110deg,#ff9f43,#ffc46f)] px-4 py-2 text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#1c1308] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(255,159,67,0.35)]"
             >
-              <i className="fas fa-download" />
+              <Icon id="fas fa-download" />
               Download PDF
             </a>
           </div>

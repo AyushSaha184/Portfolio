@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { socials } from "@/data/socials";
 import { revealVariants } from "@/lib/animations";
+import Icon from "@/components/ui/Icon";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -44,7 +45,7 @@ export default function Footer() {
               aria-label={social.label}
               className="inline-flex h-9 w-9 items-center justify-center rounded-[11px] border border-[#82abff4d] bg-[#0c1626c2] text-[#dae9ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedff99] hover:bg-[#46d7ff21]"
             >
-              <i className={social.icon} />
+              <Icon id={social.icon} />
             </a>
           ))}
         </div>

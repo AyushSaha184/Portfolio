@@ -12,15 +12,13 @@ export const easing = [0.2, 0.7, 0, 1] as const;
 export const revealVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 32,
-    scale: 0.95,
+    y: 28,
   },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      duration: 0.78,
+      duration: 0.72,
       ease: easing,
     },
   },
@@ -33,8 +31,8 @@ export const staggerContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      staggerChildren: 0.06,  // tighter stagger = feels snappier
+      delayChildren: 0.04,
     },
   },
 };
@@ -45,37 +43,33 @@ export const staggerContainer: Variants = {
 export const staggerChild: Variants = {
   hidden: {
     opacity: 0,
-    y: 32,
-    scale: 0.95,
+    y: 24,
   },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      duration: 0.7,
+      duration: 0.62,
       ease: easing,
     },
   },
 };
 
 /* ═══════════════════════════════════════════
-   HERO ANIMATE-IN — blur + rise
+   HERO ANIMATE-IN — rise only (no blur)
+   blur() on animating elements causes full
+   raster repaint on every frame — avoid it.
    ═══════════════════════════════════════════ */
 export const heroRise: Variants = {
   hidden: {
     opacity: 0,
-    y: 22,
-    scale: 0.95,
-    filter: "blur(6px)",
+    y: 18,
   },
   visible: (delay: number = 0) => ({
     opacity: 1,
     y: 0,
-    scale: 1,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.9,
+      duration: 0.75,
       ease: easing,
       delay,
     },
@@ -88,13 +82,13 @@ export const heroRise: Variants = {
 export const navDropIn: Variants = {
   hidden: {
     opacity: 0,
-    y: -14,
+    y: -12,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.74,
+      duration: 0.65,
       ease: easing,
     },
   },

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { heroRise } from "@/lib/animations";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import Icon from "@/components/ui/Icon";
 
 export default function Hero() {
   return (
@@ -52,7 +53,7 @@ export default function Hero() {
             className="btn-primary group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.94rem] font-bold tracking-[0.03em] text-[#1c1308] no-underline transition-all duration-300 max-[680px]:justify-center"
           >
             View Projects{" "}
-            <i className="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1" />
+            <Icon id="fas fa-arrow-right" className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { socials } from "@/data/socials";
+import Icon from "@/components/ui/Icon";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -73,7 +74,7 @@ export default function Navbar() {
                 aria-label={social.label}
                 className="inline-flex h-[33px] w-[33px] items-center justify-center rounded-xl border border-[#82abff57] bg-[#0c1727c2] text-[0.86rem] text-[#d7e7ff] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8dedffb3] hover:bg-[#46d7ff2e] hover:text-[#f4fdff] hover:shadow-[0_0_0_2px_rgba(70,215,255,0.16)]"
               >
-                <i className={social.icon} />
+                <Icon id={social.icon} />
               </a>
             ))}
           </div>

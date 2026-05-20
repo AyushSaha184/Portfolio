@@ -8,21 +8,36 @@ import SkillCard from "@/components/ui/SkillCard";
 
 export default function Skills() {
   const shellRef = useRef<HTMLDivElement>(null);
+  const rafIdRef = useRef<number>(0);
 
+  // Throttle to one rAF per frame — prevents getBoundingClientRect spam
   const handleShellMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      const el = shellRef.current;
-      if (!el) return;
+      if (rafIdRef.current) return; // already queued for this frame
 
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty("--card-mx", `${e.clientX - rect.left}px`);
-      el.style.setProperty("--card-my", `${e.clientY - rect.top}px`);
-      el.style.setProperty("--card-glow", "1");
+      const x = e.clientX;
+      const y = e.clientY;
+
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = 0;
+        const el = shellRef.current;
+        if (!el) return;
+
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty("--card-mx", `${x - rect.left}px`);
+        el.style.setProperty("--card-my", `${y - rect.top}px`);
+        el.style.setProperty("--card-glow", "1");
+      });
     },
     []
   );
 
   const handleShellMouseLeave = useCallback(() => {
+    // Cancel any pending rAF so we don't flash the glow after leave
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = 0;
+    }
     shellRef.current?.style.setProperty("--card-glow", "0");
   }, []);
 
@@ -45,7 +60,7 @@ export default function Skills() {
           Technical <span className="text-ember">Skills</span>
         </h2>
 
-        <motion.div 
+        <motion.div
           className="relative grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
           variants={staggerContainer}
           initial="hidden"
