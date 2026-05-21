@@ -11,11 +11,13 @@ const RESUME_PDF_URL =
 export default function Resume() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const downloadRef = useRef<HTMLAnchorElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  // Use a plain div wrapper for the IntersectionObserver — motion.section
+  // does not reliably forward refs, causing the observer to never fire.
+  const observerTargetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const target = observerTargetRef.current;
+    if (!target) return;
 
     // Only fire the Google Docs request when the section is close to the viewport.
     // This prevents a heavy external resource (~2 MB) from loading on page mount.
@@ -38,13 +40,12 @@ export default function Resume() {
       { rootMargin: "300px" } // pre-load 300px before it enters view
     );
 
-    observer.observe(section);
+    observer.observe(target);
     return () => observer.disconnect();
   }, []);
 
   return (
     <motion.section
-      ref={sectionRef}
       className="px-0 pb-32 pt-20"
       id="resume"
       variants={revealVariants}
@@ -52,7 +53,8 @@ export default function Resume() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.12, margin: "-8%" }}
     >
-      <div className="mx-auto w-full max-w-6xl px-6">
+      {/* Plain div for IntersectionObserver — motion.section doesn't forward refs reliably */}
+      <div ref={observerTargetRef} className="mx-auto w-full max-w-6xl px-6">
         <div className="section-shell overflow-hidden rounded-[28px] border border-[#82abff3d] bg-bg-panel p-7 shadow-[inset_0_0_0_1px_rgba(188,221,255,0.06),0_24px_56px_rgba(1,7,17,0.34)] max-[680px]:p-5">
           {/* Terminal-style header */}
           <div className="relative z-[1] mb-5 flex items-center gap-4">
