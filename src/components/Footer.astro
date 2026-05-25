@@ -1,0 +1,163 @@
+---
+const socials = [
+  {
+    url: "https://github.com/AyushSaha184",
+    icon: "fab fa-github",
+    label: "GitHub",
+    tagline: "Open Source & Projects",
+    meta: "Open to collaborate",
+    cmd: "open github",
+    signal: "cyan",
+  },
+  {
+    url: "https://www.linkedin.com/in/AyushSaha184",
+    icon: "fab fa-linkedin-in",
+    label: "LinkedIn",
+    tagline: "Professional Network",
+    meta: "Let's connect",
+    cmd: "open linkedin",
+    signal: "green",
+  },
+  {
+    url: "mailto:ayushsaha1884@gmail.com",
+    icon: "fas fa-envelope",
+    label: "Email",
+    tagline: "Direct Contact",
+    meta: "Reply within 24h",
+    cmd: "compose mail",
+    signal: "green",
+  },
+];
+---
+
+<footer id="contact" class="section-contact section-observer relative min-h-screen py-32 px-6 flex items-center bg-cyber-dark">
+  <div class="max-w-4xl mx-auto w-full relative z-10">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title" id="contact-title">transmission_terminal.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-6">
+          <div>
+            <h2 class="font-display text-3xl font-bold text-cyber-text mb-1">
+              <span class="text-cyber-cyan command-prompt"></span>Let's Connect
+            </h2>
+            <p class="text-cyber-muted text-xs flex items-center gap-2">
+              <span class="signal-dot green"></span>
+              <span>STATUS: ACCEPTING TRANSMISSIONS</span>
+            </p>
+          </div>
+        </div>
+
+        <p class="text-cyber-text mb-6 font-mono text-sm" id="cmd-line">
+          <span class="text-cyber-cyan">user@portfolio:~$</span>
+          <span id="cmd-text" class="cmd-fade-unit cmd-visible"> echo $MESSAGE</span>
+          <span class="cursor-blink"></span>
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8" id="contact-grid">
+          {socials.map((social, i) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-card bg-cyber-black border border-cyber-cyan/10 rounded-lg p-4 text-left group"
+              data-cmd={social.cmd}
+              data-label={social.label}
+            >
+              <span class="card-noise"></span>
+              <span class="card-top-glow"></span>
+              <span class="card-corner-br"></span>
+
+              <div class="card-content">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="icon-wrap icon-pulse">
+                    <i class={`${social.icon} text-xl text-cyber-cyan group-hover:text-white transition-colors duration-300`}></i>
+                  </div>
+                  <span class="flex items-center gap-1 text-[9px] text-cyber-muted uppercase tracking-wider">
+                    <span class={`signal-dot ${social.signal}`}></span>
+                    {social.signal === 'green' ? 'ONLINE' : 'ACTIVE'}
+                  </span>
+                </div>
+
+                <h3 class="font-display text-sm font-bold text-cyber-text mb-0.5">
+                  {social.label}
+                </h3>
+                <p class="text-[10px] text-cyber-muted mb-2 leading-relaxed">{social.tagline}</p>
+                <div class="flex items-center gap-1.5 text-[9px] text-cyber-cyan/60 uppercase tracking-wider">
+                  <i class="fas fa-circle text-[4px]"></i>
+                  <span>{social.meta}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="border-t border-cyber-cyan/10 pt-5">
+          <div class="sys-stats mb-3">
+            <div class="sys-stat">
+              <span class="stat-label">System:</span>
+              <span class="stat-value green">ONLINE</span>
+            </div>
+            <div class="sys-stat">
+              <span class="stat-label">Latency:</span>
+              <span class="stat-value cyan" id="stat-latency">12ms</span>
+            </div>
+            <div class="sys-stat">
+              <span class="stat-label">Uptime:</span>
+              <span class="stat-value" id="stat-uptime">99.9%</span>
+            </div>
+            <div class="sys-stat">
+              <span class="stat-label">Signal:</span>
+              <span class="stat-value cyan">STRONG</span>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-cyber-muted text-[10px]">© 2026 Ayush Saha. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const latencyEl = document.getElementById('stat-latency');
+    const cmdText = document.getElementById('cmd-text');
+
+    function fadeText(text) {
+      if (!cmdText) return;
+      cmdText.classList.remove('cmd-visible');
+      void cmdText.offsetHeight;
+      requestAnimationFrame(() => {
+        cmdText.textContent = ' ' + text;
+        requestAnimationFrame(() => cmdText.classList.add('cmd-visible'));
+      });
+    }
+
+    document.querySelectorAll('.contact-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const cmd = card.getAttribute('data-cmd') || 'connect';
+        const label = card.getAttribute('data-label') || 'remote';
+        fadeText(cmd);
+        setTimeout(() => fadeText(`${cmd} — connecting to ${label}...`), 500);
+        setTimeout(() => fadeText(`${cmd} — connected to ${label}`), 1000);
+      });
+      card.addEventListener('mouseenter', () => {
+        const label = card.getAttribute('data-label') || '';
+        cmdText.textContent = ` hover ${label.toLowerCase()} ›`;
+      });
+      card.addEventListener('mouseleave', () => {
+        cmdText.textContent = ' echo $MESSAGE';
+      });
+    });
+
+    setInterval(() => {
+      if (latencyEl) latencyEl.textContent = (Math.floor(Math.random() * 10) + 6) + 'ms';
+    }, 3000);
+  })();
+</script>

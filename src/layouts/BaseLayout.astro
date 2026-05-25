@@ -1,0 +1,92 @@
+---
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/orbitron';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "AI Developer & Computer Science Student" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#000000" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  </head>
+  <body class="bg-cyber-black text-cyber-text font-mono">
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="scanline-bar" aria-hidden="true"></div>
+    <slot />
+
+    <script>
+      (function() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!reduced && !('ontouchstart' in window)) {
+          import('lenis').then(m => m.default).then(Lenis => {
+            const lenis = new Lenis({ lerp: 0.1 });
+            import('gsap').then(m1 => {
+              import('gsap/ScrollTrigger').then(m2 => {
+                m1.gsap.registerPlugin(m2.ScrollTrigger);
+                lenis.on('scroll', m2.ScrollTrigger.update);
+                m1.gsap.ticker.add(t => lenis.raf(t * 1000));
+                m1.gsap.ticker.lagSmoothing(0);
+              });
+            });
+          });
+        }
+
+        const observers = document.querySelectorAll('.section-observer');
+        const sectionObs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        observers.forEach(el => sectionObs.observe(el));
+
+        if (!reduced) {
+          const idleTargets = [
+            ...document.querySelectorAll('.terminal-status .status-value'),
+            ...document.querySelectorAll('.sys-stat .stat-value'),
+          ];
+          if (idleTargets.length) {
+            setInterval(() => {
+              const pick = idleTargets[Math.floor(Math.random() * idleTargets.length)];
+              if (pick) {
+                pick.classList.add('idle-flicker');
+                setTimeout(() => pick.classList.remove('idle-flicker'), 200);
+              }
+            }, 6000);
+          }
+
+          document.querySelectorAll('.terminal-window').forEach(tw => {
+            const scan = document.createElement('div');
+            scan.className = 'idle-scanline';
+            scan.setAttribute('aria-hidden', 'true');
+            tw.style.position = 'relative';
+            tw.appendChild(scan);
+          });
+
+          const statLatency = document.getElementById('stat-latency');
+          if (statLatency) {
+            setInterval(() => {
+              statLatency.textContent = (Math.floor(Math.random() * 10) + 6) + 'ms';
+            }, 3000);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
