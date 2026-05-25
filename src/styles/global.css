@@ -1175,6 +1175,66 @@ body {
   50% { opacity: 0.7; }
 }
 
+/* ── Mobile carousel ── */
+@media (max-width: 640px) {
+  .carousel-viewport {
+    padding: 12px 2%;
+  }
+  .carousel-card {
+    flex: 0 0 84%;
+  }
+  .carousel-card-inner {
+    padding: 14px;
+  }
+  .project-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .project-tech-tag {
+    font-size: 7px;
+    padding: 2px 5px;
+  }
+  .project-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .project-actions {
+    width: 100%;
+    gap: 4px;
+  }
+  .project-actions .project-btn {
+    flex: 1;
+    text-align: center;
+    font-size: 8px;
+    padding: 5px 6px;
+  }
+  .project-status {
+    font-size: 8px;
+  }
+  .carousel-archive-bar {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .terminal-body {
+    padding: 10px;
+  }
+  .section-projects {
+    padding: 3rem 0.75rem !important;
+  }
+  .archive-btn {
+    font-size: 0.5rem;
+    padding: 3px 7px;
+  }
+}
+
+@media (max-width: 380px) {
+  .carousel-card {
+    flex: 0 0 90%;
+  }
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
