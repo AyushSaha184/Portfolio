@@ -1,331 +1,177 @@
 ---
+import { FlipFadeText } from './ui/flip-fade-text';
+import { LineHoverLink } from './ui/line-hover-link';
+import { GenerateButton } from './ui/generate-button';
+import { BorderBeam } from './ui/border-beam';
+
 const projects = [
-  { title: "Intelli", titleAccent: "Docs", description: "A RAG-powered enterprise document assistant that provides instant answers from company-related docs.", tag: "Enterprise RAG Assistant", techStack: ["FastAPI", "LangChain", "Qdrant", "Redis", "Supabase"], demoUrl: "https://intelli-docs-five.vercel.app", githubUrl: "https://github.com/AyushSaha184/IntelliDocs", repo: "IntelliDocs", type: "RAG", ambient: "warm" },
-  { title: "Eval", titleAccent: "MCP", description: "An MCP Server providing 15 tools for efficient accuracy evaluation of RAG systems.", tag: "RAG Evaluation Tool", techStack: ["Python", "FastMCP", "FastAPI", "Neon", "Redis"], githubUrl: "https://github.com/AyushSaha184/Eval_MCP", repo: "Eval_MCP", type: "Tool", ambient: "cyan" },
-  { title: "Testa", titleAccent: "Code", description: "A multi-agent testing suite that automatically generates unit tests and enforces robust code validation.", tag: "Agentic Test Generator", techStack: ["Python", "LangGraph", "FastAPI", "Redis", "Neon"], demoUrl: "https://testa-code.vercel.app", githubUrl: "https://github.com/AyushSaha184/TestaGen", repo: "TestaGen", type: "Agent", ambient: "warm" },
-  { title: "PR", titleAccent: "Prep", description: "An AI-powered CLI agent that analyzes staged Git diffs, detects breaking changes via AST parsing, and drafts PR descriptions.", tag: "CLI Agent", techStack: ["Python", "Tree-sitter", "Typer", "LangGraph", "LangChain"], githubUrl: "https://github.com/AyushSaha184/PR-Prep", repo: "PR-Prep", type: "CLI", ambient: "amber" },
-  { title: "Medi", titleAccent: "Flow", description: "A multi-agent system that analyzes X-rays, PDFs, and health records to identify potential medical conditions.", tag: "Multi-Agent Pipeline", techStack: ["Python", "FastAPI", "LangGraph", "Microsoft Presidio", "pgVector", "Redis"], demoUrl: "https://medi-flow-pied.vercel.app/", githubUrl: "https://github.com/AyushSaha184/MediFlow", repo: "MediFlow", type: "Agent", ambient: "cyan" },
-  { title: "Raw", titleAccent: "Logger", description: "A local-first CLI tool for correlating logs across multiple services with clock-skew estimation.", tag: "CLI Tool", techStack: ["Python", "FastAPI", "SQLite"], githubUrl: "https://github.com/AyushSaha184/Raw-Logger", repo: "Raw-Logger", type: "CLI", ambient: "amber" },
-  { title: "Reddif", titleAccent: "", description: "An Android app that pushes notifications from subreddit r/PhotoshopRequest to your device.", tag: "Android App", techStack: ["Python", "FastAPI", "SQLite"], githubUrl: "https://github.com/AyushSaha184/Reddif", repo: "Reddif", type: "Mobile", ambient: "warm" },
+  { title: "PRism", tag: "GitHub App & Code Review AI", description: "A GitHub App and web platform that automates pull request reviews using four parallel AI specialists (Security, Code Quality, Tests, Docs) with hybrid code retrieval, evidence-backed findings, and human-in-the-loop approval queues.", techStack: ["Python", "FastAPI", "LangGraph", "Next.js", "Redis", "pgvector"], githubUrl: "https://github.com/AyushSaha184/PRism", repo: "PRism", year: "2025" },
+  { title: "Eval_MCP", tag: "Model Context Protocol Engine", description: "A single-binary Model Context Protocol (MCP) server built natively in Go for prompt evaluation, RAG pipeline scoring, hallucination detection, regression tracking, and real-time dashboard analytics.", techStack: ["Go", "FastMCP", "Redis", "REST API", "Docker", "Render"], githubUrl: "https://github.com/AyushSaha184/Eval_MCP", repo: "Eval_MCP", year: "2025" },
+  { title: "IntelliDocs", tag: "Enterprise RAG Knowledge System", description: "An enterprise-scale Retrieval-Augmented Generation (RAG) knowledge engine featuring multi-agent query orchestration, hybrid dense-sparse vector search (FAISS + BM25 + NVIDIA Reranking), streaming SSE, and session-isolated document indexing.", techStack: ["FastAPI", "LangChain", "Qdrant", "FAISS", "Redis", "Supabase"], demoUrl: "https://intelli-docs-five.vercel.app", githubUrl: "https://github.com/AyushSaha184/IntelliDocs", repo: "IntelliDocs", year: "2025" },
+  { title: "booking-app", tag: "Full-Stack Reservation System", description: "A full-stack appointment and reservation scheduling platform built with Next.js 15, Drizzle ORM, Neon Serverless PostgreSQL, Upstash Redis rate limiting, Twilio SMS alerts, and Google Calendar API integration.", techStack: ["Next.js", "TypeScript", "Drizzle ORM", "Neon Postgres", "Upstash Redis", "Twilio API"], githubUrl: "https://github.com/AyushSaha184/booking-app", repo: "booking-app", year: "2025" },
+  { title: "FiTrack", tag: "Mobile Fitness Tracker", description: "An all-in-one mobile fitness tracking application built with React Native, featuring MobX state management, Firebase authentication, MMKV local storage, and automated release builds.", techStack: ["React Native", "TypeScript", "MobX", "Firebase"], githubUrl: "https://github.com/AyushSaha184/FiTrack", repo: "FiTrack", year: "2025" },
+  { title: "TestaCode", tag: "Agentic Test Generator", description: "An AI-powered test generation suite that accepts source files (Python, JS/TS, Java), parses AST/syntax structures, predicts intent, executes multi-stage LLM chains (analysis → generation → syntax validation → self-evaluation), and auto-corrects syntax errors.", techStack: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL"], demoUrl: "https://testa-code.vercel.app", githubUrl: "https://github.com/AyushSaha184/TestaCode", repo: "TestaCode", year: "2025" },
 ];
 
-const statusColors = { warm: "text-cyber-orange", cyan: "text-cyber-cyan", amber: "text-cyber-gold" };
+const projectsHeadings = [
+  "SELECTED WORK & AI SYSTEMS",
+  "AUTONOMOUS MULTI-AGENT TOOLS",
+  "PRODUCTION READY CODEBASES"
+];
 ---
 
-<section id="projects" class="section-projects section-observer relative min-h-screen py-32 px-6 bg-cyber-black">
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title">holographic_archive.sh</span>
-      </div>
-      <div class="terminal-body">
-        <h2 class="font-display text-3xl font-bold text-cyber-text mb-2">
-          <span class="text-cyber-orange command-prompt"></span>Projects
-        </h2>
-        <p class="text-cyber-muted text-sm mb-6 font-mono" id="projects-subtitle">
-          <span class="text-cyber-orange">$</span> <span id="proj-cmd" class="cmd-fade-unit">browsing holographic archive...</span><span class="cursor-blink"></span>
-        </p>
+<!-- Vengeance UI Projects Section with Clean 3D Cards & Flip Fade Text -->
+<section id="projects" class="relative py-24 sm:py-36 px-5 sm:px-8 bg-[#030406] overflow-hidden border-t border-white/10">
+  <div class="shell">
+    <div class="flex flex-col items-center text-center mb-12">
+      <!-- Heading in Solid Clean White -->
+      <FlipFadeText
+        client:visible
+        words={projectsHeadings}
+        interval={3500}
+        letterDuration={0.5}
+        staggerDelay={0.04}
+        className="justify-center text-center min-h-[100px]"
+        textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl"
+      />
+    </div>
 
-        <div class="carousel-archive-bar">
-          <span class="carousel-progress">ARCHIVE <span class="current" id="carousel-idx">01</span> / <span id="carousel-total">0{projects.length}</span></span>
-          <div class="archive-controls">
-            <button class="archive-btn" id="carousel-prev"><span class="arrow-sym left">◂</span> PREV</button>
-            <button class="archive-btn" id="carousel-next">NEXT <span class="arrow-sym right">▸</span></button>
+    <!-- 3D Stage with Glowing Rectangular Project Cards -->
+    <div class="perspective-stage">
+      {projects.map((p, idx) => (
+        <div
+          class="perspective-card p-card-item p-8 sm:p-11 text-white"
+          data-index={idx}
+          style="width: min(52rem, 95vw);"
+        >
+          <!-- 2 White Animated Border Beams -->
+          <BorderBeam client:visible size={400} duration={7} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+          <BorderBeam client:visible size={400} duration={7} delay={3.5} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+
+          <div class="flex items-center justify-between pb-4 border-b border-white/10 text-xs sm:text-sm text-white/60">
+            <LineHoverLink client:visible variant="slide" asSpan className="text-white font-semibold">
+              {p.tag}
+            </LineHoverLink>
+            <span class="font-semibold text-white/70">{p.year}</span>
           </div>
-        </div>
 
-        <div class="carousel-container" id="carousel">
-          <div class="carousel-viewport" id="carousel-viewport">
-            <div class="carousel-track" id="carousel-track">
-              {projects.map((p, i) => {
-                const status = p.demoUrl ? "DEPLOYED" : "ONLINE";
-                return (
-                  <div class="carousel-card" data-index={i} data-repo={p.repo}>
-                    <div class="carousel-card-inner" style={`border-color: rgba(255,107,0,0.15); ${p.ambient === 'cyan' ? '--accent: #00E5FF;' : p.ambient === 'amber' ? '--accent: #FFB800;' : '--accent: #FF6B00;'}`}>
-                      <div class="card-bg-glow"></div>
+          <div class="py-6">
+            <h3 class="font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight mb-4">
+              {p.title}
+            </h3>
+            <p class="text-base sm:text-lg text-white/85 leading-relaxed font-normal mb-8">
+              {p.description}
+            </p>
 
-                      <div class="project-header flex items-start justify-between mb-3">
-                        <div>
-                          <div class="flex items-baseline gap-2">
-                            <h3 class="font-display text-xl font-bold text-cyber-text card-animate-title">{p.title}</h3>
-                            {p.titleAccent && <span class="font-display text-xl font-bold card-animate-title" style={`color: var(--accent)`}>{p.titleAccent}</span>}
-                          </div>
-                          <span class="project-tag text-xs uppercase tracking-wider card-animate-tag" style={`color: var(--accent)`}>{p.tag}</span>
-                        </div>
-                        <span class="project-status flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-cyber-muted whitespace-nowrap card-animate-status">
-                          <span class="w-1.5 h-1.5 rounded-full" style={`background: ${p.demoUrl ? '#22c55e' : '#FF6B00'}; box-shadow: 0 0 4px ${p.demoUrl ? 'rgba(34,197,94,0.5)' : 'rgba(255,107,0,0.5)'}`}></span>
-                          {status}
-                        </span>
-                      </div>
+            <div class="flex flex-wrap gap-2.5 mb-8">
+              {p.techStack.map((tech) => (
+                <LineHoverLink client:visible variant="slide" asSpan className="px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-xl bg-white/10 border border-white/20 text-white/95">
+                  {tech}
+                </LineHoverLink>
+              ))}
+            </div>
 
-                      <p class="text-cyber-muted text-xs mb-4 leading-relaxed card-animate-desc">{p.description}</p>
+            <!-- GitHub Stats (Clean text, no font-mono) & Generate Buttons -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-5 border-t border-white/10">
+              <div class="flex items-center gap-5 text-xs sm:text-sm text-white/70 font-medium">
+                <span>Stars: <span class="gh-stars text-white font-bold" data-repo={p.repo}>-</span></span>
+                <span>Forks: <span class="gh-forks text-white font-bold" data-repo={p.repo}>-</span></span>
+              </div>
 
-                      <div class="flex flex-wrap gap-1.5 mb-4 card-animate-tech">
-                        {p.techStack.map((tech) => (
-                          <span class="project-tech-tag inline-block px-2 py-0.5 text-[9px] bg-cyber-black/60 border border-cyber-orange/15 rounded text-cyber-orange">{tech}</span>
-                        ))}
-                      </div>
-
-                      <div class="project-footer flex items-center justify-between flex-wrap gap-3 pt-2 border-t border-cyber-orange/10 card-animate-meta">
-                        <div class="flex items-center gap-3 text-[10px] text-cyber-muted" id={`meta-${i}`}>
-                          <span class="flex items-center gap-1"><i class="fas fa-star text-cyber-gold"></i><span class="gh-stars" data-repo={p.repo}>-</span></span>
-                          <span class="flex items-center gap-1"><i class="fas fa-code-branch text-cyber-muted"></i><span class="gh-forks" data-repo={p.repo}>-</span></span>
-                        </div>
-
-                        <div class="project-actions flex items-center gap-2 card-animate-btns">
-                          {p.demoUrl && (
-                            <a href={p.demoUrl} target="_blank" rel="noopener noreferrer" class="project-btn px-3 py-1.5 text-[9px] font-semibold uppercase tracking-wider rounded border transition-all duration-200" style={`border-color: var(--accent); color: var(--accent);`} onmouseover="this.style.background='rgba(0,229,255,0.08)'" onmouseout="this.style.background='transparent'">
-                              <i class="fas fa-external-link-alt text-[9px] mr-1"></i>Live Demo
-                            </a>
-                          )}
-                          <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" class="project-btn px-3 py-1.5 text-[9px] font-semibold uppercase tracking-wider rounded border border-cyber-orange/30 text-cyber-orange hover:bg-cyber-orange/10 transition-all duration-200">
-                            <i class="fab fa-github text-[9px] mr-1"></i>GitHub
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <!-- Vengeance UI Generate Buttons for Live Demo & GitHub (Clean text, no symbols) -->
+              <div class="flex items-center gap-3">
+                {p.demoUrl && (
+                  <GenerateButton
+                    client:visible
+                    href={p.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Live Demo
+                  </GenerateButton>
+                )}
+                <GenerateButton
+                  client:visible
+                  href={p.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </GenerateButton>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ))}
+    </div>
+
+    <!-- Controls using Vengeance UI Generate Buttons (No symbols/emojis, no font-mono) -->
+    <div class="flex items-center justify-center gap-4 mt-12">
+      <GenerateButton client:visible id="p-prev">
+        PREV PROJECT
+      </GenerateButton>
+      <span class="text-xs text-white/60 font-medium px-2" id="p-indicator">1 / 6</span>
+      <GenerateButton client:visible id="p-next">
+        NEXT PROJECT
+      </GenerateButton>
     </div>
   </div>
 </section>
 
 <script>
-  (async function() {
-    const track = document.getElementById('carousel-track');
-    const viewport = document.getElementById('carousel-viewport');
-    const cards = Array.from(document.querySelectorAll('.carousel-card'));
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
-    const projCmd = document.getElementById('proj-cmd');
-    const idxEl = document.getElementById('carousel-idx');
-    const totalEl = document.getElementById('carousel-total');
+  (function() {
+    const cards = Array.from(document.querySelectorAll('.p-card-item')) as HTMLElement[];
+    const prevBtn = document.getElementById('p-prev');
+    const nextBtn = document.getElementById('p-next');
+    const indicator = document.getElementById('p-indicator');
+
+    let current = 0;
     const total = cards.length;
-    if (!total) return;
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let gsap$ = null;
-    if (!reduced) {
-      try { gsap$ = (await import('gsap').then(m => m.default || m)); } catch {}
-    }
-
-    let currentIndex = 0;
-    let locked = false;
-    let queue = null;
-    let isDragging = false;
-    let startX = 0, lastX = 0, velocity = 0;
-    let startTranslate = 0, currentTranslate = 0;
-    let cardWidth = 0, gap = 0;
-    let gsapCtx = null;
-
-    function computeLayout() {
-      if (cards[0]) {
-        cardWidth = cards[0].offsetWidth;
-        const style = getComputedStyle(cards[0]);
-        gap = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-      }
-    }
-
-    function getTranslateX() {
-      const vw = viewport.offsetWidth;
-      const step = cardWidth + gap;
-      return (vw / 2) - (cardWidth / 2) - (currentIndex * step);
-    }
-
-    function updateProgress() {
-      if (idxEl) idxEl.textContent = String(currentIndex + 1).padStart(2, '0');
-    }
-
-    function updateCards(animate) {
+    function updatePerspective() {
       cards.forEach((card, i) => {
-        const dist = Math.min(Math.abs(i - currentIndex), total - Math.abs(i - currentIndex));
-        const isActive = i === currentIndex;
-        const scale = isActive ? 1 : dist === 1 ? 0.88 : dist === 2 ? 0.78 : 0.7;
-        const opacity = isActive ? 1 : dist === 1 ? 0.7 : dist === 2 ? 0.35 : 0.15;
-        const zIdx = total - dist;
+        const offset = i - current;
+        const absOffset = Math.abs(offset);
 
-        card.classList.toggle('active', isActive);
-        card.style.pointerEvents = dist <= 2 ? 'auto' : 'none';
-
-        if (animate && gsap$) {
-          gsap$.to(card, { scale, opacity, zIndex: zIdx, duration: 0.6, ease: 'power4.out', overwrite: 'auto' });
-          card.style.filter = dist <= 1 ? 'none' : 'blur(1.5px)';
+        if (offset === 0) {
+          card.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+          card.style.opacity = '1';
+          card.style.zIndex = '30';
+          card.style.pointerEvents = 'auto';
+        } else if (offset > 0) {
+          card.style.transform = `translateX(${offset * 140}px) translateZ(-${absOffset * 180}px) rotateY(-12deg) scale(${1 - absOffset * 0.1})`;
+          card.style.opacity = `${Math.max(0.15, 1 - absOffset * 0.35)}`;
+          card.style.zIndex = `${30 - absOffset}`;
+          card.style.pointerEvents = 'none';
         } else {
-          card.style.transform = `scale(${scale})`;
-          card.style.opacity = opacity;
-          card.style.zIndex = zIdx;
-          card.style.filter = dist <= 1 ? 'none' : 'blur(1.5px)';
+          card.style.transform = `translateX(${offset * 140}px) translateZ(-${absOffset * 180}px) rotateY(12deg) scale(${1 - absOffset * 0.1})`;
+          card.style.opacity = `${Math.max(0.15, 1 - absOffset * 0.35)}`;
+          card.style.zIndex = `${30 - absOffset}`;
+          card.style.pointerEvents = 'none';
         }
       });
+
+      if (indicator) indicator.textContent = `${current + 1} / ${total}`;
     }
 
-    function animateContent(enter) {
-      if (!gsap$) return;
-      const els = enter.querySelectorAll('.card-animate-title, .card-animate-tag, .card-animate-status, .card-animate-desc, .card-animate-tech, .card-animate-meta, .card-animate-btns');
-      gsap$.fromTo(els,
-        { y: 14, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.04, ease: 'power2.out', clearProps: 'y' }
-      );
-    }
+    prevBtn?.addEventListener('click', () => {
+      current = (current - 1 + total) % total;
+      updatePerspective();
+    });
 
-    function goTo(index, smooth) {
-      if (locked) { queue = index; return; }
-      currentIndex = ((index % total) + total) % total;
-      const tx = getTranslateX();
-
-      locked = true;
-      updateProgress();
-      updateCards(smooth);
-
-      const enterCard = cards[currentIndex];
-
-      if (smooth && gsap$) {
-        const tl = gsap$.timeline({
-          onComplete: () => { locked = false; flushQueue(); }
-        });
-
-        if (gsapCtx) gsapCtx.kill();
-
-        tl.to(track, {
-          x: tx, duration: 0.55, ease: 'power3.out',
-          onStart: () => {
-            const exitCard = cards.find(c => c.classList.contains('active') && c !== enterCard);
-            if (exitCard) {
-              gsap$.to(exitCard.querySelectorAll('.card-animate-title, .card-animate-tag, .card-animate-status, .card-animate-desc, .card-animate-tech, .card-animate-meta, .card-animate-btns'), {
-                y: -8, opacity: 0, duration: 0.2, ease: 'power2.in', overwrite: 'auto'
-              });
-            }
-          },
-          onComplete: () => {
-            animateContent(enterCard);
-            gsapCtx = gsap$.delayedCall(0.6, () => { gsapCtx = null; });
-          }
-        }, 0);
-      } else {
-        if (smooth && !gsap$) {
-          track.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
-        } else {
-          track.style.transition = 'none';
-        }
-        track.style.transform = `translateX(${tx}px)`;
-        if (smooth) {
-          setTimeout(() => { track.style.transition = ''; locked = false; flushQueue(); }, 550);
-        } else {
-          locked = false;
-          flushQueue();
-        }
-        animateContent(enterCard);
-      }
-
-      currentTranslate = tx;
-      updateCmd();
-    }
-
-    function flushQueue() {
-      if (queue !== null) {
-        const q = queue;
-        queue = null;
-        goTo(q, true);
-      }
-    }
-
-    function cycleCmdText(el, text) {
-      if (!el) return;
-      el.classList.remove('cmd-visible');
-      void el.offsetHeight;
-      requestAnimationFrame(() => {
-        el.textContent = text;
-        requestAnimationFrame(() => el.classList.add('cmd-visible'));
-      });
-    }
-
-    function updateCmd() {
-      if (projCmd) {
-        const labels = ['classifying systems...', 'scanning archive...', 'loading project...', 'indexing modules...'];
-        cycleCmdText(projCmd, labels[Math.floor(Math.random() * labels.length)]);
-        setTimeout(() => {
-          cycleCmdText(projCmd, `active: ${cards[currentIndex]?.querySelector('.font-display')?.textContent?.trim() || 'unknown'}`);
-        }, 600);
-      }
-    }
-
-    if (projCmd && !reduced) {
-      const texts = ['browsing holographic archive...', 'scanning project database...', 'loading active modules...', 'indexing repositories...'];
-      let ti = 0;
-      function cycleCmd() {
-        cycleCmdText(projCmd, texts[ti % texts.length]);
-        ti++;
-        setTimeout(cycleCmd, 3000);
-      }
-      cycleCmd();
-    }
-
-    computeLayout();
-    goTo(0, false);
-    if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
-
-    prevBtn?.addEventListener('click', () => goTo(currentIndex - 1, true));
-    nextBtn?.addEventListener('click', () => goTo(currentIndex + 1, true));
+    nextBtn?.addEventListener('click', () => {
+      current = (current + 1) % total;
+      updatePerspective();
+    });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') goTo(currentIndex - 1, true);
-      if (e.key === 'ArrowRight') goTo(currentIndex + 1, true);
+      if (e.key === 'ArrowLeft') { current = (current - 1 + total) % total; updatePerspective(); }
+      if (e.key === 'ArrowRight') { current = (current + 1) % total; updatePerspective(); }
     });
 
-    viewport.addEventListener('pointerdown', (e) => {
-      if (locked) return;
-      isDragging = true;
-      startX = e.clientX;
-      lastX = e.clientX;
-      velocity = 0;
-      if (gsap$) gsap$.killTweensOf(track);
-      track.style.transition = 'none';
-      track.classList.add('dragging');
-      const tx = getTranslateX();
-      startTranslate = currentTranslate = tx;
-      viewport.setPointerCapture(e.pointerId);
-    });
+    updatePerspective();
 
-    viewport.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const delta = e.clientX - startX;
-      velocity = e.clientX - lastX;
-      lastX = e.clientX;
-      currentTranslate = startTranslate + delta;
-      track.style.transform = `translateX(${currentTranslate}px)`;
-    });
-
-    viewport.addEventListener('pointerup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      track.classList.remove('dragging');
-
-      const snapThreshold = cardWidth * 0.2;
-      const delta = currentTranslate - startTranslate;
-      const absVel = Math.abs(velocity);
-
-      let newIndex = currentIndex;
-      if (absVel > 3) {
-        newIndex = velocity < 0 ? currentIndex + 1 : currentIndex - 1;
-      } else if (Math.abs(delta) > snapThreshold) {
-        newIndex = delta < 0 ? currentIndex + 1 : currentIndex - 1;
-      }
-      goTo(newIndex, true);
-    });
-
-    window.addEventListener('resize', () => {
-      computeLayout();
-      goTo(currentIndex, false);
-    });
-
+    // Live GitHub Stats Fetcher
     const GH_CACHE_KEY = 'portfolio_gh_cache';
     const GH_TTL = 3600000;
 
@@ -336,7 +182,7 @@ const statusColors = { warm: "text-cyber-orange", cyan: "text-cyber-cyan", amber
 
       const now = Date.now();
       let cache;
-      try { cache = JSON.parse(localStorage.getItem(GH_CACHE_KEY)); } catch {}
+      try { cache = JSON.parse(localStorage.getItem(GH_CACHE_KEY) || ''); } catch {}
       const cachedData = cache?.data || {};
 
       repos.forEach(r => {
@@ -347,7 +193,7 @@ const statusColors = { warm: "text-cyber-orange", cyan: "text-cyber-cyan", amber
 
       if (cache && (now - cache.ts < GH_TTL)) return;
 
-      const fetched = {};
+      const fetched: Record<string, { stars: string | number, forks: string | number }> = {};
       for (const repo of repos) {
         try {
           const res = await fetch(`https://api.github.com/repos/AyushSaha184/${repo}`);
@@ -355,9 +201,9 @@ const statusColors = { warm: "text-cyber-orange", cyan: "text-cyber-cyan", amber
           const json = await res.json();
           const entry = { stars: json.stargazers_count ?? '-', forks: json.forks_count ?? '-' };
           fetched[repo] = entry;
-          document.querySelectorAll(`.gh-stars[data-repo="${repo}"]`).forEach(el => el.textContent = entry.stars);
-          document.querySelectorAll(`.gh-forks[data-repo="${repo}"]`).forEach(el => el.textContent = entry.forks);
-        } catch (e) {
+          document.querySelectorAll(`.gh-stars[data-repo="${repo}"]`).forEach(el => el.textContent = String(entry.stars));
+          document.querySelectorAll(`.gh-forks[data-repo="${repo}"]`).forEach(el => el.textContent = String(entry.forks));
+        } catch {
           if (cachedData[repo]) fetched[repo] = cachedData[repo];
         }
       }

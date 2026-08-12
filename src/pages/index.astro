@@ -5,93 +5,92 @@ import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
 import Resume from '../components/Resume.astro';
 import Footer from '../components/Footer.astro';
+import { FlipText } from '../components/ui/flip-text';
+import { LineHoverLink } from '../components/ui/line-hover-link';
+import { LiquidMetalButton } from '../components/ui/liquid-metal';
+
+const heroHeadlineWords = [
+  "BUILDING AI-DRIVEN PRODUCTS",
+  "RAG & AGENTIC AI SYSTEMS",
+  "AUTONOMOUS MULTI-AGENT PIPELINES",
+  "PRODUCTION-READY SERVICES"
+];
 ---
 
-<BaseLayout title="Ayush Saha | AI Developer">
-  <div class="cyber-bg" aria-hidden="true">
-    <div class="bg-grid-drift"></div>
-    <div class="bg-radial-pulse"></div>
-    <div class="bg-occasional-flicker"></div>
-  </div>
-  <div class="vignette" aria-hidden="true"></div>
+<BaseLayout title="Ayush Saha | AI Developer & CS Student">
   <Navigation />
 
-  <main class="relative z-10">
-    <section id="home" class="section-observer min-h-screen flex items-center px-6 pt-24">
-      <div class="max-w-6xl mx-auto w-full">
-        <div id="boot-sequence" class="boot-container mb-8" data-key="0">
-          <div class="boot-wrapper">
-            <p class="boot-line">[✓] INITIALIZING SYSTEM...</p>
-            <p class="boot-line">[✓] LOADING KERNEL MODULES...</p>
-            <p class="boot-line">[✓] ESTABLISHING NEURAL CONNECTIONS...</p>
-            <p class="boot-line">[✓] DEPLOYING AI SUBROUTINES...</p>
-            <p class="boot-line">[✓] SYSTEM READY.</p>
-          </div>
+  <main id="main" class="relative">
+    <!-- Hero Section with Video Background, Vengeance UI FlipText & Liquid Metal Buttons -->
+    <section id="home" class="relative isolate overflow-hidden min-h-screen flex flex-col justify-start pt-36 sm:pt-44 md:pt-48 pb-20 px-5 sm:px-8">
+      <!-- Full-bleed Ambient Video Background -->
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute inset-0 w-full h-full object-cover z-0 opacity-20 mix-blend-screen pointer-events-none"
+      >
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-lines-loop-31804-large.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Soft Dark Vignette Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#030406]/90 via-transparent to-[#030406] pointer-events-none z-[1]"></div>
+      <div class="absolute inset-0 bg-radial-at-c from-transparent via-[#030406]/50 to-[#030406] pointer-events-none z-[1]"></div>
+
+      <!-- Content Container -->
+      <div class="shell relative z-20 flex flex-col gap-8 max-w-4xl">
+        <!-- Vengeance UI FlipText Headline (Fixed container height so body text NEVER shifts/misaligns) -->
+        <div class="w-full text-left flex flex-col items-start justify-start h-[160px] sm:h-[190px] md:h-[210px] shrink-0 overflow-hidden">
+          <FlipText
+            client:load
+            words={heroHeadlineWords}
+            interval={3500}
+            duration={0.6}
+            textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight"
+          />
         </div>
 
-        <div class="flex flex-col lg:flex-row items-start gap-8 lg:gap-4">
-          <div id="hero-content" class="flex-1 lg:pr-0 lg:-mr-16 relative z-10">
-            <h1 class="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-cyber-text mb-4 leading-tight">
-              Building the next<br/>
-              generation of
-            </h1>
-            <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold glow-text-cyan text-cyber-cyan mb-6 leading-tight animate-cyan-pulse">
-              AI-driven products
-            </h2>
+        <!-- Vengeance UI Line Hover Link Main Page Text (Clean single-color, no period wrap misalignment) -->
+        <div class="text-base sm:text-lg text-white/80 leading-relaxed space-y-4 font-normal max-w-3xl">
+          <p>
+            Fourth-year Computer Science student at{" "}
+            <span class="inline whitespace-nowrap">
+              <LineHoverLink client:load variant="slide" href="https://sit-siliguri.ac.in" target="_blank" className="text-white font-semibold">
+                Siliguri Institute of Technology, West Bengal.
+              </LineHoverLink>
+            </span>
+          </p>
+          <p>
+            Specializing in{" "}
+            <LineHoverLink client:load variant="slide" href="#skills" className="text-white font-semibold">
+              RAG and Agentic AI Systems
+            </LineHoverLink>
+            . Strong focus on high-performance vector databases, system architecture, and building production-ready autonomous LLM tools.
+          </p>
+        </div>
 
-            <p class="text-cyber-muted text-sm md:text-base max-w-xl mb-8 leading-relaxed">
-              Fourth-year Computer Science student at Siliguri Institute of Technology,
-              West Bengal. Specializing in RAG and Agentic AI Projects. Strong focus on
-              performance and building reliable, production-ready services.
-            </p>
+        <!-- Vengeance UI Liquid Metal CTAs for View Projects & Get in Touch (Pure White Glow Shader Border, Sleeker Size, NO symbols/emojis) -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <LiquidMetalButton
+            client:load
+            href="#projects"
+            size="md"
+            borderWidth={2}
+            metalConfig={{ speed: 0.6, distortion: 0.2, colorTint: "#ffffff" }}
+          >
+            View Projects
+          </LiquidMetalButton>
 
-            <a href="#projects" class="terminal-btn">
-              <span>> View Projects</span>
-              <span class="arrow">→</span>
-              <span class="cursor-blink-btn"></span>
-            </a>
-          </div>
-
-          <div class="flex-shrink-0 lg:-mt-16 lg:ml-0 hero-portrait-wrap">
-            <div class="relative w-72 md:w-80 group hero-portrait-float" id="hero-portrait">
-              <div class="absolute -inset-1 border border-cyber-cyan/20 rounded-lg transition-all duration-500 group-hover:border-cyber-cyan/40" style="transform: translate(6px, 6px);"></div>
-              <div class="absolute -inset-1 border border-cyber-orange/15 rounded-lg transition-all duration-500 group-hover:border-cyber-orange/30" style="transform: translate(-4px, -4px);"></div>
-              <div class="absolute inset-0 border border-cyber-orange/40 rounded-lg animate-breath-glow z-10"></div>
-
-              <div class="w-full bg-cyber-dark rounded-lg overflow-hidden relative">
-                <img
-                  src="/dp/AYUSH'S%20HEADSHOT.webp"
-                  alt="Ayush Saha"
-                  class="w-full h-auto object-cover block portrait-monochrome"
-                  loading="lazy"
-                  id="hero-portrait-img"
-                />
-                <div class="portrait-holographic"></div>
-                <div class="portrait-scan-sweep"></div>
-                <div class="portrait-grain-overlay"></div>
-                <div class="portrait-edge-glow"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-cyber-black/30 to-transparent pointer-events-none"></div>
-
-                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-                  <div class="space-y-1 text-xs font-mono">
-                    <div class="flex items-center gap-2">
-                      <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]"></span>
-                      <span class="text-green-400 text-[10px] uppercase tracking-wider">STATUS: ONLINE</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-cyber-muted">LOCATION:</span>
-                      <span class="text-cyber-text">West Bengal</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="corner-decor tl animate-corner-pulse"></div>
-              <div class="corner-decor tr animate-corner-pulse" style="animation-delay: 0.5s"></div>
-              <div class="corner-decor bl animate-corner-pulse" style="animation-delay: 1s"></div>
-              <div class="corner-decor br animate-corner-pulse" style="animation-delay: 1.5s"></div>
-            </div>
-          </div>
+          <LiquidMetalButton
+            client:load
+            href="#contact"
+            size="md"
+            borderWidth={2}
+            metalConfig={{ speed: 0.5, distortion: 0.18, colorTint: "#ffffff" }}
+          >
+            Get in Touch
+          </LiquidMetalButton>
         </div>
       </div>
     </section>
@@ -99,48 +98,7 @@ import Footer from '../components/Footer.astro';
     <Skills />
     <Projects />
     <Resume />
-    <Footer />
   </main>
+
+  <Footer />
 </BaseLayout>
-
-<script>
-  (function() {
-    const bootContainer = document.getElementById('boot-sequence');
-    const wrapper = bootContainer?.querySelector('.boot-wrapper');
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!wrapper) return;
-
-    let bootKey = 0;
-
-    function playBoot() {
-      if (reduced) {
-        wrapper.querySelectorAll('.boot-line').forEach(el => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; el.style.filter = 'blur(0px)'; });
-        return;
-      }
-      bootKey++;
-      bootContainer?.setAttribute('data-key', bootKey);
-      wrapper.classList.remove('boot-active');
-      void wrapper.offsetHeight;
-      wrapper.classList.add('boot-active');
-    }
-
-    const hero = document.getElementById('home');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { playBoot(); obs.disconnect(); }
-      });
-    }, { threshold: 0.3 });
-    if (hero) obs.observe(hero);
-
-    const portrait = document.getElementById('hero-portrait');
-    if (portrait && !reduced) {
-      portrait.addEventListener('mousemove', (e) => {
-        const rect = portrait.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        portrait.style.transform = `translate(${x * 8}px, ${y * 6}px)`;
-      });
-      portrait.addEventListener('mouseleave', () => { portrait.style.transform = ''; });
-    }
-  })();
-</script>

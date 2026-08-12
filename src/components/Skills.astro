@@ -1,220 +1,125 @@
 ---
+import { FlipFadeText } from './ui/flip-fade-text';
+import { LineHoverLink } from './ui/line-hover-link';
+import { GenerateButton } from './ui/generate-button';
+import { BorderBeam } from './ui/border-beam';
+
 const skillCategories = [
-  { title: "Languages", icon: "fas fa-code", skills: ["Java", "Python", "C"] },
-  { title: "Libraries/Frameworks", icon: "fas fa-layer-group", skills: ["FastAPI", "LangChain", "LangGraph", "LlamaIndex", "FastMCP", "REST APIs"] },
-  { title: "Databases", icon: "fas fa-database", skills: ["PostgreSQL", "MySQL", "Redis", "Qdrant"] },
-  { title: "Cloud/Deployment", icon: "fas fa-cloud", skills: ["Docker", "Vercel", "Supabase", "Neon", "Render", "Git", "Linux"] },
-  { title: "Coursework", icon: "fas fa-book", skills: ["Data Structures & Algorithms", "Operating Systems", "DBMS", "Computer Networks", "OOP"] },
-  { title: "Generative AI", icon: "fas fa-robot", skills: ["RAG", "AI Agents", "LangGraph", "NLP", "Transformers", "Open Source LLMs", "MCP"], primary: true },
+  { title: "Generative AI", skills: ["Retrieval-Augmented Generation (RAG)", "Agentic AI", "Model Context Protocol (MCP)", "Prompt Engineering", "NLP", "Transformers", "Open-Source LLMs"] },
+  { title: "Frameworks & Libraries", skills: ["FastAPI", "LangChain", "LangGraph", "LlamaIndex"] },
+  { title: "Languages", skills: ["Go", "Python", "Java"] },
+  { title: "Databases", skills: ["PostgreSQL", "MySQL", "Redis", "Qdrant"] },
+  { title: "Cloud & DevOps", skills: ["Docker", "Vercel", "Supabase", "Neon", "Render", "Git"] },
+  { title: "Coursework", skills: ["Operating Systems", "Database Management Systems", "Computer Networks", "Object-Oriented Programming"] },
+];
+
+const skillsHeadings = [
+  "TECHNICAL STACK & CORE EXPERTISE",
+  "GENERATIVE AI & AGENTIC SYSTEMS",
+  "HIGH PERFORMANCE INFRASTRUCTURE"
 ];
 ---
 
-<section id="skills" class="section-skills section-observer relative min-h-screen py-32 px-6 bg-cyber-dark">
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title cmd-fade-unit" id="skills-terminal-title">_</span>
-      </div>
+<!-- Vengeance UI Skills Section with Clean 3D Cylinder Cards -->
+<section id="skills" class="relative py-28 sm:py-40 px-5 sm:px-8 bg-[#030406] overflow-visible">
+  <div class="shell">
+    <div class="flex flex-col items-center text-center mb-16">
+      <!-- Heading in Solid Clean White -->
+      <FlipFadeText
+        client:visible
+        words={skillsHeadings}
+        interval={3500}
+        letterDuration={0.5}
+        staggerDelay={0.04}
+        className="justify-center text-center min-h-[100px]"
+        textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl"
+      />
+    </div>
 
-      <div class="terminal-status">
-        <span class="status-item">
-          <span class="status-label">MEM</span>
-          <span class="status-value" id="status-mem">842MB</span>
-        </span>
-        <span class="status-divider">|</span>
-        <span class="status-item">
-          <span class="status-label">PROC</span>
-          <span class="status-value" id="status-proc">load_stack.sh</span>
-        </span>
-        <span class="status-divider">|</span>
-        <span class="status-item">
-          <span class="status-label">PID</span>
-          <span class="status-value" id="status-pid">1337</span>
-        </span>
-        <span class="status-divider">|</span>
-        <span class="status-item">
-          <span class="status-label">UPTIME</span>
-          <span class="status-value" id="status-uptime">00:00:00</span>
-        </span>
-        <span class="status-divider">|</span>
-        <span class="status-item">
-          <span class="status-label">STATUS</span>
-          <span class="status-value green" id="status-state">BOOT</span>
-        </span>
-      </div>
+    <!-- 3D Cylinder Stage with Height Padding to Ensure Top and Bottom are Never Cut Off -->
+    <div class="cylinder-stage py-16 min-h-[38rem] overflow-visible">
+      <div id="cylinder-ring" class="cylinder-ring">
+        {skillCategories.map((category, idx) => (
+          <div
+            class="cylinder-card p-6 sm:p-8 text-white flex flex-col justify-between"
+            data-index={idx}
+            style={`transform: rotateY(${idx * 60}deg) translateZ(420px);`}
+          >
+            <!-- 2 White Animated Border Beams -->
+            <BorderBeam client:visible size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+            <BorderBeam client:visible size={280} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
-      <div class="terminal-body">
-        <h2 class="font-display text-3xl font-bold text-cyber-text mb-2">
-          <span class="text-cyber-orange command-prompt"></span>Technical Skills
-        </h2>
-        <p class="text-cyber-muted text-sm mb-6 font-mono cmd-fade-unit" id="skills-subtitle">
-          <span class="text-cyber-orange">$</span> <span id="cmd-line">root@ayush:~/skills$ <span class="text-cyber-text">_</span></span>
-        </p>
+            <div>
+              <!-- Clean Header: Title + Skills Count Badge -->
+              <div class="mb-6 pb-4 border-b border-white/10 flex items-center justify-between gap-3">
+                <h3 class="font-extrabold text-2xl sm:text-3xl text-white tracking-tight">{category.title}</h3>
+                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">{category.skills.length} Technologies</span>
+              </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="skills-grid">
-          {skillCategories.map((category) => (
-            <div class="skill-card bg-cyber-black border border-cyber-orange/15 rounded-lg p-5 hover:border-cyber-orange/50 hover:shadow-[0_0_30px_rgba(255,107,0,0.12)] transition-all duration-200 group relative overflow-hidden">
-              <span class="card-noise"></span>
-              <span class="card-glow-tl"></span>
-              <span class="card-glow-br"></span>
-
-              {category.primary && (
-                <div class="absolute top-3 right-3 z-10 border border-cyber-cyan/30 bg-cyber-cyan/5 text-cyber-cyan text-[9px] uppercase tracking-[0.15em] px-2 py-0.5 rounded">
-                  primary stack
-                </div>
-              )}
-
-              {category.primary && (
-                <div class="absolute inset-0 bg-gradient-to-br from-cyber-orange/[0.03] to-transparent pointer-events-none z-[1]"></div>
-              )}
-
-              <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-4">
-                  <i class={`${category.icon} ${category.primary ? 'text-cyber-cyan' : 'text-cyber-orange'} text-lg group-hover:animate-neon-pulse`}></i>
-                  <h3 class="font-display text-lg font-semibold text-cyber-text">
-                    {category.title.split(' ')[0]}
-                    {category.title.includes(' ') && <span class={category.primary ? 'text-cyber-cyan' : 'text-cyber-orange'}> {category.title.split(' ').slice(1).join(' ')}</span>}
-                  </h3>
-                </div>
-
-                <div class="flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <span class="skill-chip group/chip relative overflow-hidden">
-                      <span class="relative z-10">{skill}</span>
-                      <span class="chip-scanline"></span>
-                      <span class="chip-cursor"></span>
-                    </span>
-                  ))}
-                </div>
+              <!-- Frameworks & Skill Names -->
+              <div class="flex flex-wrap gap-2.5 pt-2">
+                {category.skills.map((skill) => (
+                  <LineHoverLink client:visible variant="slide" asSpan className="px-4 py-2 text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
+                    {skill}
+                  </LineHoverLink>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
+    </div>
+
+    <!-- Vengeance UI Generate Buttons for Carousel Controls (No font-mono) -->
+    <div class="flex items-center justify-center gap-4 mt-16">
+      <GenerateButton client:visible id="cylinder-prev">
+        PREV
+      </GenerateButton>
+      <span class="text-xs text-white/60 font-medium px-2" id="cylinder-indicator">1 / 6</span>
+      <GenerateButton client:visible id="cylinder-next">
+        NEXT
+      </GenerateButton>
     </div>
   </div>
 </section>
 
 <script>
   (function() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ring = document.getElementById('cylinder-ring');
+    const prevBtn = document.getElementById('cylinder-prev');
+    const nextBtn = document.getElementById('cylinder-next');
+    const indicator = document.getElementById('cylinder-indicator');
 
-    const titleEl = document.getElementById('skills-terminal-title');
-    const subtitleEl = document.getElementById('skills-subtitle');
-    const cmdLine = document.getElementById('cmd-line');
-    const cards = document.querySelectorAll('.skill-card');
-    const statusMem = document.getElementById('status-mem');
-    const statusState = document.getElementById('status-state');
-    const statusUptime = document.getElementById('status-uptime');
+    let currentAngle = 0;
+    let currentIndex = 0;
+    const total = 6;
+    const angleStep = 60;
 
-    const fullTitle = 'root@ayush:~/skills$ ./load_stack.sh';
-    const bootLines = [
-      '<span class="text-cyber-orange">$</span> > scanning kernel modules...',
-      '<span class="text-cyber-orange">$</span> > parsing neural topology...',
-      '<span class="text-cyber-orange">$</span> > linking dependencies...',
-      '<span class="text-cyber-orange">$</span> <span class="text-green-400">6 modules loaded — STATUS: RUNNING</span>'
-    ];
-
-    let uptimeSeconds = 0;
-    let uptimeInterval = null;
-
-    function formatUptime(s) {
-      const h = String(Math.floor(s / 3600)).padStart(2, '0');
-      const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
-      const sec = String(s % 60).padStart(2, '0');
-      return `${h}:${m}:${sec}`;
-    }
-
-    function updateUptime() {
-      uptimeSeconds++;
-      if (statusUptime) statusUptime.textContent = formatUptime(uptimeSeconds);
-    }
-
-    function fadeUnit(el, html, delay, cb) {
-      if (!el) return;
-      el.classList.remove('cmd-visible');
-      void el.offsetHeight;
-      setTimeout(() => {
-        el.innerHTML = html;
-        requestAnimationFrame(() => {
-          el.classList.add('cmd-visible');
-          if (cb) setTimeout(cb, 400);
-        });
-      }, delay || 0);
-    }
-
-    function showBootLines(idx) {
-      if (idx >= bootLines.length) {
-        fadeUnit(cmdLine, '<span class="text-cyber-orange">root@ayush:~/skills$</span> <span class="text-cyber-text">./load_stack.sh</span><span class="text-green-400">  [DONE]</span>', 0, () => {
-          if (statusState) { statusState.textContent = 'RUNNING'; statusState.className = 'status-value green'; }
-          uptimeInterval = setInterval(updateUptime, 1000);
-          revealCards();
-        });
-        return;
+    function updateCylinder() {
+      if (ring) {
+        ring.style.transform = `rotateY(${currentAngle}deg)`;
       }
-      subtitleEl.innerHTML = bootLines[idx];
-      fadeUnit(subtitleEl, bootLines[idx], 0, () => {
-        if (idx === 0 && statusState) statusState.textContent = 'SCAN';
-        if (idx === 1 && statusState) statusState.textContent = 'PARSE';
-        if (idx === 2 && statusState) statusState.textContent = 'LINK';
-        setTimeout(() => showBootLines(idx + 1), 350);
-      });
-    }
-
-    function revealCards() {
-      cards.forEach((card, i) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, i * 100);
-      });
-    }
-
-    const memValues = ['842MB', '856MB', '834MB', '863MB', '847MB'];
-    function jitterMem() {
-      if (statusMem && statusState?.textContent === 'RUNNING') {
-        statusMem.textContent = memValues[Math.floor(Math.random() * memValues.length)];
+      if (indicator) {
+        indicator.textContent = `${currentIndex + 1} / ${total}`;
       }
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (statusState) statusState.textContent = 'BOOT';
-          fadeUnit(titleEl, fullTitle + '  ', 0, () => setTimeout(() => showBootLines(0), 300));
-          setInterval(jitterMem, 3000);
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.3 });
-
-    const target = titleEl?.closest('.terminal-window');
-    if (target) observer.observe(target);
-
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        const chips = card.querySelectorAll('.skill-chip');
-        chips.forEach((chip, i) => {
-          chip.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
-          setTimeout(() => {
-            chip.style.transform = 'translateY(-1px)';
-            chip.style.boxShadow = '0 0 8px rgba(255,107,0,0.15)';
-          }, i * 40);
-        });
-      });
-      card.addEventListener('mouseleave', () => {
-        const chips = card.querySelectorAll('.skill-chip');
-        chips.forEach(chip => {
-          chip.style.transform = '';
-          chip.style.boxShadow = '';
-        });
-      });
+    prevBtn?.addEventListener('click', () => {
+      currentAngle += angleStep;
+      currentIndex = (currentIndex - 1 + total) % total;
+      updateCylinder();
     });
+
+    nextBtn?.addEventListener('click', () => {
+      currentAngle -= angleStep;
+      currentIndex = (currentIndex + 1) % total;
+      updateCylinder();
+    });
+
+    setInterval(() => {
+      currentAngle -= angleStep;
+      currentIndex = (currentIndex + 1) % total;
+      updateCylinder();
+    }, 4500);
   })();
 </script>

@@ -1,215 +1,63 @@
 ---
+import { FlipFadeText } from './ui/flip-fade-text';
+import { LineHoverLink } from './ui/line-hover-link';
+import { GenerateButton } from './ui/generate-button';
+import { BorderBeam } from './ui/border-beam';
+
 const RESUME_PDF_URL = "https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf";
+
+const resumeHeadings = [
+  "PROFESSIONAL RESUME",
+  "ACADEMIC & TECHNICAL EXPERIENCE",
+  "VERIFIED CANDIDATE RECORD"
+];
 ---
 
-<section id="resume" class="section-resume section-observer relative min-h-screen py-32 px-6">
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title cmd-fade-unit" id="resume-title">classified_dossier.pdf</span>
+<section id="resume" class="relative py-24 sm:py-36 px-5 sm:px-8 bg-[#030406] border-t border-white/10">
+  <div class="shell">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+      <div>
+        <!-- Vengeance UI Flip Fade Text Heading (Clean Single-Color White) -->
+        <FlipFadeText
+          client:visible
+          words={resumeHeadings}
+          interval={3500}
+          letterDuration={0.5}
+          staggerDelay={0.04}
+          className="justify-start text-left min-h-[90px]"
+          textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl"
+        />
       </div>
-      <div class="terminal-body">
-        <div class="mb-6 flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <h2 class="font-display text-3xl font-bold text-cyber-text mb-2">
-              <span class="text-cyber-gold command-prompt"></span>Resume
-            </h2>
-            <p class="text-cyber-muted text-sm font-mono" id="resume-subtitle">
-              <span class="text-cyber-gold">$</span> <span id="resume-cmd">access classified_dossier.pdf</span><span class="cursor-blink"></span>
-            </p>
-          </div>
 
-          <a href={RESUME_PDF_URL} download target="_blank" rel="noopener noreferrer" class="terminal-btn gold group" id="dl-btn">
-            <span class="relative z-10 flex items-center gap-2">
-              <span class="text-xs opacity-60 group-hover:opacity-100 transition-opacity">></span>
-              <span>DOWNLOAD DOSSIER</span>
-              <span class="arrow text-sm">↓</span>
-              <span class="cursor-blink-btn"></span>
-            </span>
-          </a>
-        </div>
+      <!-- Vengeance UI Generate Button for Download Resume -->
+      <GenerateButton
+        client:visible
+        href={RESUME_PDF_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Download Resume
+      </GenerateButton>
+    </div>
 
-        <div class="dossier-container relative">
-          <div class="dossier-overlay" id="dossier-overlay">
-            <div class="text-center font-mono">
-              <p class="text-cyber-gold text-xs mb-3 tracking-wider uppercase" id="decrypt-label">Decrypting classified document</p>
-              <div class="progress-bar mb-3">
-                <div class="fill" id="progress-fill"></div>
-              </div>
-              <p class="text-cyber-muted text-[10px]" id="decrypt-pct">0%</p>
-            </div>
-          </div>
+    <!-- Document Panel -->
+    <div class="relative rounded-3xl bg-[#090b10] p-4 sm:p-6 text-white shadow-2xl overflow-hidden border border-white/15">
+      <!-- 2 White Animated Border Beams -->
+      <BorderBeam client:visible size={380} duration={8} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+      <BorderBeam client:visible size={380} duration={8} delay={4} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
-          <div class="dossier-meta top-right">
-            <div class="meta-row">
-              <span class="meta-label">Access:</span>
-              <span class="meta-value green">AUTHORIZED</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-label">Status:</span>
-              <span class="meta-value gold">VERIFIED</span>
-            </div>
-          </div>
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 text-xs text-white/50">
+        <span class="text-white/90 font-semibold font-sans">Resume.pdf</span>
+      </div>
 
-          <div class="dossier-meta bottom-left">
-            <div class="meta-row">
-              <span class="meta-label">File:</span>
-              <span class="meta-value">8XAF-22K</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-label">Updated:</span>
-              <span class="meta-value">2026</span>
-            </div>
-          </div>
-
-          <div class="relative" id="dossier-frame">
-            <div class="dossier-border-glow"></div>
-            <div class="dossier-corner tl"></div>
-            <div class="dossier-corner tr"></div>
-            <div class="dossier-corner bl"></div>
-            <div class="dossier-corner br"></div>
-
-            <div class="dossier-card bg-cyber-dark rounded-lg overflow-hidden relative" id="dossier-card">
-              <div class="resume-noise"></div>
-              <div class="dossier-shimmer"></div>
-
-              <div id="resume-error" class="hidden absolute inset-0 z-20 flex flex-col items-center justify-center bg-cyber-dark p-6 text-center">
-                <i class="fas fa-exclamation-triangle text-cyber-orange text-3xl mb-4"></i>
-                <p class="text-cyber-orange font-display text-sm font-bold mb-2">CONNECTION FAILED</p>
-                <p class="text-cyber-muted text-xs mb-4 max-w-xs">Could not load the dossier from remote server.</p>
-                <a href={RESUME_PDF_URL} target="_blank" rel="noopener noreferrer" class="terminal-btn gold text-xs px-4 py-2">
-                  <i class="fas fa-download text-[10px]"></i> Download Direct
-                </a>
-              </div>
-              <iframe
-                src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(RESUME_PDF_URL)}`}
-                class="w-full h-[450px] sm:h-[650px] md:h-[800px] lg:h-[1000px] xl:h-[1200px] relative z-10"
-                title="Ayush Saha Resume"
-                id="resume-iframe"
-              ></iframe>
-
-              <a href={RESUME_PDF_URL} target="_blank" rel="noopener noreferrer" id="external-link-btn" class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-cyber-gold/30 bg-cyber-black/80 text-cyber-gold text-xs px-3 py-1.5 rounded flex items-center gap-1.5 hover:bg-cyber-gold/10 hover:border-cyber-gold/60 backdrop-blur-sm">
-                <i class="fas fa-external-link-alt text-[10px] animate-pulse"></i>
-                <span>OPEN</span>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="relative rounded-2xl overflow-hidden bg-white/5">
+        <iframe
+          src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(RESUME_PDF_URL)}`}
+          class="w-full h-[500px] sm:h-[700px] md:h-[900px] border-none"
+          title="Ayush Saha Resume"
+          id="resume-iframe"
+        ></iframe>
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  (function() {
-    const overlay = document.getElementById('dossier-overlay');
-    const progressFill = document.getElementById('progress-fill');
-    const decryptPct = document.getElementById('decrypt-pct');
-    const decryptLabel = document.getElementById('decrypt-label');
-    const card = document.getElementById('dossier-card');
-    const frame = document.getElementById('dossier-frame');
-    const subtitle = document.getElementById('resume-subtitle');
-    const cmd = document.getElementById('resume-cmd');
-    const titleEl = document.getElementById('resume-title');
-
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function hideOverlay() {
-      if (!overlay) return;
-      overlay.classList.add('hidden');
-      overlay.style.display = 'none';
-      if (subtitle) {
-        subtitle.innerHTML = `<span class="text-cyber-gold">$</span> <span class="text-green-400">dossier decrypted — access granted</span><span class="cursor-blink"></span>`;
-      }
-      if (cmd) cmd.innerHTML = '<span class="text-cyber-gold">classified_dossier.pdf</span>';
-    }
-
-    if (isReduced) { hideOverlay(); return; }
-
-    let decrypted = false;
-
-    const labelStages = [
-      'Decrypting classified document',
-      'Bypassing security layers...',
-      'Reconstructing payload...',
-      'Verifying checksum...',
-      'Access granted'
-    ];
-
-    function fadeUnit(el, str, cb) {
-      if (!el) return;
-      el.classList.remove('cmd-visible');
-      void el.offsetHeight;
-      requestAnimationFrame(() => {
-        el.textContent = str;
-        requestAnimationFrame(() => {
-          el.classList.add('cmd-visible');
-          if (cb) setTimeout(cb, 350);
-        });
-      });
-    }
-
-    function runDecryption() {
-      if (decrypted) return;
-      decrypted = true;
-      let progress = 0;
-      function tick() {
-        progress += Math.floor(Math.random() * 8) + 3;
-        if (progress > 100) progress = 100;
-        if (progressFill) progressFill.style.width = progress + '%';
-        if (decryptPct) decryptPct.textContent = progress + '%';
-        const stageIdx = Math.min(Math.floor(progress / 20), labelStages.length - 1);
-        if (decryptLabel) decryptLabel.textContent = labelStages[stageIdx];
-        if (progress < 100) setTimeout(tick, 120 + Math.random() * 80);
-        else setTimeout(hideOverlay, 300);
-      }
-      tick();
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          fadeUnit(titleEl, 'root@ayush:~/resume$ ./decrypt_dossier.sh  ', () => setTimeout(runDecryption, 400));
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.1 });
-
-    const target = titleEl?.closest('.terminal-window');
-    if (target) observer.observe(target);
-    setTimeout(() => { if (!decrypted) hideOverlay(); }, 4000);
-
-    const externalBtn = document.getElementById('external-link-btn');
-    if (frame && externalBtn) {
-      frame.addEventListener('mouseenter', () => { externalBtn.style.opacity = '1'; });
-      frame.addEventListener('mouseleave', () => { externalBtn.style.opacity = '0'; });
-    }
-
-    if (card) {
-      card.style.transform = 'none';
-    }
-
-    const resumeIframe = document.getElementById('resume-iframe');
-    const resumeError = document.getElementById('resume-error');
-    if (resumeIframe && resumeError) {
-      let errorShown = false;
-      function showError() {
-        if (errorShown) return;
-        errorShown = true;
-        resumeIframe.style.display = 'none';
-        resumeError.classList.remove('hidden');
-        resumeError.classList.add('flex');
-      }
-      resumeIframe.addEventListener('error', showError);
-      setTimeout(() => {
-        try {
-          const doc = resumeIframe.contentDocument || resumeIframe.contentWindow?.document;
-          if (doc && doc.body.innerHTML.trim() === '') showError();
-        } catch {}
-      }, 10000);
-    }
-  })();
-</script>

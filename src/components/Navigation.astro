@@ -1,116 +1,65 @@
 ---
+import { LineHoverLink } from './ui/line-hover-link';
+
 const navItems = [
-  { type: 'link', label: 'Home', href: '#home' },
-  { type: 'link', label: 'Skills', href: '#skills' },
-  { type: 'link', label: 'Projects', href: '#projects' },
-  { type: 'link', label: 'Resume', href: '#resume' },
-  { type: 'link', label: 'Contact', href: '#contact' },
-  { type: 'spacer' },
-  { type: 'social', url: "https://github.com/AyushSaha184", icon: "fab fa-github", label: "GitHub" },
-  { type: 'social', url: "https://www.linkedin.com/in/AyushSaha184", icon: "fab fa-linkedin-in", label: "LinkedIn" },
+  { label: 'Home', href: '#home', variant: 'slide' },
+  { label: 'Skills', href: '#skills', variant: 'slide' },
+  { label: 'Projects', href: '#projects', variant: 'slide' },
+  { label: 'Resume', href: '#resume', variant: 'slide' },
+  { label: 'Contact', href: '#contact', variant: 'slide' },
 ];
 
-const mobileNavLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Resume', href: '#resume' },
-  { label: 'Contact', href: '#contact' },
-];
-
-const mobileSocials = [
-  { url: "https://github.com/AyushSaha184", icon: "fab fa-github", label: "GitHub" },
-  { url: "https://www.linkedin.com/in/AyushSaha184", icon: "fab fa-linkedin-in", label: "LinkedIn" },
+const socials = [
+  { url: "https://github.com/AyushSaha184", label: "GitHub" },
+  { url: "https://www.linkedin.com/in/AyushSaha184", label: "LinkedIn" },
 ];
 ---
 
-<nav data-lenis-prevent class="fixed top-0 left-0 right-0 z-50 bg-cyber-black/80 backdrop-blur-md border-b border-cyber-orange/10">
-  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-    <a href="#home" class="group font-display text-lg font-bold text-cyber-orange tracking-[0.15em] relative">
-      PORTFOLIO
-      <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-cyber-orange/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+<!-- Vengeance UI Spotlight Navbar with Search Button outside -->
+<header class="spotlight-nav-wrap flex items-center justify-between gap-3">
+  <!-- Center Main Nav Pill -->
+  <div class="spotlight-nav flex items-center justify-between gap-4 flex-1 relative overflow-hidden">
+    <!-- Left: Brand "Ayush Saha" -->
+    <a href="#home" class="flex items-center gap-2 text-white font-bold tracking-tight text-sm shrink-0 hover:text-white transition-colors relative z-20">
+      <span class="font-bold text-sm tracking-wide text-white">Ayush Saha</span>
     </a>
 
-    <div class="hidden md:flex items-center justify-center flex-1 mx-4 gap-1">
-      {navItems.filter(i => i.type === 'link').map((item, i, arr) => (
-        <>
-          {i > 0 && <span class="text-cyber-muted/30 text-[10px] mx-0.5 select-none">/</span>}
-          <a href={item.href} class="relative px-2 py-1 text-[11px] uppercase tracking-[0.2em] text-cyber-muted hover:text-cyber-orange transition-colors duration-200 group">
-            {item.label}
-            <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-cyber-orange group-hover:w-full transition-all duration-200"></span>
-          </a>
-        </>
+    <!-- Center Nav: Line Hover Links -->
+    <nav class="flex items-center gap-3 sm:gap-5 overflow-x-auto no-scrollbar py-1 relative z-20">
+      {navItems.map((item) => (
+        <LineHoverLink
+          client:load
+          href={item.href}
+          variant="slide"
+          className="text-xs sm:text-sm text-white/80 hover:text-white"
+        >
+          {item.label}
+        </LineHoverLink>
+      ))}
+    </nav>
+
+    <!-- Right: Socials -->
+    <div class="flex items-center gap-3 shrink-0 relative z-20">
+      {socials.map((s) => (
+        <LineHoverLink
+          client:load
+          href={s.url}
+          target="_blank"
+          variant="slide"
+          className="text-xs sm:text-sm text-white/70 hover:text-white"
+        >
+          {s.label}
+        </LineHoverLink>
       ))}
     </div>
-
-    <div class="hidden md:flex items-center gap-2 ml-auto">
-      {navItems.filter(i => i.type === 'social').map((item, i, arr) => (
-        <>
-          {i > 0 && <span class="text-cyber-muted/30 text-[10px] select-none">/</span>}
-          <a href={item.url} target="_blank" rel="noopener noreferrer" class="text-cyber-muted hover:text-cyber-orange transition-colors duration-200 glitch-text text-sm" title={item.label}>
-            <i class={item.icon}></i>
-          </a>
-        </>
-      ))}
-    </div>
-
-    <div class="md:hidden"></div>
-
-    <button id="mobile-menu-btn" class="md:hidden text-cyber-orange p-2 absolute right-6" aria-label="Toggle menu">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-cyber-dark/95 border-t border-cyber-orange/10">
-    <div class="px-6 py-4 flex flex-col gap-3">
-      {mobileNavLinks.map((link) => (
-        <a href={link.href} class="text-cyber-muted hover:text-cyber-orange transition-colors uppercase tracking-[0.15em] text-sm">
-          {link.label}
-        </a>
-      ))}
-      <hr class="border-cyber-orange/10 my-2" />
-      <div class="flex gap-4">
-        {mobileSocials.map((social) => (
-          <a href={social.url} target="_blank" rel="noopener noreferrer" class="text-cyber-muted hover:text-cyber-orange transition-colors text-lg" title={social.label}>
-            <i class={social.icon}></i>
-          </a>
-        ))}
-      </div>
-    </div>
-  </div>
-</nav>
-
-<script>
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  menuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-  });
-
-  document.querySelectorAll('#mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu?.classList.add('hidden');
-    });
-  });
-
-  const navLinks = document.querySelectorAll('nav a[href^="#"]');
-  const sections = navLinks.length ? [...navLinks].map(l => document.querySelector(l.getAttribute('href')!)).filter(Boolean) : [];
-
-  const updateActive = () => {
-    let current = '';
-    sections.forEach(s => {
-      if (s && window.scrollY >= s.offsetTop - 200) current = s.id;
-    });
-    navLinks.forEach(l => {
-      const isActive = l.getAttribute('href') === `#${current}`;
-      l.classList.toggle('text-cyber-orange', isActive);
-      l.classList.toggle('text-cyber-muted', !isActive);
-    });
-  };
-
-  window.addEventListener('scroll', updateActive, { passive: true });
-  updateActive();
-</script>
+  <!-- Right Side Outside Navbar: Search with AI Button -->
+  <button
+    id="ai-search-trigger"
+    type="button"
+    class="relative flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#090b10]/90 backdrop-blur-xl border border-white/15 text-white text-xs sm:text-sm font-semibold hover:bg-white/15 hover:border-white/30 transition-all shadow-xl shrink-0 overflow-hidden group cursor-pointer"
+  >
+    <span class="relative z-20 tracking-wide text-white font-medium">Search with AI</span>
+  </button>
+</header>

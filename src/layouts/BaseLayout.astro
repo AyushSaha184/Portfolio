@@ -1,14 +1,14 @@
 ---
-import '@fontsource-variable/jetbrains-mono';
-import '@fontsource-variable/orbitron';
 import '../styles/global.css';
+import { SpotlightNew } from '../components/ui/spotlight-new';
+import { PageLoader } from '../components/PageLoader';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "AI Developer & Computer Science Student" } = Astro.props;
+const { title, description = "Ayush Saha | AI Developer & Computer Science Student" } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -19,73 +19,65 @@ const { title, description = "AI Developer & Computer Science Student" } = Astro
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#030406" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
   </head>
-  <body class="bg-cyber-black text-cyber-text font-mono">
-    <div class="noise-overlay" aria-hidden="true"></div>
-    <div class="scanline-bar" aria-hidden="true"></div>
-    <slot />
+  <body class="bg-[#030406] text-[#f3f4f6] font-sans antialiased overflow-x-hidden relative min-h-screen">
+    <!-- Aceternity UI MultiStepLoader (Loading Screen) -->
+    <PageLoader client:load />
+
+    <!-- Aceternity UI SpotlightNew Background (Ambient Multi-Cone Spotlight Beams) -->
+    <SpotlightNew client:load />
+
+    <div class="relative z-10">
+      <slot />
+    </div>
 
     <script>
+      import Lenis from 'lenis';
+
       (function() {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (!reduced && !('ontouchstart' in window)) {
-          import('lenis').then(m => m.default).then(Lenis => {
-            const lenis = new Lenis({ lerp: 0.1 });
-            import('gsap').then(m1 => {
-              import('gsap/ScrollTrigger').then(m2 => {
-                m1.gsap.registerPlugin(m2.ScrollTrigger);
-                lenis.on('scroll', m2.ScrollTrigger.update);
-                m1.gsap.ticker.add(t => lenis.raf(t * 1000));
-                m1.gsap.ticker.lagSmoothing(0);
-              });
-            });
-          });
+        if (!reduced) {
+          const lenis = new Lenis({ smoothWheel: true });
+          function raf(t: number) {
+            lenis.raf(t);
+            requestAnimationFrame(raf);
+          }
+          requestAnimationFrame(raf);
         }
 
-        const observers = document.querySelectorAll('.section-observer');
-        const sectionObs = new IntersectionObserver((entries) => {
+        // Spotlight Navbar mousemove tracking
+        window.addEventListener('pointermove', (e) => {
+          const nav = document.querySelector('.spotlight-nav') as HTMLElement;
+          if (nav) {
+            const rect = nav.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            nav.style.setProperty('--mouse-x', `${x}px`);
+            nav.style.setProperty('--mouse-y', `${y}px`);
+          }
+        });
+
+        // IntersectionObserver for Vengeance UI Flip Fade Text & scroll reveals
+        const headings = document.querySelectorAll('.flip-fade-text');
+        const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('active');
+            } else {
+              // Re-trigger animation when scrolled out & back in
+              entry.target.classList.remove('active');
             }
           });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        observers.forEach(el => sectionObs.observe(el));
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        if (!reduced) {
-          const idleTargets = [
-            ...document.querySelectorAll('.terminal-status .status-value'),
-            ...document.querySelectorAll('.sys-stat .stat-value'),
-          ];
-          if (idleTargets.length) {
-            setInterval(() => {
-              const pick = idleTargets[Math.floor(Math.random() * idleTargets.length)];
-              if (pick) {
-                pick.classList.add('idle-flicker');
-                setTimeout(() => pick.classList.remove('idle-flicker'), 200);
-              }
-            }, 6000);
-          }
-
-          document.querySelectorAll('.terminal-window').forEach(tw => {
-            const scan = document.createElement('div');
-            scan.className = 'idle-scanline';
-            scan.setAttribute('aria-hidden', 'true');
-            tw.style.position = 'relative';
-            tw.appendChild(scan);
-          });
-
-          const statLatency = document.getElementById('stat-latency');
-          if (statLatency) {
-            setInterval(() => {
-              statLatency.textContent = (Math.floor(Math.random() * 10) + 6) + 'ms';
-            }, 3000);
-          }
-        }
+        headings.forEach(h => observer.observe(h));
       })();
     </script>
   </body>
