@@ -20,10 +20,10 @@ const skillsHeadings = [
 ];
 ---
 
-<!-- Vengeance UI Skills Section with Clean 3D Cylinder Cards -->
-<section id="skills" class="relative py-28 sm:py-40 px-5 sm:px-8 bg-transparent overflow-visible">
+<!-- Vengeance UI Skills Section with Smart Hover/Interaction Pause -->
+<section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-visible">
   <div class="shell">
-    <div class="flex flex-col items-center text-center mb-16">
+    <div class="flex flex-col items-center text-center mb-10 sm:mb-16">
       <!-- Heading in Solid Clean White -->
       <FlipFadeText
         client:visible
@@ -31,19 +31,19 @@ const skillsHeadings = [
         interval={3500}
         letterDuration={0.5}
         staggerDelay={0.04}
-        className="justify-center text-center min-h-[100px]"
-        textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl"
+        className="justify-center text-center min-h-[80px] sm:min-h-[100px]"
+        textClassName="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl"
       />
     </div>
 
-    <!-- 3D Cylinder Stage with Height Padding to Ensure Top and Bottom are Never Cut Off -->
-    <div class="cylinder-stage py-16 min-h-[38rem] overflow-visible">
+    <!-- 3D Cylinder Stage with Dynamic Radius & Depth Stacking -->
+    <div class="cylinder-stage py-10 sm:py-16 min-h-[26rem] sm:min-h-[38rem] overflow-visible">
       <div id="cylinder-ring" class="cylinder-ring">
         {skillCategories.map((category, idx) => (
           <div
-            class="cylinder-card p-6 sm:p-8 text-white flex flex-col justify-between"
+            class="cylinder-card p-5 sm:p-7 text-white flex flex-col justify-between"
             data-index={idx}
-            style={`transform: rotateY(${idx * 60}deg) translateZ(420px);`}
+            style={`transform: rotateY(${idx * 60}deg) translateZ(440px);`}
           >
             <!-- 2 White Animated Border Beams -->
             <BorderBeam client:visible size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
@@ -51,15 +51,15 @@ const skillsHeadings = [
 
             <div>
               <!-- Clean Header: Title + Skills Count Badge -->
-              <div class="mb-6 pb-4 border-b border-white/10 flex items-center justify-between gap-3">
-                <h3 class="font-extrabold text-2xl sm:text-3xl text-white tracking-tight">{category.title}</h3>
-                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">{category.skills.length} Technologies</span>
+              <div class="mb-3 sm:mb-5 pb-3 border-b border-white/10 flex items-center justify-between gap-2">
+                <h3 class="font-extrabold text-xl sm:text-2xl md:text-3xl text-white tracking-tight">{category.title}</h3>
+                <span class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">{category.skills.length} Technologies</span>
               </div>
 
               <!-- Frameworks & Skill Names -->
-              <div class="flex flex-wrap gap-2.5 pt-2">
+              <div class="flex flex-wrap gap-2 sm:gap-2.5 pt-1">
                 {category.skills.map((skill) => (
-                  <LineHoverLink client:visible variant="slide" asSpan className="px-4 py-2 text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
+                  <LineHoverLink client:visible variant="slide" asSpan className="px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
                     {skill}
                   </LineHoverLink>
                 ))}
@@ -70,56 +70,135 @@ const skillsHeadings = [
       </div>
     </div>
 
-    <!-- Vengeance UI Generate Buttons for Carousel Controls (No font-mono) -->
-    <div class="flex items-center justify-center gap-4 mt-16">
-      <GenerateButton client:visible id="cylinder-prev">
-        PREV
+    <!-- Navigation Controls for 3D Carousel -->
+    <div class="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-12 relative z-20">
+      <GenerateButton client:visible id="cylinder-prev" aria-label="Previous Category">
+        Prev
       </GenerateButton>
-      <span class="text-xs text-white/60 font-medium px-2" id="cylinder-indicator">1 / 6</span>
-      <GenerateButton client:visible id="cylinder-next">
-        NEXT
+
+      <span id="cylinder-indicator" class="text-xs sm:text-sm font-semibold tracking-widest text-white/70 min-w-[4rem] text-center">
+        1 / 6
+      </span>
+
+      <GenerateButton client:visible id="cylinder-next" aria-label="Next Category">
+        Next
       </GenerateButton>
     </div>
   </div>
 </section>
 
 <script>
-  (function() {
+  (() => {
     const ring = document.getElementById('cylinder-ring');
     const prevBtn = document.getElementById('cylinder-prev');
     const nextBtn = document.getElementById('cylinder-next');
     const indicator = document.getElementById('cylinder-indicator');
+    const skillsSection = document.getElementById('skills');
 
     let currentAngle = 0;
     let currentIndex = 0;
     const total = 6;
     const angleStep = 60;
+    let isHovered = false;
+    let autoRotateTimer: any = null;
+    const AUTO_ROTATE_DELAY_MS = 8000; // 8 seconds idle interval
 
-    function updateCylinder() {
+    function getRadius() {
+      return window.innerWidth < 640 ? 280 : window.innerWidth < 1024 ? 370 : 460;
+    }
+
+    function updateCardPositions() {
+      const radius = getRadius();
+      const cards = ring?.querySelectorAll('.cylinder-card');
+      cards?.forEach((card, idx) => {
+        const el = card as HTMLElement;
+        el.style.transform = `rotateY(${idx * angleStep}deg) translateZ(${radius}px)`;
+      });
+      updateDepthStacking();
+    }
+
+    function updateDepthStacking() {
       if (ring) {
         ring.style.transform = `rotateY(${currentAngle}deg)`;
       }
+
+      const cards = ring?.querySelectorAll('.cylinder-card');
+      cards?.forEach((card, idx) => {
+        const el = card as HTMLElement;
+        let relAngle = ((idx * angleStep + currentAngle) % 360 + 360) % 360;
+        if (relAngle > 180) relAngle = 360 - relAngle;
+
+        if (relAngle < 30) {
+          // Active front card
+          el.style.zIndex = '30';
+          el.style.opacity = '1';
+          el.style.filter = 'none';
+        } else if (relAngle < 90) {
+          // Immediate side cards
+          el.style.zIndex = '10';
+          el.style.opacity = '0.4';
+          el.style.filter = 'blur(2px)';
+        } else {
+          // Back hidden cards
+          el.style.zIndex = '1';
+          el.style.opacity = '0.1';
+          el.style.filter = 'blur(4px)';
+        }
+      });
+
       if (indicator) {
         indicator.textContent = `${currentIndex + 1} / ${total}`;
       }
     }
 
+    function startAutoRotate() {
+      stopAutoRotate();
+      autoRotateTimer = setInterval(() => {
+        if (!isHovered) {
+          currentAngle -= angleStep;
+          currentIndex = (currentIndex + 1) % total;
+          updateDepthStacking();
+        }
+      }, AUTO_ROTATE_DELAY_MS);
+    }
+
+    function stopAutoRotate() {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
+    }
+
+    function resetAutoRotateWithDelay() {
+      stopAutoRotate();
+      startAutoRotate();
+    }
+
+    // Pause auto-rotation when user hovers or interacts with the skills section
+    if (skillsSection) {
+      skillsSection.addEventListener('mouseenter', () => { isHovered = true; });
+      skillsSection.addEventListener('mouseleave', () => { isHovered = false; resetAutoRotateWithDelay(); });
+      skillsSection.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
+      skillsSection.addEventListener('touchend', () => { isHovered = false; resetAutoRotateWithDelay(); }, { passive: true });
+    }
+
+    updateCardPositions();
+    window.addEventListener('resize', updateCardPositions);
+
     prevBtn?.addEventListener('click', () => {
       currentAngle += angleStep;
       currentIndex = (currentIndex - 1 + total) % total;
-      updateCylinder();
+      updateDepthStacking();
+      resetAutoRotateWithDelay();
     });
 
     nextBtn?.addEventListener('click', () => {
       currentAngle -= angleStep;
       currentIndex = (currentIndex + 1) % total;
-      updateCylinder();
+      updateDepthStacking();
+      resetAutoRotateWithDelay();
     });
 
-    setInterval(() => {
-      currentAngle -= angleStep;
-      currentIndex = (currentIndex + 1) % total;
-      updateCylinder();
-    }, 4500);
+    startAutoRotate();
   })();
 </script>

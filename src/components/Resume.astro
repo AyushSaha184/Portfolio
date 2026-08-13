@@ -4,7 +4,8 @@ import { LineHoverLink } from './ui/line-hover-link';
 import { GenerateButton } from './ui/generate-button';
 import { BorderBeam } from './ui/border-beam';
 
-const RESUME_PDF_URL = "https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf";
+const RESUME_PDF_URL = "/Resume.pdf";
+const GITHUB_RESUME_URL = "https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf";
 
 const resumeHeadings = [
   "PROFESSIONAL RESUME",
@@ -13,48 +14,62 @@ const resumeHeadings = [
 ];
 ---
 
-<section id="resume" class="relative py-24 sm:py-36 px-5 sm:px-8 bg-transparent border-t border-white/10">
+<!-- Vengeance UI Resume Section with Native Embedded PDF Viewer -->
+<section id="resume" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent border-t border-white/10">
   <div class="shell">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14">
       <div>
-        <!-- Vengeance UI Flip Fade Text Heading (Clean Single-Color White) -->
+        <!-- Vengeance UI Flip Fade Text Heading -->
         <FlipFadeText
           client:visible
           words={resumeHeadings}
           interval={3500}
           letterDuration={0.5}
           staggerDelay={0.04}
-          className="justify-start text-left min-h-[90px]"
-          textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl"
+          className="justify-start text-left min-h-[70px] sm:min-h-[90px]"
+          textClassName="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl"
         />
       </div>
 
-      <!-- Vengeance UI Generate Button for Download Resume -->
+      <!-- Download Resume PDF Button -->
       <GenerateButton
         client:visible
-        href={RESUME_PDF_URL}
+        href={GITHUB_RESUME_URL}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Download Resume
+        Download Resume (PDF)
       </GenerateButton>
     </div>
 
-    <!-- Document Panel -->
-    <div class="relative rounded-3xl bg-[#090b10] p-4 sm:p-6 text-white shadow-2xl overflow-hidden border border-white/15">
+    <!-- Resume Document Panel Container -->
+    <div class="relative rounded-3xl bg-[#090b10] p-4 sm:p-7 text-white shadow-2xl overflow-hidden border border-white/15">
       <!-- 2 White Animated Border Beams -->
       <BorderBeam client:visible size={380} duration={8} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
       <BorderBeam client:visible size={380} duration={8} delay={4} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
-      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 text-xs text-white/50">
-        <span class="text-white/90 font-semibold font-sans">Resume.pdf</span>
+      <!-- Top Header Bar -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 text-xs sm:text-sm text-white/70">
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-white text-sm sm:text-base">Resume.pdf</span>
+          <span class="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-white/80">Ayush Saha • AI Engineer</span>
+        </div>
+        <a
+          href={GITHUB_RESUME_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-white/70 hover:text-white underline decoration-white/30"
+        >
+          Open External
+        </a>
       </div>
 
-      <div class="relative rounded-2xl overflow-hidden bg-white/5">
+      <!-- Native Embedded PDF Viewer Container -->
+      <div class="relative rounded-2xl overflow-hidden bg-[#030406] border border-white/10 mt-4">
         <iframe
-          src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(RESUME_PDF_URL)}`}
-          class="w-full h-[500px] sm:h-[700px] md:h-[900px] border-none"
-          title="Ayush Saha Resume"
+          src={`${RESUME_PDF_URL}#toolbar=0&navpanes=0`}
+          class="w-full h-[550px] sm:h-[750px] md:h-[950px] border-none"
+          title="Ayush Saha Resume PDF Preview"
           id="resume-iframe"
         ></iframe>
       </div>
