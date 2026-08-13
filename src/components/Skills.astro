@@ -20,10 +20,10 @@ const skillsHeadings = [
 ];
 ---
 
-<!-- Vengeance UI Skills Section with Smart Hover/Interaction Pause -->
+<!-- Vengeance UI Skills Section with Squarish Proportions & Bottom Clearance -->
 <section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-visible">
   <div class="shell">
-    <div class="flex flex-col items-center text-center mb-10 sm:mb-16">
+    <div class="flex flex-col items-center text-center mb-8 sm:mb-14">
       <!-- Heading in Solid Clean White -->
       <FlipFadeText
         client:visible
@@ -36,14 +36,14 @@ const skillsHeadings = [
       />
     </div>
 
-    <!-- 3D Cylinder Stage with Dynamic Radius & Depth Stacking -->
-    <div class="cylinder-stage py-10 sm:py-16 min-h-[26rem] sm:min-h-[38rem] overflow-visible">
+    <!-- 3D Cylinder Stage with Plenty of Vertical Clearance -->
+    <div class="cylinder-stage pt-6 sm:pt-10 pb-8 sm:pb-12 min-h-[28rem] sm:min-h-[34rem] overflow-visible">
       <div id="cylinder-ring" class="cylinder-ring">
         {skillCategories.map((category, idx) => (
           <div
-            class="cylinder-card p-5 sm:p-7 text-white flex flex-col justify-between"
+            class="cylinder-card p-5 sm:p-7 md:p-8 text-white flex flex-col justify-between"
             data-index={idx}
-            style={`transform: rotateY(${idx * 60}deg) translateZ(440px);`}
+            style={`transform: rotateY(${idx * 60}deg) translateZ(420px);`}
           >
             <!-- 2 White Animated Border Beams -->
             <BorderBeam client:visible size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
@@ -70,8 +70,8 @@ const skillsHeadings = [
       </div>
     </div>
 
-    <!-- Navigation Controls for 3D Carousel -->
-    <div class="flex items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-12 relative z-20">
+    <!-- Navigation Controls for 3D Carousel (Positioned cleanly below cylinder with zero overlap) -->
+    <div class="flex items-center justify-center gap-4 sm:gap-6 mt-12 sm:mt-16 relative z-20">
       <GenerateButton client:visible id="cylinder-prev" aria-label="Previous Category">
         Prev
       </GenerateButton>
@@ -101,10 +101,11 @@ const skillsHeadings = [
     const angleStep = 60;
     let isHovered = false;
     let autoRotateTimer: any = null;
-    const AUTO_ROTATE_DELAY_MS = 8000; // 8 seconds idle interval
+    const AUTO_ROTATE_DELAY_MS = 8000;
 
     function getRadius() {
-      return window.innerWidth < 640 ? 280 : window.innerWidth < 1024 ? 370 : 460;
+      // 260px on mobile for clean side margins and squarish card proportions
+      return window.innerWidth < 640 ? 260 : window.innerWidth < 1024 ? 350 : 420;
     }
 
     function updateCardPositions() {
@@ -136,12 +137,12 @@ const skillsHeadings = [
         } else if (relAngle < 90) {
           // Immediate side cards
           el.style.zIndex = '10';
-          el.style.opacity = '0.4';
+          el.style.opacity = '0.35';
           el.style.filter = 'blur(2px)';
         } else {
           // Back hidden cards
           el.style.zIndex = '1';
-          el.style.opacity = '0.1';
+          el.style.opacity = '0.08';
           el.style.filter = 'blur(4px)';
         }
       });
@@ -174,7 +175,6 @@ const skillsHeadings = [
       startAutoRotate();
     }
 
-    // Pause auto-rotation when user hovers or interacts with the skills section
     if (skillsSection) {
       skillsSection.addEventListener('mouseenter', () => { isHovered = true; });
       skillsSection.addEventListener('mouseleave', () => { isHovered = false; resetAutoRotateWithDelay(); });

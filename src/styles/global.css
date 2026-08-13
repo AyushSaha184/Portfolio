@@ -196,12 +196,19 @@ img {
 }
 
 .cylinder-ring {
-  width: min(28rem, 90vw);
-  height: 27rem;
+  width: min(28rem, 88vw);
+  height: 26rem;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .cylinder-ring {
+    width: min(21rem, 84vw);
+    height: 21.5rem;
+  }
 }
 
 @keyframes border-beam {
@@ -236,7 +243,7 @@ img {
   border-radius: 1.75rem;
   background: #090b10;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 1.75rem;
+  padding: 1.5rem 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -15,7 +15,7 @@ export interface LiquidMetalProps {
 }
 
 /**
- * WebGL Liquid Metal Shader component with Pure White Metallic Sheen
+ * WebGL Liquid Metal Shader component with Pure White Metallic Sheen & IntersectionObserver RAF Pausing
  */
 export const LiquidMetal = memo(function LiquidMetal({
   colorBack = "#333333",
@@ -49,7 +49,9 @@ export const LiquidMetal = memo(function LiquidMetal({
     const gl = canvas.getContext("webgl");
     if (!gl) return;
 
-    let animationFrameId: number;
+    let animationFrameId = 0;
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
 
     const vsSource = `
       attribute vec2 a_position;
@@ -130,7 +132,10 @@ export const LiquidMetal = memo(function LiquidMetal({
     const repLocation = gl.getUniformLocation(program, "u_repetition");
 
     const render = (time: number) => {
-      if (!canvas || !gl) return;
+      if (!canvas || !gl || !isVisible) {
+        animationFrameId = 0;
+        return;
+      }
       canvas.width = canvas.clientWidth || 300;
       canvas.height = canvas.clientHeight || 100;
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -152,10 +157,35 @@ export const LiquidMetal = memo(function LiquidMetal({
       animationFrameId = requestAnimationFrame(render);
     };
 
+    // Pause WebGL rendering loop when button is scrolled out of view or tab is hidden
+    if ('IntersectionObserver' in window && canvas) {
+      observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationFrameId) {
+          animationFrameId = requestAnimationFrame(render);
+        }
+      }, { threshold: 0.05 });
+      observer.observe(canvas);
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isVisible = false;
+      } else {
+        isVisible = true;
+        if (!animationFrameId) {
+          animationFrameId = requestAnimationFrame(render);
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
     animationFrameId = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (observer) observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, [ShaderComp, speed, distortion, repetition]);
 

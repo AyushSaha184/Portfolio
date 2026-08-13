@@ -17,7 +17,7 @@ const navItems = [
   <div class="spotlight-nav hidden md:flex items-center justify-between gap-4 flex-1 relative overflow-hidden">
     <!-- Left: Brand "Ayush Saha" with LineHoverLink slide -->
     <LineHoverLink
-      client:load
+      client:idle
       href="#home"
       variant="slide"
       className="flex items-center gap-2 text-white font-bold tracking-tight text-sm shrink-0 hover:text-white transition-colors relative z-20"
@@ -29,7 +29,7 @@ const navItems = [
     <nav class="flex items-center gap-4 lg:gap-6 overflow-x-auto no-scrollbar py-1 relative z-20">
       {navItems.map((item) => (
         <LineHoverLink
-          client:load
+          client:idle
           href={item.href}
           variant="slide"
           className="text-xs sm:text-sm text-white/80 hover:text-white font-medium transition-colors"
@@ -42,7 +42,7 @@ const navItems = [
     <!-- Right: Social Symbols (GitHub & LinkedIn SVG Icons) -->
     <div class="flex items-center gap-3 shrink-0 relative z-20">
       <LineHoverLink
-        client:load
+        client:idle
         href="https://github.com/AyushSaha184"
         target="_blank"
         rel="noopener noreferrer"
@@ -57,7 +57,7 @@ const navItems = [
       </LineHoverLink>
 
       <LineHoverLink
-        client:load
+        client:idle
         href="https://www.linkedin.com/in/AyushSaha184"
         target="_blank"
         rel="noopener noreferrer"
@@ -113,13 +113,13 @@ const navItems = [
     class="fixed inset-x-4 top-20 z-50 hidden flex-col gap-5 p-6 rounded-3xl bg-[#090b10]/95 border border-white/20 backdrop-blur-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
   >
     <!-- DOUBLE BORDER BEAM EFFECT FOR MOBILE MENU -->
-    <BorderBeam client:load size={300} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} rx={24} />
-    <BorderBeam client:load size={300} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} rx={24} />
+    <BorderBeam client:idle size={300} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} rx={24} />
+    <BorderBeam client:idle size={300} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} rx={24} />
 
     <nav class="flex flex-col gap-4 text-left relative z-20">
       {navItems.map((item) => (
         <LineHoverLink
-          client:load
+          client:idle
           href={item.href}
           variant="slide"
           className="mobile-nav-link text-base text-white font-semibold py-1"
@@ -132,7 +132,7 @@ const navItems = [
     <div class="pt-4 border-t border-white/10 flex items-center justify-end relative z-20">
       <div class="flex items-center gap-4">
         <LineHoverLink
-          client:load
+          client:idle
           href="https://github.com/AyushSaha184"
           target="_blank"
           rel="noopener noreferrer"
@@ -147,7 +147,7 @@ const navItems = [
         </LineHoverLink>
 
         <LineHoverLink
-          client:load
+          client:idle
           href="https://www.linkedin.com/in/AyushSaha184"
           target="_blank"
           rel="noopener noreferrer"

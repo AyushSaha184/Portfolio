@@ -21,9 +21,6 @@ export const SpotlightNew: React.FC<SpotlightNewProps> = ({
   gradientSecond = "radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, .08) 0%, hsla(210, 100%, 55%, .02) 80%, transparent 100%)",
   gradientThird = "radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, .05) 0%, hsla(210, 100%, 45%, .02) 80%, transparent 100%)",
   translateY = -350,
-  width = 560,
-  height = 1380,
-  smallWidth = 240,
   className,
 }) => {
   return (
@@ -40,11 +37,11 @@ export const SpotlightNew: React.FC<SpotlightNewProps> = ({
           style={{
             transform: `translateY(${translateY}px) rotate(-38deg)`,
           }}
-          className="absolute -left-52 top-0 flex h-[1400px] w-[600px] flex-col items-center justify-center opacity-80"
+          className="absolute -left-52 top-0 flex h-[800px] sm:h-[1400px] w-[320px] sm:w-[600px] flex-col items-center justify-center opacity-50 md:opacity-80"
         >
           <div
             style={{ background: gradientFirst }}
-            className="w-full h-full rounded-full filter blur-[90px]"
+            className="w-full h-full rounded-full filter blur-[35px] md:blur-[90px]"
           />
         </div>
 
@@ -53,23 +50,23 @@ export const SpotlightNew: React.FC<SpotlightNewProps> = ({
           style={{
             transform: `translateY(${translateY}px) rotate(38deg)`,
           }}
-          className="absolute -right-52 top-0 flex h-[1400px] w-[600px] flex-col items-center justify-center opacity-80"
+          className="absolute -right-52 top-0 flex h-[800px] sm:h-[1400px] w-[320px] sm:w-[600px] flex-col items-center justify-center opacity-50 md:opacity-80"
         >
           <div
             style={{ background: gradientFirst }}
-            className="w-full h-full rounded-full filter blur-[90px]"
+            className="w-full h-full rounded-full filter blur-[35px] md:blur-[90px]"
           />
         </div>
 
         {/* Center Ambient Spotlight Blur */}
         <div
-          className="absolute left-1/2 top-[-180px] -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-50 filter blur-[150px]"
+          className="absolute left-1/2 top-[-180px] -translate-x-1/2 w-[450px] md:w-[900px] h-[450px] md:h-[900px] rounded-full opacity-30 md:opacity-50 filter blur-[45px] md:blur-[150px]"
           style={{ background: gradientSecond }}
         />
 
         {/* Bottom Ambient Glow */}
         <div
-          className="absolute left-1/2 bottom-[-200px] -translate-x-1/2 w-[700px] h-[500px] rounded-full opacity-30 filter blur-[130px]"
+          className="absolute left-1/2 bottom-[-200px] -translate-x-1/2 w-[350px] md:w-[700px] h-[300px] md:h-[500px] rounded-full opacity-20 md:opacity-30 filter blur-[35px] md:blur-[130px]"
           style={{ background: gradientThird }}
         />
       </div>

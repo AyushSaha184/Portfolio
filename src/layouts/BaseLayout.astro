@@ -25,17 +25,18 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <!-- Non-render-blocking Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
   </head>
   <body class="bg-[#030406] text-[#f3f4f6] font-sans antialiased overflow-x-hidden relative min-h-screen">
     <!-- Aceternity UI MultiStepLoader (Loading Screen) -->
-    <PageLoader client:load />
+    <PageLoader client:idle />
 
     <!-- 3D Tubes Cursor Interactive Background (Click anywhere to randomize tube & light colors) -->
-    <TubesCursorBackground client:load />
+    <TubesCursorBackground client:idle />
 
     <!-- Aceternity UI SpotlightNew Background (Ambient Multi-Cone Spotlight Beams) -->
-    <SpotlightNew client:load />
+    <SpotlightNew client:idle />
 
     <div class="relative z-10 pointer-events-none">
       <div class="pointer-events-auto">
@@ -48,8 +49,11 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
 
       (function() {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isTouchDevice = 'ontouchstart' in window || window.matchMedia('(pointer: coarse)').matches;
+        const isDesktop = window.innerWidth > 768;
 
-        if (!reduced) {
+        // Lenis Smooth Scroll initialized ONLY on desktop viewports to preserve native mobile momentum scrolling
+        if (!reduced && isDesktop && !isTouchDevice) {
           const lenis = new Lenis({ smoothWheel: true });
           function raf(t: number) {
             lenis.raf(t);
@@ -58,17 +62,25 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
           requestAnimationFrame(raf);
         }
 
-        // Spotlight Navbar mousemove tracking
-        window.addEventListener('pointermove', (e) => {
-          const nav = document.querySelector('.spotlight-nav') as HTMLElement;
-          if (nav) {
-            const rect = nav.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            nav.style.setProperty('--mouse-x', `${x}px`);
-            nav.style.setProperty('--mouse-y', `${y}px`);
-          }
-        });
+        // Spotlight Navbar mousemove tracking - Throttled with RAF & disabled on touch devices
+        if (!isTouchDevice) {
+          let pointerRafPending = false;
+          window.addEventListener('pointermove', (e) => {
+            if (pointerRafPending) return;
+            pointerRafPending = true;
+            requestAnimationFrame(() => {
+              pointerRafPending = false;
+              const nav = document.querySelector('.spotlight-nav') as HTMLElement;
+              if (nav) {
+                const rect = nav.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                nav.style.setProperty('--mouse-x', `${x}px`);
+                nav.style.setProperty('--mouse-y', `${y}px`);
+              }
+            });
+          }, { passive: true });
+        }
 
         // IntersectionObserver for Vengeance UI Flip Fade Text & scroll reveals
         const headings = document.querySelectorAll('.flip-fade-text');
@@ -77,7 +89,6 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
             if (entry.isIntersecting) {
               entry.target.classList.add('active');
             } else {
-              // Re-trigger animation when scrolled out & back in
               entry.target.classList.remove('active');
             }
           });
