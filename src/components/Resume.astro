@@ -1,6 +1,5 @@
 ---
 import { FlipFadeText } from './ui/flip-fade-text';
-import { LineHoverLink } from './ui/line-hover-link';
 import { GenerateButton } from './ui/generate-button';
 import { BorderBeam } from './ui/border-beam';
 
@@ -12,27 +11,9 @@ const resumeHeadings = [
   "ACADEMIC & TECHNICAL RECORD",
   "VERIFIED CANDIDATE PROFILE"
 ];
-
-const highlights = [
-  {
-    title: "AI Engineer & RAG Architect",
-    subtitle: "Siliguri Institute of Technology (SIT), WB • B.Tech Computer Science (2022 - 2026)",
-    description: "Specializing in multi-agent LangGraph orchestration, hybrid vector search (FAISS, Qdrant, pgvector), AST-based code analysis, and high-performance Go MCP microservices."
-  },
-  {
-    title: "Key Projects & AI Systems",
-    subtitle: "PRism • Eval_MCP • IntelliDocs • TestaCode",
-    description: "Developed automated GitHub App reviewers, single-binary Go Model Context Protocol evaluation engines, enterprise RAG knowledge assistants, and autonomous multi-language test generators."
-  },
-  {
-    title: "Core Technical Stack",
-    subtitle: "Go, Python, FastAPI, React 19, Next.js 15, PostgreSQL, Redis, Docker",
-    description: "Hands-on expertise building scalable REST/gRPC microservices, Redis background queues, SSE real-time streaming pipelines, and production prompt engineering."
-  }
-];
 ---
 
-<!-- Vengeance UI Resume Section (Fully Responsive Mobile + Desktop Resume Card) -->
+<!-- Vengeance UI Resume Section (Single Universal PDF Resume Viewer for Mobile & Desktop) -->
 <section id="resume" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent border-t border-white/10">
   <div class="shell">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8 sm:mb-14">
@@ -60,66 +41,48 @@ const highlights = [
       </GenerateButton>
     </div>
 
-    <!-- Responsive Styled Resume Card Panel (Visible on Mobile & Laptop) -->
-    <div class="relative rounded-3xl bg-[#090b10] p-5 sm:p-8 text-white shadow-2xl overflow-hidden border border-white/15 mb-8">
+    <!-- Single Universal PDF Document Panel (Renders on Mobile, Tablet & Desktop) -->
+    <div class="relative rounded-3xl bg-[#090b10] p-4 sm:p-7 text-white shadow-2xl overflow-hidden border border-white/15">
       <!-- 2 White Animated Border Beams -->
       <BorderBeam client:visible size={360} duration={8} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
       <BorderBeam client:visible size={360} duration={8} delay={4} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
       <!-- Top Header Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-white/10 gap-2 text-xs sm:text-sm text-white/70">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 text-xs sm:text-sm text-white/70">
         <div class="flex items-center gap-3">
-          <span class="font-bold text-white text-base sm:text-lg">Ayush Saha</span>
-          <span class="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-white/80">AI Engineer</span>
+          <span class="font-bold text-white text-sm sm:text-base">Resume.pdf</span>
+          <span class="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-white/80">Ayush Saha • AI Engineer</span>
         </div>
-        <span class="text-xs text-white/50">B.Tech CS • SIT Siliguri (2022 - 2026)</span>
-      </div>
-
-      <!-- Structured Highlights List for Mobile & Desktop -->
-      <div class="space-y-4 sm:space-y-6">
-        {highlights.map((item) => (
-          <div class="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
-              <h3 class="font-extrabold text-base sm:text-xl text-white tracking-tight">{item.title}</h3>
-              <span class="text-[11px] sm:text-xs font-medium text-white/60">{item.subtitle}</span>
-            </div>
-            <p class="text-xs sm:text-sm text-white/85 leading-relaxed font-normal">
-              {item.description}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <!-- Bottom Action Footer -->
-      <div class="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-white/60 text-center sm:text-left">
-          Click to view or download the complete 1-page official PDF resume.
-        </p>
-
-        <GenerateButton
-          client:visible
-          href={RESUME_PDF_URL}
+        <a
+          href={GITHUB_RESUME_URL}
           target="_blank"
           rel="noopener noreferrer"
+          class="text-xs text-white/70 hover:text-white underline decoration-white/30"
         >
-          View Full PDF
-        </GenerateButton>
+          Open External
+        </a>
       </div>
-    </div>
 
-    <!-- Embedded Desktop PDF Frame (Visible on medium/large screens) -->
-    <div class="hidden md:block relative rounded-3xl bg-[#090b10] p-5 text-white shadow-2xl overflow-hidden border border-white/15">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10 text-xs text-white/70 mb-4">
-        <span class="font-bold text-white">Interactive PDF Preview</span>
-        <a href={RESUME_PDF_URL} target="_blank" class="hover:text-white underline">Open Fullscreen</a>
-      </div>
-      <div class="relative rounded-2xl overflow-hidden bg-[#030406] border border-white/10">
-        <iframe
-          src={`${RESUME_PDF_URL}#toolbar=0&navpanes=0`}
-          class="w-full h-[800px] border-none"
-          title="Ayush Saha Resume PDF Preview"
-          id="resume-iframe"
-        ></iframe>
+      <!-- Actual PDF Document Viewer (Object with fallback iframe) -->
+      <div class="relative w-full rounded-2xl overflow-hidden bg-[#030406] border border-white/10">
+        <object
+          data={RESUME_PDF_URL}
+          type="application/pdf"
+          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none"
+        >
+          <iframe
+            src={`${RESUME_PDF_URL}#toolbar=0&navpanes=0`}
+            class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none"
+            title="Ayush Saha Resume PDF"
+          >
+            <div class="flex flex-col items-center justify-center p-10 text-center">
+              <p class="text-sm text-white/80 mb-4">Preview not supported directly on this browser version.</p>
+              <GenerateButton href={GITHUB_RESUME_URL} target="_blank" rel="noopener noreferrer">
+                View Resume PDF
+              </GenerateButton>
+            </div>
+          </iframe>
+        </object>
       </div>
     </div>
   </div>

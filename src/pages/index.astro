@@ -34,7 +34,7 @@ const heroHeadlineWords = [
         <!-- Vengeance UI FlipText Headline (Fixed container height so body text NEVER shifts/misaligns) -->
         <div class="w-full text-left flex flex-col items-start justify-start h-[160px] sm:h-[190px] md:h-[210px] shrink-0 overflow-hidden">
           <FlipText
-            client:load
+            client:idle
             words={heroHeadlineWords}
             interval={3500}
             duration={0.6}
@@ -47,24 +47,24 @@ const heroHeadlineWords = [
           <p>
             Fourth-year Computer Science student at{" "}
             <span class="inline whitespace-nowrap">
-              <LineHoverLink client:load variant="slide" href="https://sit-siliguri.ac.in" target="_blank" className="text-white font-semibold">
+              <LineHoverLink client:idle variant="slide" href="https://sit-siliguri.ac.in" target="_blank" className="text-white font-semibold">
                 Siliguri Institute of Technology, West Bengal.
               </LineHoverLink>
             </span>
           </p>
           <p>
             Specializing in{" "}
-            <LineHoverLink client:load variant="slide" href="#skills" className="text-white font-semibold">
+            <LineHoverLink client:idle variant="slide" href="#skills" className="text-white font-semibold">
               RAG and Agentic AI Systems
             </LineHoverLink>
             . Strong focus on high-performance vector databases, system architecture, and building production-ready autonomous LLM tools.
           </p>
         </div>
 
-        <!-- Vengeance UI Liquid Metal CTAs for View Projects & Get in Touch (Pure White Glow Shader Border, Sleeker Size, NO symbols/emojis) -->
+        <!-- Vengeance UI Liquid Metal CTAs for View Projects & Get in Touch -->
         <div class="flex flex-wrap items-center gap-4 pt-2">
           <LiquidMetalButton
-            client:load
+            client:idle
             href="#projects"
             size="md"
             borderWidth={2}
@@ -74,7 +74,7 @@ const heroHeadlineWords = [
           </LiquidMetalButton>
 
           <LiquidMetalButton
-            client:load
+            client:idle
             href="#contact"
             size="md"
             borderWidth={2}
