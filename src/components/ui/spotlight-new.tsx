@@ -29,11 +29,12 @@ export const SpotlightNew: React.FC<SpotlightNewProps> = ({
   return (
     <div
       className={cn(
-        "pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#030406]",
+        "pointer-events-none fixed inset-0 z-0 overflow-hidden bg-transparent transform-gpu will-change-transform",
         className
       )}
+      style={{ contain: "strict" }}
     >
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-full max-w-7xl h-full">
+      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-full max-w-7xl h-full transform-gpu">
         {/* Left Conical Spotlight Beam */}
         <div
           style={{

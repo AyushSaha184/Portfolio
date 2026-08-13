@@ -5,6 +5,7 @@ import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
 import Resume from '../components/Resume.astro';
 import Footer from '../components/Footer.astro';
+import { AISearchModal } from '../components/AISearchModal';
 import { FlipText } from '../components/ui/flip-text';
 import { LineHoverLink } from '../components/ui/line-hover-link';
 import { LiquidMetalButton } from '../components/ui/liquid-metal';
@@ -17,26 +18,16 @@ const heroHeadlineWords = [
 ];
 ---
 
-<BaseLayout title="Ayush Saha | AI Developer & CS Student">
+<BaseLayout title="Ayush Saha | AI Engineer & CS Student">
   <Navigation />
 
   <main id="main" class="relative">
-    <!-- Hero Section with Video Background, Vengeance UI FlipText & Liquid Metal Buttons -->
+    <!-- Hero Section with Vengeance UI FlipText & Liquid Metal Buttons -->
     <section id="home" class="relative isolate overflow-hidden min-h-screen flex flex-col justify-start pt-36 sm:pt-44 md:pt-48 pb-20 px-5 sm:px-8">
-      <!-- Full-bleed Ambient Video Background -->
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        class="absolute inset-0 w-full h-full object-cover z-0 opacity-20 mix-blend-screen pointer-events-none"
-      >
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-lines-loop-31804-large.mp4" type="video/mp4" />
-      </video>
 
-      <!-- Soft Dark Vignette Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-b from-[#030406]/90 via-transparent to-[#030406] pointer-events-none z-[1]"></div>
-      <div class="absolute inset-0 bg-radial-at-c from-transparent via-[#030406]/50 to-[#030406] pointer-events-none z-[1]"></div>
+      <!-- Soft Ambient Vignette Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#030406]/50 via-transparent to-transparent pointer-events-none z-[1]"></div>
+      <div class="absolute inset-0 bg-radial-at-c from-transparent via-[#030406]/30 to-transparent pointer-events-none z-[1]"></div>
 
       <!-- Content Container -->
       <div class="shell relative z-20 flex flex-col gap-8 max-w-4xl">
@@ -101,4 +92,5 @@ const heroHeadlineWords = [
   </main>
 
   <Footer />
+  <AISearchModal client:load />
 </BaseLayout>

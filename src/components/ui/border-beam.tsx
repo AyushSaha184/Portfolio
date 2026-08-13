@@ -55,7 +55,7 @@ export const BorderBeam: React.FC<BorderBeamProps> = ({
           style={{
             animation: `border-beam-dash ${duration}s linear infinite`,
             animationDelay: `-${delay}s`,
-            filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.9))",
+            willChange: "stroke-dashoffset",
           }}
         />
       </svg>

@@ -2,13 +2,14 @@
 import '../styles/global.css';
 import { SpotlightNew } from '../components/ui/spotlight-new';
 import { PageLoader } from '../components/PageLoader';
+import { TubesCursorBackground } from '../components/ui/tubes-cursor';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Ayush Saha | AI Developer & Computer Science Student" } = Astro.props;
+const { title, description = "Ayush Saha | AI Engineer & Computer Science Student" } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -30,11 +31,16 @@ const { title, description = "Ayush Saha | AI Developer & Computer Science Stude
     <!-- Aceternity UI MultiStepLoader (Loading Screen) -->
     <PageLoader client:load />
 
+    <!-- 3D Tubes Cursor Interactive Background (Click anywhere to randomize tube & light colors) -->
+    <TubesCursorBackground client:load />
+
     <!-- Aceternity UI SpotlightNew Background (Ambient Multi-Cone Spotlight Beams) -->
     <SpotlightNew client:load />
 
-    <div class="relative z-10">
-      <slot />
+    <div class="relative z-10 pointer-events-none">
+      <div class="pointer-events-auto">
+        <slot />
+      </div>
     </div>
 
     <script>
