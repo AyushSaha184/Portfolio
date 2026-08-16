@@ -144,8 +144,16 @@ const skillsHeadings = [
       cards.forEach((card, i) => {
         const offset = i - current;
         const absOffset = Math.abs(offset);
+        const isCurrent = offset === 0;
 
-        if (offset === 0) {
+        card.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        if (isCurrent) {
+          card.removeAttribute('inert');
+        } else {
+          card.setAttribute('inert', '');
+        }
+
+        if (isCurrent) {
           card.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
           card.style.opacity = '1';
           card.style.zIndex = '30';
@@ -155,9 +163,9 @@ const skillsHeadings = [
           // On mobile viewports, implement smooth sliding
           const translateXVal = offset * (window.innerWidth * 0.95 + 16);
           card.style.transform = `translateX(${translateXVal}px) translateZ(0px) scale(1)`;
-          card.style.opacity = absOffset === 0 ? '1' : '0.5';
-          card.style.zIndex = absOffset === 0 ? '30' : '10';
-          card.style.pointerEvents = absOffset === 0 ? 'auto' : 'none';
+          card.style.opacity = '0.5';
+          card.style.zIndex = '10';
+          card.style.pointerEvents = 'none';
           card.style.visibility = absOffset <= 1 ? 'visible' : 'hidden';
         } else {
           // On desktop, keep high-end 3D perspective identical to project cards
@@ -244,9 +252,10 @@ const skillsHeadings = [
 
     document.addEventListener('keydown', (e) => {
       if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
-      // If skills is in view or focused
+      const isFocusedInside = skillsSection?.contains(document.activeElement);
       const rect = skillsSection?.getBoundingClientRect();
-      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+      const isDominantlyVisible = rect && rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.6;
+      if (isFocusedInside || isDominantlyVisible) {
         if (e.key === 'ArrowLeft') prev();
         if (e.key === 'ArrowRight') next();
       }

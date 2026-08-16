@@ -8,7 +8,10 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Ayush Saha | AI Engineer & Computer Science Student" } = Astro.props;
+const {
+  title,
+  description = "Ayush Saha is an AI Engineer and CS Student specializing in RAG architectures, autonomous multi-agent pipelines, LangGraph, Go, and high-performance vector databases."
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -27,14 +30,14 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
     <meta property="og:url" content="https://ayushsaha.dev" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/dp/AYUSH'S HEADSHOT.webp" />
+    <meta property="og:image" content="https://ayushsaha.dev/dp/ayush-saha-headshot.webp" />
     <meta property="og:site_name" content="Ayush Saha Portfolio" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/dp/AYUSH'S HEADSHOT.webp" />
+    <meta name="twitter:image" content="https://ayushsaha.dev/dp/ayush-saha-headshot.webp" />
     <meta name="twitter:creator" content="@AyushSaha184" />
 
     <title>{title}</title>
@@ -59,7 +62,7 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
         "name": "Ayush Saha",
         "jobTitle": "AI Engineer & Computer Science Student",
         "url": "https://ayushsaha.dev",
-        "image": "https://ayushsaha.dev/dp/AYUSH'S%20HEADSHOT.webp",
+        "image": "https://ayushsaha.dev/dp/ayush-saha-headshot.webp",
         "alumniOf": {
           "@type": "CollegeOrUniversity",
           "name": "Siliguri Institute of Technology"
@@ -83,6 +86,14 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
     </script>
   </head>
   <body class="bg-[#030406] text-[#f3f4f6] font-sans antialiased overflow-x-hidden relative min-h-screen">
+    <!-- Accessible Skip to Main Content Link -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2.5 focus:bg-white focus:text-black focus:font-bold focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-cyan-400"
+    >
+      Skip to main content
+    </a>
+
     <!-- 3D Tubes Cursor Interactive Background (Click anywhere to randomize tube & light colors) -->
     <TubesCursorBackground client:load />
 

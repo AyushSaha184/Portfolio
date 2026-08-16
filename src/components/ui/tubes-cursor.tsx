@@ -29,11 +29,10 @@ export function TubesCursorBackground() {
       const isMobile = window.innerWidth < 768;
 
       try {
-        // Dynamic ESM import from jsDelivr CDN
-        const cdnUrl = 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js';
-        const dynamicImport = new Function('url', 'return import(url)');
-        const module = await dynamicImport(cdnUrl);
-        const TubesCursor = module.default;
+        // Safe dynamic import from locally bundled module
+        // @ts-ignore
+        const module = await import('threejs-components/build/cursors/tubes1.min.js');
+        const TubesCursor = module.default || module;
 
         if (canvasRef.current && !isDisposed) {
           const app = TubesCursor(canvasRef.current, {
@@ -119,10 +118,12 @@ export function TubesCursorBackground() {
     <div
       className="fixed inset-0 z-0 overflow-hidden bg-[#030406]"
       title="Click background to randomize Tubes Cursor colors"
+      aria-hidden="true"
     >
       {/* 3D Tubes Canvas */}
       <canvas
         ref={canvasRef}
+        aria-hidden="true"
         className="fixed inset-0 z-0 w-full h-full pointer-events-none opacity-90"
       />
     </div>

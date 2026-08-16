@@ -1,10 +1,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  site: 'https://ayushsaha.dev',
   output: 'static',
-  integrations: [tailwind(), react()],
+  integrations: [tailwind(), react(), sitemap()],
   vite: {
     build: {
       cssMinify: true,
@@ -13,6 +15,9 @@ export default defineConfig({
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
+              if (id.includes('three') || id.includes('threejs-components')) {
+                return 'vendor-three';
+              }
               if (id.includes('framer-motion')) {
                 return 'vendor-motion';
               }

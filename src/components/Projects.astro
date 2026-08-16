@@ -134,8 +134,16 @@ const projectsHeadings = [
       cards.forEach((card, i) => {
         const offset = i - current;
         const absOffset = Math.abs(offset);
+        const isCurrent = offset === 0;
 
-        if (offset === 0) {
+        card.setAttribute('aria-hidden', isCurrent ? 'false' : 'true');
+        if (isCurrent) {
+          card.removeAttribute('inert');
+        } else {
+          card.setAttribute('inert', '');
+        }
+
+        if (isCurrent) {
           card.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
           card.style.opacity = '1';
           card.style.zIndex = '30';
@@ -145,9 +153,9 @@ const projectsHeadings = [
           // On mobile viewports, implement smooth sliding
           const translateXVal = offset * (window.innerWidth * 0.95 + 16); // slide by card width + gap
           card.style.transform = `translateX(${translateXVal}px) translateZ(0px) scale(1)`;
-          card.style.opacity = absOffset === 0 ? '1' : '0.5';
-          card.style.zIndex = absOffset === 0 ? '30' : '10';
-          card.style.pointerEvents = absOffset === 0 ? 'auto' : 'none';
+          card.style.opacity = '0.5';
+          card.style.zIndex = '10';
+          card.style.pointerEvents = 'none';
           card.style.visibility = absOffset <= 1 ? 'visible' : 'hidden';
         } else {
           // On desktop, keep high-end 3D perspective
@@ -202,7 +210,9 @@ const projectsHeadings = [
     document.addEventListener('keydown', (e) => {
       if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
       const rect = stage?.getBoundingClientRect();
-      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+      const isFocusedInside = stage?.contains(document.activeElement) || prevBtn?.contains(document.activeElement) || nextBtn?.contains(document.activeElement);
+      const isDominantlyVisible = rect && rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.6;
+      if (isFocusedInside || isDominantlyVisible) {
         if (e.key === 'ArrowLeft') { current = (current - 1 + total) % total; updatePerspective(); }
         if (e.key === 'ArrowRight') { current = (current + 1) % total; updatePerspective(); }
       }
@@ -210,7 +220,7 @@ const projectsHeadings = [
 
     updatePerspective();
 
-    // Live GitHub Stats Fetcher
+    // Live GitHub Stats Fetcher (Concurrent with Promise.allSettled)
     const GH_CACHE_KEY = 'portfolio_gh_cache';
     const GH_TTL = 3600000;
 
@@ -233,10 +243,13 @@ const projectsHeadings = [
       if (cache && (now - cache.ts < GH_TTL)) return;
 
       const fetched: Record<string, { stars: string | number, forks: string | number }> = {};
-      for (const repo of repos) {
+      const fetchPromises = repos.map(async (repo) => {
         try {
           const res = await fetch(`https://api.github.com/repos/AyushSaha184/${repo}`);
-          if (!res.ok) { if (cachedData[repo]) fetched[repo] = cachedData[repo]; continue; }
+          if (!res.ok) {
+            if (cachedData[repo]) fetched[repo] = cachedData[repo];
+            return;
+          }
           const json = await res.json();
           const entry = { stars: json.stargazers_count ?? '-', forks: json.forks_count ?? '-' };
           fetched[repo] = entry;
@@ -245,7 +258,9 @@ const projectsHeadings = [
         } catch {
           if (cachedData[repo]) fetched[repo] = cachedData[repo];
         }
-      }
+      });
+
+      await Promise.allSettled(fetchPromises);
 
       if (Object.keys(fetched).length) {
         try { localStorage.setItem(GH_CACHE_KEY, JSON.stringify({ ts: now, data: { ...cachedData, ...fetched } })); } catch {}
