@@ -31,13 +31,14 @@ const heroHeadlineWords = [
 
       <!-- Content Container -->
       <div class="shell relative z-20 flex flex-col gap-8 max-w-4xl">
-        <!-- Vengeance UI FlipText Headline (Fixed container height so body text NEVER shifts/misaligns) -->
-        <div class="w-full text-left flex flex-col items-start justify-start h-[160px] sm:h-[190px] md:h-[210px] shrink-0 overflow-hidden">
+        <!-- Hero FlipText Headline (Strictly locked container height so body text below never shifts) -->
+        <div class="w-full text-left flex flex-col items-start justify-start min-h-[140px] sm:min-h-[180px] md:min-h-[210px] h-[140px] sm:h-[180px] md:h-[210px] shrink-0 overflow-hidden">
           <FlipText
-            client:idle
+            client:load
             words={heroHeadlineWords}
             interval={3500}
             duration={0.6}
+            className="w-full h-full justify-start items-start text-left"
             textClassName="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight"
           />
         </div>
@@ -61,7 +62,7 @@ const heroHeadlineWords = [
           </p>
         </div>
 
-        <!-- Vengeance UI Liquid Metal CTAs for View Projects & Get in Touch -->
+        <!-- Hero CTA: View Projects -->
         <div class="flex flex-wrap items-center gap-4 pt-2">
           <LiquidMetalButton
             client:idle
@@ -71,17 +72,6 @@ const heroHeadlineWords = [
             metalConfig={{ speed: 0.6, distortion: 0.2, colorTint: "#ffffff" }}
           >
             View Projects
-          </LiquidMetalButton>
-
-          <LiquidMetalButton
-            client:idle
-            href="#contact"
-            size="lg"
-            borderWidth={2}
-            metalConfig={{ speed: 0.5, distortion: 0.18, colorTint: "#ffffff" }}
-            className="w-full sm:w-auto mt-2 sm:mt-0 px-2 py-1"
-          >
-            Get in Touch
           </LiquidMetalButton>
         </div>
       </div>

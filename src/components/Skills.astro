@@ -5,12 +5,42 @@ import GenerateButton from './ui/GenerateButton.astro';
 import BorderBeam from './ui/BorderBeam.astro';
 
 const skillCategories = [
-  { title: "Generative AI", skills: ["Retrieval-Augmented Generation (RAG)", "Agentic AI", "Model Context Protocol (MCP)", "Prompt Engineering", "NLP", "Transformers", "Open-Source LLMs"] },
-  { title: "Frameworks & Libraries", skills: ["FastAPI", "LangChain", "LangGraph", "LlamaIndex"] },
-  { title: "Languages", skills: ["Go", "Python", "Java"] },
-  { title: "Databases", skills: ["PostgreSQL", "MySQL", "Redis", "Qdrant"] },
-  { title: "Cloud & DevOps", skills: ["Docker", "Vercel", "Supabase", "Neon", "Render", "Git"] },
-  { title: "Coursework", skills: ["Operating Systems", "Database Management Systems", "Computer Networks", "Object-Oriented Programming"] },
+  { 
+    title: "Generative AI", 
+    tag: "Core Focus & Research",
+    description: "Architecting end-to-end autonomous agent systems, high-accuracy RAG indexing pipelines, and Model Context Protocol servers.",
+    skills: ["Retrieval-Augmented Generation (RAG)", "Agentic AI", "Model Context Protocol (MCP)", "Prompt Engineering", "NLP", "Transformers", "Open-Source LLMs"] 
+  },
+  { 
+    title: "Frameworks & Libraries", 
+    tag: "AI & Backend Development",
+    description: "Building production-grade autonomous agent graphs, async APIs, and modular microservices with modern Python & TS toolkits.",
+    skills: ["FastAPI", "LangChain", "LangGraph", "LlamaIndex"] 
+  },
+  { 
+    title: "Languages", 
+    tag: "Programming Languages",
+    description: "Writing performant, statically typed and asynchronous systems across low-latency compiled and rapid AI languages.",
+    skills: ["Go", "Python", "Java"] 
+  },
+  { 
+    title: "Databases & Storage", 
+    tag: "Vector & Relational Stores",
+    description: "Designing high-throughput vector similarity search indexes, transactional relational schemas, and fast in-memory caches.",
+    skills: ["PostgreSQL", "MySQL", "Redis", "Qdrant", "FAISS", "pgvector"] 
+  },
+  { 
+    title: "Cloud & DevOps", 
+    tag: "Infrastructure & Tooling",
+    description: "Deploying containerized services, CI/CD automated release workflows, and managed cloud infrastructure.",
+    skills: ["Docker", "Vercel", "Supabase", "Neon", "Render", "Git"] 
+  },
+  { 
+    title: "Computer Science Foundations", 
+    tag: "Core Coursework",
+    description: "Strong theoretical foundations in low-level operating systems, relational database architecture, and network protocols.",
+    skills: ["Operating Systems", "Database Management Systems", "Computer Networks", "Object-Oriented Programming"] 
+  },
 ];
 
 const skillsHeadings = [
@@ -20,10 +50,10 @@ const skillsHeadings = [
 ];
 ---
 
-<!-- Vengeance UI Skills Section with Squarish Proportions & Bottom Clearance -->
-<section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-visible" aria-labelledby="skills-heading">
+<!-- Vengeance UI Skills Section with 3D Perspective Card Carousel -->
+<section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-hidden border-t border-white/10" aria-labelledby="skills-heading">
   <div class="shell">
-    <div class="flex flex-col items-center text-center mb-8 sm:mb-14">
+    <div class="flex flex-col items-center text-center mb-8 sm:mb-12">
       <!-- Heading in Solid Clean White with semantic h2 -->
       <h2 id="skills-heading" class="sr-only">Technical Stack & Core Expertise</h2>
       <FlipFadeText
@@ -37,181 +67,205 @@ const skillsHeadings = [
       />
     </div>
 
-    <!-- 3D Cylinder Stage with Plenty of Vertical Clearance -->
-    <div class="cylinder-stage pt-6 sm:pt-10 pb-8 sm:pb-12 min-h-[28rem] sm:min-h-[34rem] overflow-visible">
-      <div id="cylinder-ring" class="cylinder-ring">
-        {skillCategories.map((category, idx) => (
-          <div
-            class="cylinder-card p-4 sm:p-7 md:p-8 text-white flex flex-col justify-between"
-            data-index={idx}
-            style={`transform: rotateY(${idx * 60}deg) translateZ(420px);`}
-          >
-            <!-- 2 White Animated Border Beams -->
-            <BorderBeam size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
-            <BorderBeam size={280} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+    <!-- Stage with 3D Perspective Cards -->
+    <div id="skills-stage" class="perspective-stage">
+      {skillCategories.map((category, idx) => (
+        <div
+          class="perspective-card s-card-item p-4 sm:p-8 md:p-11 text-white"
+          data-index={idx}
+          style="width: min(52rem, 92vw);"
+        >
+          <!-- 2 White Animated Border Beams -->
+          <BorderBeam size={360} duration={7} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+          <BorderBeam size={360} duration={7} delay={3.5} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
-            <div>
-              <!-- Clean Header: Title + Skills Count Badge -->
-              <div class="mb-3 sm:mb-5 pb-3 border-b border-white/10 flex items-center justify-between gap-2">
-                <h3 class="font-extrabold text-xl sm:text-2xl md:text-3xl text-white tracking-tight">{category.title}</h3>
-                <span class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">{category.skills.length} Technologies</span>
-              </div>
+          <!-- Category Tag & Tech Count -->
+          <div class="flex items-center justify-between pb-2.5 sm:pb-4 border-b border-white/10 text-xs sm:text-sm text-white/60">
+            <LineHoverLink variant="slide" asSpan className="text-white font-semibold">
+              {category.tag}
+            </LineHoverLink>
+            <span class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">
+              {category.skills.length} Technologies
+            </span>
+          </div>
 
-              <!-- Frameworks & Skill Names -->
-              <div class="flex flex-wrap gap-2 sm:gap-2.5 pt-1">
-                {category.skills.map((skill) => (
-                  <LineHoverLink variant="slide" asSpan className="px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
-                    {skill}
-                  </LineHoverLink>
-                ))}
-              </div>
+          <div class="py-3 sm:py-6">
+            <h3 class="font-extrabold text-xl sm:text-4xl md:text-5xl text-white tracking-tight mb-2 sm:mb-4">
+              {category.title}
+            </h3>
+            <p class="text-xs sm:text-base md:text-lg text-white/85 leading-relaxed font-normal mb-4 sm:mb-8">
+              {category.description}
+            </p>
+
+            <!-- Skill Pills -->
+            <div class="flex flex-wrap gap-2 sm:gap-2.5 pt-1">
+              {category.skills.map((skill) => (
+                <LineHoverLink variant="slide" asSpan className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white shadow-sm hover:bg-white/15">
+                  {skill}
+                </LineHoverLink>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
 
-    <!-- Navigation Controls for 3D Carousel (Positioned cleanly below cylinder with zero overlap) -->
-    <div class="flex items-center justify-center gap-4 sm:gap-6 mt-12 sm:mt-16 relative z-20">
-      <GenerateButton id="cylinder-prev" aria-label="Previous Category">
-        Prev
+    <!-- Controls using Vengeance UI Generate Buttons -->
+    <div class="flex items-center justify-center gap-4 mt-8 sm:mt-12">
+      <GenerateButton id="s-prev" aria-label="Previous Category">
+        PREV STACK
       </GenerateButton>
-
-      <span id="cylinder-indicator" class="text-xs sm:text-sm font-semibold tracking-widest text-white/70 min-w-[4rem] text-center">
-        1 / 6
-      </span>
-
-      <GenerateButton id="cylinder-next" aria-label="Next Category">
-        Next
+      <span class="text-xs text-white/60 font-medium px-2" id="s-indicator">1 / 6</span>
+      <GenerateButton id="s-next" aria-label="Next Category">
+        NEXT STACK
       </GenerateButton>
     </div>
   </div>
 </section>
 
 <script>
-  (() => {
-    const ring = document.getElementById('cylinder-ring');
-    const prevBtn = document.getElementById('cylinder-prev');
-    const nextBtn = document.getElementById('cylinder-next');
-    const indicator = document.getElementById('cylinder-indicator');
+  (function() {
+    const cards = Array.from(document.querySelectorAll('.s-card-item')) as HTMLElement[];
+    const prevBtn = document.getElementById('s-prev');
+    const nextBtn = document.getElementById('s-next');
+    const indicator = document.getElementById('s-indicator');
+    const stage = document.getElementById('skills-stage');
     const skillsSection = document.getElementById('skills');
 
-    let currentAngle = 0;
-    let currentIndex = 0;
-    const total = 6;
-    const angleStep = 60;
+    let current = 0;
+    const total = cards.length;
     let isHovered = false;
     let autoRotateTimer: any = null;
-    const AUTO_ROTATE_DELAY_MS = 8000;
+    const AUTO_ROTATE_DELAY_MS = 6000;
 
-    function getRadius() {
-      // 260px on mobile for clean side margins and squarish card proportions
-      return window.innerWidth < 640 ? 260 : window.innerWidth < 1024 ? 350 : 420;
-    }
+    function updatePerspective() {
+      const isMobile = window.innerWidth < 768;
 
-    function updateCardPositions() {
-      const radius = getRadius();
-      const cards = ring?.querySelectorAll('.cylinder-card');
-      cards?.forEach((card, idx) => {
-        const el = card as HTMLElement;
-        el.style.transform = `rotateY(${idx * angleStep}deg) translateZ(${radius}px)`;
-      });
-      updateDepthStacking();
-    }
+      cards.forEach((card, i) => {
+        const offset = i - current;
+        const absOffset = Math.abs(offset);
 
-    function updateDepthStacking() {
-      if (ring) {
-        ring.style.transform = `rotateY(${currentAngle}deg)`;
-      }
-
-      const cards = ring?.querySelectorAll('.cylinder-card');
-      cards?.forEach((card, idx) => {
-        const el = card as HTMLElement;
-        let relAngle = ((idx * angleStep + currentAngle) % 360 + 360) % 360;
-        if (relAngle > 180) relAngle = 360 - relAngle;
-
-        if (relAngle < 30) {
-          // Active front card
-          el.style.zIndex = '30';
-          el.style.opacity = '1';
-          el.style.filter = 'none';
-        } else if (relAngle < 90) {
-          // Immediate side cards
-          el.style.zIndex = '10';
-          el.style.opacity = '0.35';
-          el.style.filter = 'blur(2px)';
+        if (offset === 0) {
+          card.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+          card.style.opacity = '1';
+          card.style.zIndex = '30';
+          card.style.pointerEvents = 'auto';
+          card.style.visibility = 'visible';
+        } else if (isMobile) {
+          // On mobile viewports, implement smooth sliding
+          const translateXVal = offset * (window.innerWidth * 0.95 + 16);
+          card.style.transform = `translateX(${translateXVal}px) translateZ(0px) scale(1)`;
+          card.style.opacity = absOffset === 0 ? '1' : '0.5';
+          card.style.zIndex = absOffset === 0 ? '30' : '10';
+          card.style.pointerEvents = absOffset === 0 ? 'auto' : 'none';
+          card.style.visibility = absOffset <= 1 ? 'visible' : 'hidden';
         } else {
-          // Back hidden cards
-          el.style.zIndex = '1';
-          el.style.opacity = '0.08';
-          el.style.filter = 'blur(4px)';
+          // On desktop, keep high-end 3D perspective identical to project cards
+          const translateXVal = offset > 0 ? offset * 140 : offset * 140;
+          const rotateYVal = offset > 0 ? -12 : 12;
+          card.style.transform = `translateX(${translateXVal}px) translateZ(-${absOffset * 180}px) rotateY(${rotateYVal}deg) scale(${1 - absOffset * 0.1})`;
+          card.style.opacity = `${Math.max(0.15, 1 - absOffset * 0.35)}`;
+          card.style.zIndex = `${30 - absOffset}`;
+          card.style.pointerEvents = 'none';
+          card.style.visibility = 'visible';
         }
       });
 
-      if (indicator) {
-        indicator.textContent = `${currentIndex + 1} / ${total}`;
-      }
+      if (indicator) indicator.textContent = `${current + 1} / ${total}`;
     }
 
-    function startAutoRotate() {
-      stopAutoRotate();
+    function prev() {
+      current = (current - 1 + total) % total;
+      updatePerspective();
+      resetAuto();
+    }
+
+    function next() {
+      current = (current + 1) % total;
+      updatePerspective();
+      resetAuto();
+    }
+
+    function startAuto() {
+      stopAuto();
       autoRotateTimer = setInterval(() => {
         if (!isHovered) {
-          currentAngle -= angleStep;
-          currentIndex = (currentIndex + 1) % total;
-          updateDepthStacking();
+          current = (current + 1) % total;
+          updatePerspective();
         }
       }, AUTO_ROTATE_DELAY_MS);
     }
 
-    function stopAutoRotate() {
+    function stopAuto() {
       if (autoRotateTimer) {
         clearInterval(autoRotateTimer);
         autoRotateTimer = null;
       }
     }
 
-    function resetAutoRotateWithDelay() {
-      stopAutoRotate();
-      startAutoRotate();
+    function resetAuto() {
+      stopAuto();
+      startAuto();
     }
+
+    prevBtn?.addEventListener('click', prev);
+    nextBtn?.addEventListener('click', next);
+
+    // Touch swipe support for smooth mobile interaction
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    stage?.addEventListener('touchstart', (e: TouchEvent) => {
+      isHovered = true;
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    stage?.addEventListener('touchend', (e: TouchEvent) => {
+      isHovered = false;
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          next();
+        } else {
+          prev();
+        }
+      } else {
+        resetAuto();
+      }
+    }, { passive: true });
 
     if (skillsSection) {
       skillsSection.addEventListener('mouseenter', () => { isHovered = true; });
-      skillsSection.addEventListener('mouseleave', () => { isHovered = false; resetAutoRotateWithDelay(); });
-      skillsSection.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
-      skillsSection.addEventListener('touchend', () => { isHovered = false; resetAutoRotateWithDelay(); }, { passive: true });
+      skillsSection.addEventListener('mouseleave', () => { isHovered = false; resetAuto(); });
     }
 
-    updateCardPositions();
-    window.addEventListener('resize', updateCardPositions);
+    window.addEventListener('resize', updatePerspective);
 
-    prevBtn?.addEventListener('click', () => {
-      currentAngle += angleStep;
-      currentIndex = (currentIndex - 1 + total) % total;
-      updateDepthStacking();
-      resetAutoRotateWithDelay();
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
+      // If skills is in view or focused
+      const rect = skillsSection?.getBoundingClientRect();
+      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      }
     });
 
-    nextBtn?.addEventListener('click', () => {
-      currentAngle -= angleStep;
-      currentIndex = (currentIndex + 1) % total;
-      updateDepthStacking();
-      resetAutoRotateWithDelay();
-    });
-
-    // Pause auto-rotation when Skills section is out of viewport
+    // IntersectionObserver to pause when offscreen
     if ('IntersectionObserver' in window && skillsSection) {
       const obs = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          startAutoRotate();
+          startAuto();
         } else {
-          stopAutoRotate();
+          stopAuto();
         }
       }, { threshold: 0.1 });
       obs.observe(skillsSection);
     } else {
-      startAutoRotate();
+      startAuto();
     }
+
+    updatePerspective();
   })();
 </script>

@@ -1,7 +1,7 @@
 ---
 import { FlipFadeText } from './ui/flip-fade-text';
 import LineHoverLink from './ui/LineHoverLink.astro';
-import GenerateButton from './ui/GenerateButton.astro';
+import { LiquidMetalButton } from './ui/liquid-metal';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -36,13 +36,17 @@ const footerCTAWords = [
         />
       </div>
 
-      <!-- Vengeance UI Generate Button for Contact CTA -->
-      <GenerateButton
+      <!-- Vengeance UI Liquid Metal Button for Contact CTA -->
+      <LiquidMetalButton
+        client:idle
         href="mailto:ayushsaha1884@gmail.com"
         aria-label="Send email to Ayush Saha"
+        size="lg"
+        borderWidth={2}
+        metalConfig={{ speed: 0.5, distortion: 0.18, colorTint: "#ffffff" }}
       >
         Get in Touch
-      </GenerateButton>
+      </LiquidMetalButton>
     </div>
 
     <!-- Columns -->

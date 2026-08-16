@@ -41,7 +41,7 @@ export function FlipText({
   let globalCharIndex = 0;
 
   return (
-    <div className={cn("flex flex-col items-start justify-start w-full h-[160px] sm:h-[190px] md:h-[210px] shrink-0 overflow-hidden", className)}>
+    <div className={cn("flex flex-col items-start justify-start w-full min-h-[140px] sm:min-h-[180px] md:min-h-[210px] h-[140px] sm:h-[180px] md:h-[210px] shrink-0 overflow-hidden text-left", className)}>
       <style>{`
         @keyframes flipCharIn {
           0% {
@@ -62,8 +62,14 @@ export function FlipText({
           animation-delay: var(--flip-delay, 0s);
         }
       `}</style>
-      <div className="relative flex flex-wrap items-start justify-start gap-x-[0.3em] gap-y-2 w-full" style={{ perspective: "1000px" }}>
-        <h1 key={currentText} className={cn("text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight flex flex-wrap gap-x-[0.35em] gap-y-2", textClassName)}>
+      <div className="relative flex flex-wrap items-start justify-start gap-x-[0.3em] gap-y-2 w-full text-left" style={{ perspective: "1000px" }}>
+        <h1
+          key={currentText}
+          className={cn(
+            "text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight flex flex-wrap gap-x-[0.35em] gap-y-2 m-0 p-0 text-left items-start justify-start",
+            textClassName
+          )}
+        >
           {wordTokens.map((word, wIdx) => {
             const wordChars = word.split("");
             return (

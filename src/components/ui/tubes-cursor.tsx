@@ -20,11 +20,13 @@ export function TubesCursorBackground() {
     const initCursor = async () => {
       if (typeof window === 'undefined' || !canvasRef.current) return;
 
-      const isTouch = window.innerWidth < 768 || ('ontouchstart' in window) || window.matchMedia('(pointer: coarse)').matches;
+      const isTouchOnly = window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(pointer: fine)').matches;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // On mobile touch devices or reduced motion, skip heavy WebGL cursor rendering
-      if (reducedMotion || isTouch) return;
+      // On touch-only mobile devices or reduced motion, skip WebGL cursor rendering
+      if (reducedMotion || isTouchOnly) return;
+
+      const isMobile = window.innerWidth < 768;
 
       try {
         // Dynamic ESM import from jsDelivr CDN
@@ -36,16 +38,16 @@ export function TubesCursorBackground() {
         if (canvasRef.current && !isDisposed) {
           const app = TubesCursor(canvasRef.current, {
             tubes: {
-              colors: ["#00E5FF", "#7B2CBF", "#3A86EF"],
+              colors: ["#00E5FF", "#7B2CBF", "#FF007A"],
               lights: {
-                intensity: isMobile ? 100 : 200,
+                intensity: isMobile ? 120 : 200,
                 colors: ["#00E5FF", "#B721FF", "#FF007A", "#11CDEF"]
               }
             }
           });
           appRef.current = app;
 
-          // CAP DEVICE PIXEL RATIO to 1.5 max for huge GPU performance gains on mobile/high-DPI screens
+          // CAP DEVICE PIXEL RATIO to 1.5 max for performance
           if (app && app.renderer && typeof app.renderer.setPixelRatio === 'function') {
             app.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
           }
@@ -56,7 +58,7 @@ export function TubesCursorBackground() {
     };
 
     // Delay slightly to ensure container bounds are ready
-    timerId = setTimeout(initCursor, 150);
+    timerId = setTimeout(initCursor, 100);
 
     const handleGlobalClick = () => {
       if (appRef.current && appRef.current.tubes) {
