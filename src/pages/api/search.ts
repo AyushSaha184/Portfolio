@@ -39,6 +39,13 @@ if (typeof setInterval !== 'undefined') {
   }, 5 * 60 * 1000);
 }
 
+export const GET: APIRoute = async () => {
+  return new Response(
+    JSON.stringify({ status: "ok", message: "Ayush Saha AI Search RAG API is operational." }),
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  );
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || request.headers.get('cf-connecting-ip') || 'global-client';

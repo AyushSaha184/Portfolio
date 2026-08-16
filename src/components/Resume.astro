@@ -1,7 +1,7 @@
 ---
 import { FlipFadeText } from './ui/flip-fade-text';
-import { GenerateButton } from './ui/generate-button';
-import { BorderBeam } from './ui/border-beam';
+import GenerateButton from './ui/GenerateButton.astro';
+import BorderBeam from './ui/BorderBeam.astro';
 
 const RESUME_PDF_URL = "/Resume.pdf";
 const GITHUB_RESUME_URL = "https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf";
@@ -14,11 +14,12 @@ const resumeHeadings = [
 ---
 
 <!-- Vengeance UI Resume Section (Single Universal PDF Resume Viewer for Mobile & Desktop) -->
-<section id="resume" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent border-t border-white/10">
+<section id="resume" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent border-t border-white/10" aria-labelledby="resume-heading">
   <div class="shell">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8 sm:mb-14">
       <div>
-        <!-- Vengeance UI Flip Fade Text Heading -->
+        <!-- Vengeance UI Flip Fade Text Heading with semantic h2 -->
+        <h2 id="resume-heading" class="sr-only">Professional Resume</h2>
         <FlipFadeText
           client:visible
           words={resumeHeadings}
@@ -32,10 +33,10 @@ const resumeHeadings = [
 
       <!-- Download Resume PDF Button -->
       <GenerateButton
-        client:visible
         href={GITHUB_RESUME_URL}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Download Ayush Saha Resume (PDF)"
       >
         Download Resume (PDF)
       </GenerateButton>
@@ -44,23 +45,14 @@ const resumeHeadings = [
     <!-- Single Universal PDF Document Panel (Renders on Mobile, Tablet & Desktop) -->
     <div class="relative rounded-3xl bg-[#090b10] p-4 sm:p-7 text-white shadow-2xl overflow-hidden border border-white/15">
       <!-- 2 White Animated Border Beams -->
-      <BorderBeam client:visible size={360} duration={8} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
-      <BorderBeam client:visible size={360} duration={8} delay={4} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+      <BorderBeam size={360} duration={8} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+      <BorderBeam size={360} duration={8} delay={4} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
       <!-- Top Header Bar -->
       <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 text-xs sm:text-sm text-white/70">
         <div class="flex items-center gap-3">
           <span class="font-bold text-white text-sm sm:text-base">Resume.pdf</span>
-          <span class="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-white/80">Ayush Saha • AI Engineer</span>
         </div>
-        <a
-          href={GITHUB_RESUME_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-xs text-white/70 hover:text-white underline decoration-white/30"
-        >
-          Open External
-        </a>
       </div>
 
       <!-- Actual PDF Document Viewer (Object with fallback iframe) -->

@@ -1,0 +1,53 @@
+---
+interface Props {
+  className?: string;
+  size?: number;
+  duration?: number;
+  borderWidth?: number;
+  colorFrom?: string;
+  colorTo?: string;
+  delay?: number;
+  rx?: number | string;
+}
+
+const {
+  className = '',
+  size = 240,
+  duration = 8,
+  borderWidth = 1.5,
+  colorFrom = '#ffffff',
+  colorTo = 'rgba(255, 255, 255, 0)',
+  delay = 0,
+  rx = 26,
+} = Astro.props;
+
+const gradientId = `beam-grad-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class:list={['pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden z-10', className]}>
+  <svg class="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none overflow-visible">
+    <defs>
+      <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color={colorFrom} stop-opacity="1" />
+        <stop offset="50%" stop-color={colorFrom} stop-opacity="0.5" />
+        <stop offset="100%" stop-color={colorTo} stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <rect
+      x="1"
+      y="1"
+      width="calc(100% - 2px)"
+      height="calc(100% - 2px)"
+      rx={rx}
+      fill="none"
+      stroke={`url(#${gradientId})`}
+      stroke-width={borderWidth}
+      stroke-dasharray={`${size} 1440`}
+      style={{
+        animation: `border-beam-dash ${duration}s linear infinite`,
+        animationDelay: `-${delay}s`,
+        willChange: 'stroke-dashoffset',
+      }}
+    />
+  </svg>
+</div>

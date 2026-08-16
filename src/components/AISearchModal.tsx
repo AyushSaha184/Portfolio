@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BorderBeam } from "./ui/border-beam";
 import { GenerateButton } from "./ui/generate-button";
-import { executeRAGQuery } from "../lib/rag/ragEngine";
 import type { RAGResponse } from "../lib/rag/ragEngine";
 
 const sampleQueries = [
@@ -37,7 +36,19 @@ export const AISearchModal: React.FC = () => {
     resetModalState();
   };
 
-  // Trigger setup for #ai-search-trigger button & Cmd+K keyboard shortcut
+  // Lock body scroll and manage focus when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Trigger setup for #ai-search-trigger button, Cmd+K shortcut, and Escape/Tab trapping
   useEffect(() => {
     const handleOpen = () => {
       resetModalState();
@@ -65,6 +76,27 @@ export const AISearchModal: React.FC = () => {
       }
       if (e.key === "Escape" && isOpen) {
         closeModal();
+      }
+
+      // Focus trap inside modal
+      if (e.key === "Tab" && isOpen) {
+        const modalEl = document.getElementById("ai-search-dialog");
+        if (modalEl) {
+          const focusable = modalEl.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusable.length > 0) {
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
       }
     };
 
@@ -136,11 +168,21 @@ export const AISearchModal: React.FC = () => {
       }
 
       // Fallback to client-side RAG engine
+      const { executeRAGQuery } = await import("../lib/rag/ragEngine");
       const fallbackRes = await executeRAGQuery(q);
       setRagResult(fallbackRes);
     } catch {
-      const fallbackRes = await executeRAGQuery(q);
-      setRagResult(fallbackRes);
+      try {
+        const { executeRAGQuery } = await import("../lib/rag/ragEngine");
+        const fallbackRes = await executeRAGQuery(q);
+        setRagResult(fallbackRes);
+      } catch (err: any) {
+        setRagResult({
+          answer: `⚠️ Search Error: Unable to complete search. Please try again.`,
+          sources: [],
+          isError: true,
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -167,7 +209,13 @@ export const AISearchModal: React.FC = () => {
       />
 
       {/* Main Dialog Box Container with Double BorderBeam */}
-      <div className="relative w-full max-w-2xl bg-[#090b10]/95 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 z-10 overflow-hidden flex flex-col max-h-[85vh]">
+      <div
+        id="ai-search-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search Ayush Saha's AI Portfolio"
+        className="relative w-full max-w-2xl bg-[#090b10]/95 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 z-10 overflow-hidden flex flex-col max-h-[85vh]"
+      >
         {/* DOUBLE BORDER BEAM EFFECT */}
         <BorderBeam size={450} duration={7} delay={0} colorFrom="#ffffff" colorTo="rgba(255, 255, 255, 0)" borderWidth={1.5} rx={24} />
         <BorderBeam size={450} duration={7} delay={3.5} colorFrom="#ffffff" colorTo="rgba(255, 255, 255, 0)" borderWidth={1.5} rx={24} />
@@ -186,7 +234,8 @@ export const AISearchModal: React.FC = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Ask about Ayush's projects, RAG skills, architecture..."
-            className="w-full bg-[#030406]/90 border border-white/20 rounded-2xl py-3.5 pl-4 pr-24 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all shadow-inner"
+            aria-label="Search query"
+            className="w-full bg-[#030406]/90 border border-white/20 rounded-2xl py-3.5 pl-4 pr-24 text-sm text-white placeholder-white/60 focus:outline-none focus:border-white/60 focus:ring-1 focus:ring-white/60 transition-all shadow-inner"
           />
 
           <div className="absolute right-2 top-1.5 bottom-1.5 flex items-center">
@@ -203,14 +252,14 @@ export const AISearchModal: React.FC = () => {
         {/* Preset Sample Prompt Chips */}
         {!ragResult && !isLoading && (
           <div className="mt-5 pt-1 shrink-0">
-            <p className="text-xs font-medium text-white/50 mb-2.5">Suggested queries:</p>
+            <p className="text-xs font-medium text-white/70 mb-2.5">Suggested queries:</p>
             <div className="flex flex-wrap gap-2">
               {sampleQueries.map((sample, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => handleSearch(sample)}
-                  className="text-xs font-medium px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white/80 hover:text-white transition-all text-left"
+                  className="text-xs font-medium px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white/90 hover:text-white transition-all text-left"
                 >
                   {sample}
                 </button>

@@ -20,11 +20,11 @@ export function TubesCursorBackground() {
     const initCursor = async () => {
       if (typeof window === 'undefined' || !canvasRef.current) return;
 
-      const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+      const isTouch = window.innerWidth < 768 || ('ontouchstart' in window) || window.matchMedia('(pointer: coarse)').matches;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // On low-end / reduced motion, we skip heavy WebGL tube rendering completely
-      if (reducedMotion) return;
+      // On mobile touch devices or reduced motion, skip heavy WebGL cursor rendering
+      if (reducedMotion || isTouch) return;
 
       try {
         // Dynamic ESM import from jsDelivr CDN

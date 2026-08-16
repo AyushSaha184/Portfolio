@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SpotlightNew } from '../components/ui/spotlight-new';
+import SpotlightNew from '../components/ui/SpotlightNew.astro';
 import { PageLoader } from '../components/PageLoader';
 import { TubesCursorBackground } from '../components/ui/tubes-cursor';
 
@@ -21,18 +21,67 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#030406" />
+    <link rel="canonical" href="https://ayushsaha.dev" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ayushsaha.dev" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/dp/AYUSH'S HEADSHOT.webp" />
+    <meta property="og:site_name" content="Ayush Saha Portfolio" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/dp/AYUSH'S HEADSHOT.webp" />
+    <meta name="twitter:creator" content="@AyushSaha184" />
+
     <title>{title}</title>
     <!-- Resource Hints & DNS Prefetching for CDN Latency Reduction -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Non-render-blocking Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <!-- Non-render-blocking Web Font Loading -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    </noscript>
+
+    <!-- JSON-LD Structured Data for Search Engines -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ayush Saha",
+        "jobTitle": "AI Engineer & Computer Science Student",
+        "url": "https://ayushsaha.dev",
+        "image": "https://ayushsaha.dev/dp/AYUSH'S%20HEADSHOT.webp",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Siliguri Institute of Technology"
+        },
+        "sameAs": [
+          "https://github.com/AyushSaha184",
+          "https://www.linkedin.com/in/AyushSaha184"
+        ],
+        "knowsAbout": [
+          "Retrieval-Augmented Generation (RAG)",
+          "Agentic AI",
+          "LangGraph",
+          "FastAPI",
+          "Go",
+          "Python",
+          "Next.js",
+          "Model Context Protocol (MCP)",
+          "Vector Databases"
+        ]
+      }
+    </script>
   </head>
   <body class="bg-[#030406] text-[#f3f4f6] font-sans antialiased overflow-x-hidden relative min-h-screen">
     <!-- Aceternity UI MultiStepLoader (Loading Screen) -->
@@ -41,8 +90,8 @@ const { title, description = "Ayush Saha | AI Engineer & Computer Science Studen
     <!-- 3D Tubes Cursor Interactive Background (Click anywhere to randomize tube & light colors) -->
     <TubesCursorBackground client:idle />
 
-    <!-- Aceternity UI SpotlightNew Background (Ambient Multi-Cone Spotlight Beams) -->
-    <SpotlightNew client:idle />
+    <!-- Zero-JS Ambient Spotlight Background -->
+    <SpotlightNew />
 
     <div class="relative z-10 pointer-events-none">
       <div class="pointer-events-auto">

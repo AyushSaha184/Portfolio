@@ -7,7 +7,7 @@ import Resume from '../components/Resume.astro';
 import Footer from '../components/Footer.astro';
 import { AISearchModal } from '../components/AISearchModal';
 import { FlipText } from '../components/ui/flip-text';
-import { LineHoverLink } from '../components/ui/line-hover-link';
+import LineHoverLink from '../components/ui/LineHoverLink.astro';
 import { LiquidMetalButton } from '../components/ui/liquid-metal';
 
 const heroHeadlineWords = [
@@ -47,14 +47,14 @@ const heroHeadlineWords = [
           <p>
             Fourth-year Computer Science student at{" "}
             <span class="inline whitespace-nowrap">
-              <LineHoverLink client:idle variant="slide" href="https://sit-siliguri.ac.in" target="_blank" className="text-white font-semibold">
+              <LineHoverLink variant="slide" href="https://sit-siliguri.ac.in" target="_blank" rel="noopener noreferrer" className="text-white font-semibold">
                 Siliguri Institute of Technology, West Bengal.
               </LineHoverLink>
             </span>
           </p>
           <p>
             Specializing in{" "}
-            <LineHoverLink client:idle variant="slide" href="#skills" className="text-white font-semibold">
+            <LineHoverLink variant="slide" href="#skills" className="text-white font-semibold">
               RAG and Agentic AI Systems
             </LineHoverLink>
             . Strong focus on high-performance vector databases, system architecture, and building production-ready autonomous LLM tools.
@@ -76,9 +76,10 @@ const heroHeadlineWords = [
           <LiquidMetalButton
             client:idle
             href="#contact"
-            size="md"
+            size="lg"
             borderWidth={2}
             metalConfig={{ speed: 0.5, distortion: 0.18, colorTint: "#ffffff" }}
+            className="w-full sm:w-auto mt-2 sm:mt-0 px-2 py-1"
           >
             Get in Touch
           </LiquidMetalButton>

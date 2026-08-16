@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, forwardRef, useEffect, useRef, useState } from "react";
+import React, { memo, forwardRef, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface LiquidMetalProps {
@@ -28,21 +28,9 @@ export const LiquidMetal = memo(function LiquidMetal({
   style,
 }: LiquidMetalProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [ShaderComp, setShaderComp] = useState<any>(null);
-
-  useEffect(() => {
-    import("@paper-design/shaders-react")
-      .then((mod) => {
-        if (mod && mod.LiquidMetal) {
-          setShaderComp(() => mod.LiquidMetal);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   // WebGL Canvas Shader for Pure White Chrome Liquid Metal
   useEffect(() => {
-    if (ShaderComp) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -187,29 +175,11 @@ export const LiquidMetal = memo(function LiquidMetal({
       if (observer) observer.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [ShaderComp, speed, distortion, repetition]);
+  }, [speed, distortion, repetition]);
 
   return (
     <div className={cn("absolute inset-0 z-0 overflow-hidden", className)} style={style}>
-      {ShaderComp ? (
-        <ShaderComp
-          colorBack={colorBack}
-          colorTint={colorTint}
-          speed={speed}
-          repetition={repetition}
-          distortion={distortion}
-          softness={0}
-          shiftRed={0.1}
-          shiftBlue={-0.1}
-          angle={45}
-          shape="none"
-          scale={scale}
-          fit="cover"
-          style={{ width: "100%", height: "100%" }}
-        />
-      ) : (
-        <canvas ref={canvasRef} className="w-full h-full block object-cover" />
-      )}
+      <canvas ref={canvasRef} className="w-full h-full block object-cover" />
     </div>
   );
 });
@@ -255,8 +225,8 @@ export const LiquidMetalButton = forwardRef<
 
     const content = (
       <div
-        className="relative rounded-full overflow-hidden shadow-[0_10px_30px_-8px_rgba(255,255,255,0.3)] transition-all duration-300 group-hover:shadow-[0_15px_40px_-4px_rgba(255,255,255,0.5)] group-hover:scale-[1.02]"
-        style={{ padding: borderWidth }}
+        className="relative rounded-full overflow-hidden shadow-[0_10px_30px_-8px_rgba(255,255,255,0.3)] transition-all duration-300 group-hover:shadow-[0_15px_40px_-4px_rgba(255,255,255,0.5)] group-hover:scale-[1.02] isolate"
+        style={{ padding: borderWidth, transform: "translateZ(0)" }}
       >
         {/* Liquid Metal Shader Border Layer with Pure White Sheen */}
         <LiquidMetal
@@ -266,7 +236,7 @@ export const LiquidMetalButton = forwardRef<
           repetition={metalConfig?.repetition ?? 4}
           distortion={metalConfig?.distortion ?? 0.2}
           scale={metalConfig?.scale ?? 1}
-          className="absolute inset-0 z-0 rounded-full"
+          className="absolute inset-0 z-0 rounded-full mix-blend-screen"
         />
 
         {/* Inner Button Body */}
@@ -278,8 +248,9 @@ export const LiquidMetalButton = forwardRef<
             "group-hover:bg-[#121620] group-hover:border-white/30",
             sizeStyles[size]
           )}
+          style={{ transform: "translateZ(0)" }}
         >
-          <span className="font-semibold tracking-tight text-white group-hover:text-white transition-colors whitespace-nowrap">
+          <span className="relative z-10 font-semibold tracking-tight text-white group-hover:text-white transition-colors whitespace-nowrap">
             {children}
           </span>
         </div>

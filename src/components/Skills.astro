@@ -1,8 +1,8 @@
 ---
 import { FlipFadeText } from './ui/flip-fade-text';
-import { LineHoverLink } from './ui/line-hover-link';
-import { GenerateButton } from './ui/generate-button';
-import { BorderBeam } from './ui/border-beam';
+import LineHoverLink from './ui/LineHoverLink.astro';
+import GenerateButton from './ui/GenerateButton.astro';
+import BorderBeam from './ui/BorderBeam.astro';
 
 const skillCategories = [
   { title: "Generative AI", skills: ["Retrieval-Augmented Generation (RAG)", "Agentic AI", "Model Context Protocol (MCP)", "Prompt Engineering", "NLP", "Transformers", "Open-Source LLMs"] },
@@ -21,10 +21,11 @@ const skillsHeadings = [
 ---
 
 <!-- Vengeance UI Skills Section with Squarish Proportions & Bottom Clearance -->
-<section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-visible">
+<section id="skills" class="relative py-20 sm:py-36 px-4 sm:px-8 bg-transparent overflow-visible" aria-labelledby="skills-heading">
   <div class="shell">
     <div class="flex flex-col items-center text-center mb-8 sm:mb-14">
-      <!-- Heading in Solid Clean White -->
+      <!-- Heading in Solid Clean White with semantic h2 -->
+      <h2 id="skills-heading" class="sr-only">Technical Stack & Core Expertise</h2>
       <FlipFadeText
         client:visible
         words={skillsHeadings}
@@ -41,13 +42,13 @@ const skillsHeadings = [
       <div id="cylinder-ring" class="cylinder-ring">
         {skillCategories.map((category, idx) => (
           <div
-            class="cylinder-card p-5 sm:p-7 md:p-8 text-white flex flex-col justify-between"
+            class="cylinder-card p-4 sm:p-7 md:p-8 text-white flex flex-col justify-between"
             data-index={idx}
             style={`transform: rotateY(${idx * 60}deg) translateZ(420px);`}
           >
             <!-- 2 White Animated Border Beams -->
-            <BorderBeam client:visible size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
-            <BorderBeam client:visible size={280} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+            <BorderBeam size={280} duration={6} delay={0} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
+            <BorderBeam size={280} duration={6} delay={3} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
 
             <div>
               <!-- Clean Header: Title + Skills Count Badge -->
@@ -59,7 +60,7 @@ const skillsHeadings = [
               <!-- Frameworks & Skill Names -->
               <div class="flex flex-wrap gap-2 sm:gap-2.5 pt-1">
                 {category.skills.map((skill) => (
-                  <LineHoverLink client:visible variant="slide" asSpan className="px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
+                  <LineHoverLink variant="slide" asSpan className="px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-white/10 border border-white/20 text-white">
                     {skill}
                   </LineHoverLink>
                 ))}
@@ -72,7 +73,7 @@ const skillsHeadings = [
 
     <!-- Navigation Controls for 3D Carousel (Positioned cleanly below cylinder with zero overlap) -->
     <div class="flex items-center justify-center gap-4 sm:gap-6 mt-12 sm:mt-16 relative z-20">
-      <GenerateButton client:visible id="cylinder-prev" aria-label="Previous Category">
+      <GenerateButton id="cylinder-prev" aria-label="Previous Category">
         Prev
       </GenerateButton>
 
@@ -80,7 +81,7 @@ const skillsHeadings = [
         1 / 6
       </span>
 
-      <GenerateButton client:visible id="cylinder-next" aria-label="Next Category">
+      <GenerateButton id="cylinder-next" aria-label="Next Category">
         Next
       </GenerateButton>
     </div>
@@ -199,6 +200,18 @@ const skillsHeadings = [
       resetAutoRotateWithDelay();
     });
 
-    startAutoRotate();
+    // Pause auto-rotation when Skills section is out of viewport
+    if ('IntersectionObserver' in window && skillsSection) {
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          startAutoRotate();
+        } else {
+          stopAutoRotate();
+        }
+      }, { threshold: 0.1 });
+      obs.observe(skillsSection);
+    } else {
+      startAutoRotate();
+    }
   })();
 </script>

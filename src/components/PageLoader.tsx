@@ -25,19 +25,26 @@ export const PageLoader: React.FC = () => {
     sessionStorage.setItem("portfolio_initial_loaded", "true");
     setTimeout(() => {
       setLoading(false);
-    }, 400);
+    }, 150);
+  };
+
+  const handleDismiss = () => {
+    sessionStorage.setItem("portfolio_initial_loaded", "true");
+    setLoading(false);
   };
 
   if (!loading) return null;
 
   return (
-    <MultiStepLoader
-      loadingStates={portfolioLoadingStates}
-      loading={loading}
-      duration={650}
-      loop={false}
-      onComplete={handleComplete}
-    />
+    <div onClick={handleDismiss} className="cursor-pointer" title="Click anywhere to enter">
+      <MultiStepLoader
+        loadingStates={portfolioLoadingStates}
+        loading={loading}
+        duration={250}
+        loop={false}
+        onComplete={handleComplete}
+      />
+    </div>
   );
 };
 
