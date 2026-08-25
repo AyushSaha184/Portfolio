@@ -290,7 +290,7 @@ img {
   align-items: center;
   justify-content: center;
   overflow: visible;
-  contain: layout style;
+  contain: layout style paint;
 }
 
 .perspective-card {
@@ -302,12 +302,14 @@ img {
   padding: 2.25rem;
   color: #fff;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-  will-change: transform, opacity;
+  /* will-change is toggled via JS based on IntersectionObserver */
+  will-change: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
   box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95);
   overflow: hidden;
+  contain: layout paint;
 }
 
 .perspective-card::before {
@@ -327,6 +329,19 @@ img {
 .perspective-card:hover {
   border-color: rgba(255, 255, 255, 0.35);
   box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.98);
+}
+
+/* BorderBeam host — promoted to its own GPU layer so the animated SVG
+   does not trigger a repaint of the entire card body. */
+.s-beam-host,
+.p-beam-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout paint;
 }
 
 .no-scrollbar::-webkit-scrollbar {

@@ -55,12 +55,29 @@ const resumeHeadings = [
         </div>
       </div>
 
-      <!-- Actual PDF Document Viewer (Object with fallback iframe) -->
+      <!-- Actual PDF Document Viewer (responsive: native embed on desktop, Google Docs on most mobile, pdf.js for Firefox) -->
       <div class="relative w-full rounded-2xl overflow-hidden bg-[#030406] border border-white/10">
+        <!-- Mobile + tablet: Google Docs viewer (works on iOS Safari & Android Chrome where native PDF embed fails) -->
+        <iframe
+          id="resume-gdocs"
+          src={`https://docs.google.com/viewer?url=${encodeURIComponent(new URL(RESUME_PDF_URL, Astro.site ?? Astro.url.origin).toString())}&embedded=true`}
+          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none block md:hidden"
+          title="Ayush Saha Resume PDF"
+          loading="lazy"
+        ></iframe>
+
+        <!-- pdf.js fallback container (hidden by default, shown by JS for Firefox or if Google Docs fails) -->
+        <div
+          id="resume-pdfjs"
+          class="w-full h-[550px] sm:h-[750px] md:h-[950px] hidden overflow-auto bg-[#1a1a1a]"
+          aria-label="Ayush Saha Resume PDF (pdf.js viewer)"
+        ></div>
+
+        <!-- Desktop: native object/iframe embed (full quality, no third-party hop) -->
         <object
           data={RESUME_PDF_URL}
           type="application/pdf"
-          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none"
+          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none hidden md:block"
         >
           <iframe
             src={`${RESUME_PDF_URL}#toolbar=0&navpanes=0`}
@@ -79,3 +96,84 @@ const resumeHeadings = [
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (function () {
+    const PDFJS_VERSION = '4.0.379';
+    const PDFJS_CDN = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
+    const PDFJS_WORKER = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
+    const RESUME_URL = '/Resume.pdf';
+
+    const gdocs = document.getElementById('resume-gdocs');
+    const pdfjsBox = document.getElementById('resume-pdfjs');
+    if (!pdfjsBox) return;
+
+    const isFirefox = /firefox|fxios/i.test(navigator.userAgent);
+
+    function showPdfJs() {
+      if (!gdocs) return;
+      gdocs.style.display = 'none';
+      pdfjsBox.classList.remove('hidden');
+      pdfjsBox.classList.add('block');
+    }
+
+    async function loadPdfJs() {
+      try {
+        const lib = await import(PDFJS_CDN);
+        const pdfjsLib = lib.GlobalWorkerOptions
+          ? lib
+          : lib.default || lib;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+
+        const loadingTask = pdfjsLib.getDocument(RESUME_URL);
+        const pdf = await loadingTask.promise;
+
+        const total = Math.min(pdf.numPages, 5);
+        for (let i = 1; i <= total; i++) {
+          const page = await pdf.getPage(i);
+          const containerWidth = pdfjsBox.clientWidth - 16;
+          const baseViewport = page.getViewport({ scale: 1 });
+          const scale = Math.max(0.6, Math.min(1.5, containerWidth / baseViewport.width));
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement('canvas');
+          canvas.className = 'mx-auto my-2 rounded shadow-lg bg-white';
+          canvas.style.display = 'block';
+          canvas.style.width = viewport.width + 'px';
+          canvas.style.height = viewport.height + 'px';
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          pdfjsBox.appendChild(canvas);
+
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+        }
+      } catch (err) {
+        console.error('[pdf.js fallback] failed:', err);
+        pdfjsBox.innerHTML =
+          '<div class="flex flex-col items-center justify-center h-full p-6 text-center text-white/80">' +
+          '<p class="mb-4 text-sm">Preview unavailable. Use the button below to open the resume.</p>' +
+          '<a href="' + RESUME_URL + '" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded bg-white text-black font-semibold">Open Resume (PDF)</a>' +
+          '</div>';
+      }
+    }
+
+    if (isFirefox) {
+      showPdfJs();
+      loadPdfJs();
+      return;
+    }
+
+    if (gdocs) {
+      let gdocsLoaded = false;
+      const onLoad = () => { gdocsLoaded = true; };
+      gdocs.addEventListener('load', onLoad, { once: true });
+      setTimeout(() => {
+        if (!gdocsLoaded) {
+          showPdfJs();
+          loadPdfJs();
+        }
+      }, 6000);
+    }
+  })();
+</script>
