@@ -55,43 +55,22 @@ const resumeHeadings = [
         </div>
       </div>
 
-      <!-- Actual PDF Document Viewer (responsive: native embed on desktop, Google Docs on most mobile, pdf.js for Firefox) -->
+      <!-- Universal High-Quality PDF Viewer (Single Viewer for Mobile & Desktop) -->
       <div class="relative w-full rounded-2xl overflow-hidden bg-[#030406] border border-white/10">
-        <!-- Mobile + tablet: Google Docs viewer (works on iOS Safari & Android Chrome where native PDF embed fails) -->
-        <iframe
-          id="resume-gdocs"
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(new URL(RESUME_PDF_URL, Astro.site ?? Astro.url.origin).toString())}&embedded=true`}
-          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none block md:hidden"
-          title="Ayush Saha Resume PDF"
-          loading="lazy"
-        ></iframe>
-
-        <!-- pdf.js fallback container (hidden by default, shown by JS for Firefox or if Google Docs fails) -->
         <div
           id="resume-pdfjs"
-          class="w-full h-[550px] sm:h-[750px] md:h-[950px] hidden overflow-auto bg-[#1a1a1a]"
-          aria-label="Ayush Saha Resume PDF (pdf.js viewer)"
-        ></div>
-
-        <!-- Desktop: native object/iframe embed (full quality, no third-party hop) -->
-        <object
-          data={RESUME_PDF_URL}
-          type="application/pdf"
-          class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none hidden md:block"
+          class="w-full min-h-[550px] sm:min-h-[750px] md:min-h-[950px] overflow-auto bg-[#030406] p-2 sm:p-4 flex flex-col items-center justify-center"
+          aria-label="Ayush Saha Resume PDF"
         >
-          <iframe
-            src={`${RESUME_PDF_URL}#toolbar=0&navpanes=0`}
-            class="w-full h-[550px] sm:h-[750px] md:h-[950px] rounded-2xl border-none"
-            title="Ayush Saha Resume PDF"
-          >
-            <div class="flex flex-col items-center justify-center p-10 text-center">
-              <p class="text-sm text-white/80 mb-4">Preview not supported directly on this browser version.</p>
-              <GenerateButton href={GITHUB_RESUME_URL} target="_blank" rel="noopener noreferrer">
-                View Resume PDF
-              </GenerateButton>
-            </div>
-          </iframe>
-        </object>
+          <!-- Loading State Spinner -->
+          <div id="resume-loading" class="flex flex-col items-center justify-center py-24 text-white/60 gap-3">
+            <svg class="animate-spin h-8 w-8 text-white/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span class="text-xs tracking-wider font-mono">RENDERING RESUME...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -103,77 +82,80 @@ const resumeHeadings = [
     const PDFJS_CDN = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
     const PDFJS_WORKER = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
     const RESUME_URL = '/Resume.pdf';
+    const GITHUB_RESUME_URL = 'https://github.com/AyushSaha184/Resume/releases/download/latestt/Resume.pdf';
 
-    const gdocs = document.getElementById('resume-gdocs');
     const pdfjsBox = document.getElementById('resume-pdfjs');
     if (!pdfjsBox) return;
 
-    const isFirefox = /firefox|fxios/i.test(navigator.userAgent);
+    let cachedPdf = null;
+    let renderTaskId = 0;
 
-    function showPdfJs() {
-      if (!gdocs) return;
-      gdocs.style.display = 'none';
-      pdfjsBox.classList.remove('hidden');
-      pdfjsBox.classList.add('block');
-    }
-
-    async function loadPdfJs() {
+    async function renderResume() {
+      const currentTaskId = ++renderTaskId;
       try {
-        const lib = await import(PDFJS_CDN);
-        const pdfjsLib = lib.GlobalWorkerOptions
-          ? lib
-          : lib.default || lib;
-        pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+        if (!cachedPdf) {
+          const lib = await import(PDFJS_CDN);
+          const pdfjsLib = lib.GlobalWorkerOptions ? lib : lib.default || lib;
+          pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+          const loadingTask = pdfjsLib.getDocument(RESUME_URL);
+          cachedPdf = await loadingTask.promise;
+        }
 
-        const loadingTask = pdfjsLib.getDocument(RESUME_URL);
-        const pdf = await loadingTask.promise;
+        if (currentTaskId !== renderTaskId) return;
 
-        const total = Math.min(pdf.numPages, 5);
+        pdfjsBox.innerHTML = '';
+        const total = Math.min(cachedPdf.numPages, 5);
+        const dpr = window.devicePixelRatio || 1;
+        const padding = window.innerWidth < 640 ? 16 : 32;
+        const availableWidth = Math.max(300, pdfjsBox.clientWidth - padding);
+
         for (let i = 1; i <= total; i++) {
-          const page = await pdf.getPage(i);
-          const containerWidth = pdfjsBox.clientWidth - 16;
+          if (currentTaskId !== renderTaskId) return;
+
+          const page = await cachedPdf.getPage(i);
           const baseViewport = page.getViewport({ scale: 1 });
-          const scale = Math.max(0.6, Math.min(1.5, containerWidth / baseViewport.width));
+          const scale = Math.max(0.6, Math.min(1.6, availableWidth / baseViewport.width));
           const viewport = page.getViewport({ scale });
 
           const canvas = document.createElement('canvas');
-          canvas.className = 'mx-auto my-2 rounded shadow-lg bg-white';
+          canvas.className = 'mx-auto my-2 rounded-xl shadow-2xl bg-white max-w-full';
           canvas.style.display = 'block';
-          canvas.style.width = viewport.width + 'px';
-          canvas.style.height = viewport.height + 'px';
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
+          canvas.style.width = `${viewport.width}px`;
+          canvas.style.height = `${viewport.height}px`;
+          canvas.width = Math.floor(viewport.width * dpr);
+          canvas.height = Math.floor(viewport.height * dpr);
           pdfjsBox.appendChild(canvas);
 
           const ctx = canvas.getContext('2d');
-          await page.render({ canvasContext: ctx, viewport, canvas }).promise;
+          const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+            transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null
+          };
+          await page.render(renderContext).promise;
         }
       } catch (err) {
-        console.error('[pdf.js fallback] failed:', err);
+        console.error('[Resume PDF render failed]:', err);
         pdfjsBox.innerHTML =
-          '<div class="flex flex-col items-center justify-center h-full p-6 text-center text-white/80">' +
-          '<p class="mb-4 text-sm">Preview unavailable. Use the button below to open the resume.</p>' +
-          '<a href="' + RESUME_URL + '" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded bg-white text-black font-semibold">Open Resume (PDF)</a>' +
+          '<div class="flex flex-col items-center justify-center py-20 px-6 text-center text-white/80">' +
+          '<p class="mb-4 text-sm">Unable to render PDF preview directly.</p>' +
+          '<a href="' + GITHUB_RESUME_URL + '" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-white text-black font-semibold hover:bg-white/90 transition-colors text-sm shadow-lg">' +
+          'Open Resume (PDF)' +
+          '</a>' +
           '</div>';
       }
     }
 
-    if (isFirefox) {
-      showPdfJs();
-      loadPdfJs();
-      return;
-    }
+    renderResume();
 
-    if (gdocs) {
-      let gdocsLoaded = false;
-      const onLoad = () => { gdocsLoaded = true; };
-      gdocs.addEventListener('load', onLoad, { once: true });
-      setTimeout(() => {
-        if (!gdocsLoaded) {
-          showPdfJs();
-          loadPdfJs();
-        }
-      }, 6000);
-    }
+    let resizeTimer = null;
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (Math.abs(window.innerWidth - lastWidth) > 30) {
+        lastWidth = window.innerWidth;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderResume, 200);
+      }
+    });
   })();
 </script>

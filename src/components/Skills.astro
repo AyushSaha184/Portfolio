@@ -83,14 +83,11 @@ const skillsHeadings = [
             <BorderBeam size={360} duration={7} delay={3.5} colorFrom="#ffffff" colorTo="rgba(255,255,255,0)" borderWidth={1.5} />
           </div>
 
-          <!-- Category Tag & Tech Count -->
-          <div class="flex items-center justify-between pb-2.5 sm:pb-4 border-b border-white/10 text-xs sm:text-sm text-white/60">
+          <!-- Category Tag -->
+          <div class="flex items-center pb-2.5 sm:pb-4 border-b border-white/10 text-xs sm:text-sm text-white/60">
             <LineHoverLink variant="slide" asSpan className="text-white font-semibold">
               {category.tag}
             </LineHoverLink>
-            <span class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white/70 shrink-0">
-              {category.skills.length} Technologies
-            </span>
           </div>
 
           <div class="py-3 sm:py-6">
