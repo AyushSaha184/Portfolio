@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import SpotlightNew from '../components/ui/SpotlightNew.astro';
-import { TubesCursorBackground } from '../components/ui/tubes-cursor';
+import WebThreads from '../components/ui/WebThreads';
 
 interface Props {
   title: string;
@@ -94,8 +94,33 @@ const {
       Skip to main content
     </a>
 
-    <!-- 3D Tubes Cursor Interactive Background (Click anywhere to randomize tube & light colors) -->
-    <TubesCursorBackground client:load />
+    <!-- WebThreads Interactive Background from React Bits -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      <WebThreads
+        client:load
+        color1="#5227FF"
+        color2="#FF9FFC"
+        color3="#FFFFFF"
+        speed={0.2}
+        threadCount={6}
+        frequency={5.0}
+        spread={0.18}
+        taper={1.0}
+        position={0.5}
+        fanMode="center"
+        glow={0.02}
+        falloff={0.6}
+        thickness={1.1}
+        brightness={0.6}
+        opacity={1.0}
+        mirror={true}
+        shimmer={false}
+        grain={true}
+        grainIntensity={0.05}
+        mouseInteraction={true}
+        mouseStrength={0.3}
+      />
+    </div>
 
     <!-- Zero-JS Ambient Spotlight Background -->
     <SpotlightNew />
